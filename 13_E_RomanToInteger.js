@@ -54,10 +54,8 @@
       if (priorChar) {
           const numeralSubtraction = numeralSubtractions[priorChar];
           if (currentChar === numeralSubtraction) {
-            const numeralSubtractionValue = numeralSubtractionValues[numeralSubtraction];
-            if (numeralSubtractionValue) {
-                charCount = -numeralSubtractionValue;
-            } else {
+            charCount = -numerals[numeralSubtraction];
+            if (!charCount) {
                 return 0;
             }
           }
