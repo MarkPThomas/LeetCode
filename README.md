@@ -1,11 +1,11 @@
-# leetCode
+# LeetCode
 Worked LeetCode examples, with tests.
 
 Each file is a standalone [LeetCode](https://leetcode.com/) problem with tests that can be run with Node.js.
 
-Naming convention is: `{problemNumber}_{difficulty}_{problemName}` 
+Naming convention is: `{problemNumber}_{difficulty}_{problemName}`
 
-where difficulty = 
-  * E (easy) 
-  * M (medium) 
+where difficulty =
+  * E (easy)
+  * M (medium)
   * H (hard)
