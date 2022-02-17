@@ -1,3 +1,9 @@
+// O(N) time complexity
+// O(1) space complexity
+// Runtime: 210 ms, faster than 50.13% of JavaScript online submissions for Roman to Integer.
+// Memory Usage: 47.5 MB, less than 27.59% of JavaScript online submissions for Roman to Integer.
+// Time to complete: N/A
+
 /**
  * @param {string} s
  * @return {number}
@@ -47,10 +53,10 @@
 
       if (priorChar) {
           const numeralSubtraction = numeralSubtractions[priorChar];
-          if (numeralSubtraction) {
+          if (currentChar === numeralSubtraction) {
             const numeralSubtractionValue = numeralSubtractionValues[numeralSubtraction];
             if (numeralSubtractionValue) {
-                charCount = numerals[priorChar] - numeralSubtractionValue;
+                charCount = -numeralSubtractionValue;
             } else {
                 return 0;
             }
