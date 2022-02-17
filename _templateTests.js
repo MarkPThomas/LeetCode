@@ -4,8 +4,8 @@ const testCases = [
 ];
 
 testCases.forEach((testCase) => {
-  // let result = romanToInt(testCase.input); // insert function name here
+  // let result = FUT(testCase.input); // insert function name here
   let pass = result === testCase.expected;
-  console.log(`Input: ${testCase.input}, Expected: ${testCase.expected}, Result: ${result}, Pass: ${pass}`);
+  console.log(`Input: ${testCase.input}\nExpected: ${testCase.expected}\nResult: ${result}\nPass: ${pass}\n`);
   }
 );
