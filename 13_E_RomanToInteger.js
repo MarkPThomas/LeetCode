@@ -24,12 +24,6 @@
       M: 1000
   }
 
-  const numeralSubtractionValues = {
-      I : 1,
-      X: 10,
-      C: 100
-  }
-
   const numeralSubtractions = {
       V : 'I',
       X: 'I',
