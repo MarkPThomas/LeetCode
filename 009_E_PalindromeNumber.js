@@ -1,7 +1,5 @@
 // O(N) time complexity
 // O(1) space complexity
-// Time to complete: 4 min for inefficient solution O(N), 5 min for more efficient solution O(N/2)
-// Runtime: 210 ms, faster than 69.46% of JavaScript online submissions for Palindrome Number.
 // Memory Usage: 50.9 MB, less than 32.07% of JavaScript online submissions for Palindrome Number.
 
 /**

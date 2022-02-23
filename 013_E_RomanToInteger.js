@@ -1,7 +1,5 @@
 // O(N) time complexity
 // O(1) space complexity
-// Runtime: 182 ms, faster than 61.75% of JavaScript online submissions for Roman to Integer.
-// Memory Usage: 46.4 MB, less than 46.86% of JavaScript online submissions for Roman to Integer.
 // Time to complete: N/A
 
 /**

@@ -1,7 +1,5 @@
 // O(m*n) time complexity where m is the array length & n is the length of the shortest word
 // O(1) space complexity
-// Runtime: 64 ms, faster than 97.31% of JavaScript online submissions for Longest Common Prefix.
-// Memory Usage: 42.1 MB, less than 34.58% of JavaScript online submissions for Longest Common Prefix.
 // Time to complete: 6.5 min 1st, 9.5 min error handling, 13.5 min total
 
 /**
