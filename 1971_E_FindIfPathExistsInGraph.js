@@ -1,7 +1,7 @@
 // O() time complexity
 // O(1) space complexity
 // Time to complete: Over time - learning graph construction from solution. Study for later examples
-// Patterns: Graph, BFS
+// Patterns: Graph, BFS, Bi-directional BFS
 // Notes w.r.t. solution: Study up again on Sets, classes, BFS vs. DFS w/ arrays & 2-way connections (e.g. visited status)
 
 /**
@@ -22,13 +22,14 @@ class Graph {
       this.graph = {};
   }
 
-  buildGraph(edges, numberOfEdges) { // O(N)
-      for (let i = 0; i < numberOfEdges; i++) { // O(N)
+  buildGraph(edges, numberOfEdges) {
+      // Below is only OK based on definition of N & formation of graph, otherwise hashes should be based on edges noes & NOT i
+      for (let i = 0; i < numberOfEdges; i++) {
           this.graph[i] = [];
       }
 
       // Set up associations
-      for (let edge of edges) { // O(N)
+      for (let edge of edges) {
           const [nodeI, nodeJ] = edge;
 
           this.graph[nodeI].push(nodeJ);
@@ -37,29 +38,42 @@ class Graph {
   }
 
   hasPath(source, destination) {
-      const visited = new Set();
-      const toVisit = [source];
+      const sourceVisited = new Set();
+      const sourceToVisit = [source];
 
-      while (toVisit.length) { // O(N) at worst
-          let currentNode = toVisit.shift(); // BFS, typ. faster for finding a path than DFS
-          visited.add(currentNode);
+      const destinationVisited = new Set();
+      const destinationToVisit = [destination];
 
-          if (currentNode === destination) {
+      while (sourceToVisit.length && destinationToVisit.length) {
+          // Bi-directional BFS
+          let currentSourceNode = sourceToVisit.shift(); // BFS
+          sourceVisited.add(currentSourceNode);
+
+          let currentDestinationNode = destinationToVisit.shift(); // BFS
+          destinationVisited.add(currentDestinationNode);
+
+          if (sourceVisited.has(currentDestinationNode) || destinationVisited.has(currentSourceNode)) {
               return true;
           } else {
               // Add associations to stack if not visited
-              let associations = this.graph[currentNode];
-              for (let association of associations) {
-                  if (visited.has(association)) {
-                      continue;
-                  }
-
-                  toVisit.push(association);
-              }
+              this.updateToVisit(sourceToVisit, sourceVisited, currentSourceNode);
+              this.updateToVisit(destinationToVisit, destinationVisited, currentDestinationNode);
           }
       }
 
       return false;
+  }
+
+  updateToVisit(toVisit, visited, currentNode) {
+      // Add associations to stack if not visited
+      let associations = this.graph[currentNode];
+      for (let association of associations) {
+          if (visited.has(association)) {
+              continue;
+          }
+
+          toVisit.push(association);
+      }
   }
 }
 
