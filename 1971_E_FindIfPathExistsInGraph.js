@@ -39,8 +39,8 @@ class Graph {
 
   // Bi-directional BFS
   hasPath(source, destination) {
-    const sourceQueue = new Queue(source);
-    const destinationQueue = new Queue(destination);
+    const sourceQueue = new QueueState(source);
+    const destinationQueue = new QueueState(destination);
 
     while (sourceQueue.toVisit.length && destinationQueue.toVisit.length) {
         let currentSourceNode = sourceQueue.dequeue();
@@ -59,12 +59,12 @@ class Graph {
 
   updateToVisit(stack, currentNode) {
       for (let adjacentNode of this.graph[currentNode]) {
-        stack.push(adjacentNode);
+        stack.enqueue(adjacentNode);
       }
   }
 }
 
-class Queue {
+class QueueState {
   constructor(item) {
     this.visited = new Set();
     this.toVisit = [];
