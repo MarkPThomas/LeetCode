@@ -1,7 +1,7 @@
 // O(1) time complexity
 // O(1) space complexity
 // Time to complete: 9:42 min
-// Patterns:
+// Patterns: Graph
 // Notes w.r.t. solution:
 
 /**
