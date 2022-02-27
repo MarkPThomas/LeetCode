@@ -1,8 +1,8 @@
 // O() time complexity
 // O(1) space complexity
-// Time to complete: xx min
-// Patterns: Graph
-// Notes w.r.t. solution:
+// Time to complete: Over time - learning graph construction from solution. Study for later examples
+// Patterns: Graph, BFS
+// Notes w.r.t. solution: Study up again on Sets, classes, BFS vs. DFS w/ arrays & 2-way connections (e.g. visited status)
 
 /**
  * @param {number} n
@@ -22,16 +22,13 @@ class Graph {
       this.graph = {};
   }
 
-  buildGraph(edges, numberOfEdges) {
-      // I don't like this. It presumes range of values < # of edges
-      // Also does not scale well if range of values is large if using edges.length
-      // See if hash map can replace
-      for (let i = 0; i < numberOfEdges; i++) {
+  buildGraph(edges, numberOfEdges) { // O(N)
+      for (let i = 0; i < numberOfEdges; i++) { // O(N)
           this.graph[i] = [];
       }
 
       // Set up associations
-      for (let edge of edges) {
+      for (let edge of edges) { // O(N)
           const [nodeI, nodeJ] = edge;
 
           this.graph[nodeI].push(nodeJ);
@@ -43,8 +40,8 @@ class Graph {
       const visited = new Set();
       const toVisit = [source];
 
-      while (toVisit.length) {
-          let currentNode = toVisit.shift(); // BFS
+      while (toVisit.length) { // O(N) at worst
+          let currentNode = toVisit.shift(); // BFS, typ. faster for finding a path than DFS
           visited.add(currentNode);
 
           if (currentNode === destination) {
