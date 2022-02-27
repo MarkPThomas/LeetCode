@@ -39,18 +39,18 @@ class Graph {
 
   // Bi-directional BFS
   hasPath(source, destination) {
-    const sourceStack = new Stack(source);
-    const destinationStack = new Stack(destination);
+    const sourceQueue = new Queue(source);
+    const destinationQueue = new Queue(destination);
 
-    while (sourceStack.toVisit.length && destinationStack.toVisit.length) {
-        let currentSourceNode = sourceStack.pop();
-        let currentDestinationNode = destinationStack.pop();
+    while (sourceQueue.toVisit.length && destinationQueue.toVisit.length) {
+        let currentSourceNode = sourceQueue.dequeue();
+        let currentDestinationNode = destinationQueue.dequeue();
 
-        if (sourceStack.visited.has(currentDestinationNode) || destinationStack.visited.has(currentSourceNode)) {
+        if (sourceQueue.visited.has(currentDestinationNode) || destinationQueue.visited.has(currentSourceNode)) {
             return true;
         } else {
-            this.updateToVisit(sourceStack, currentSourceNode);
-            this.updateToVisit(destinationStack, currentDestinationNode);
+            this.updateToVisit(sourceQueue, currentSourceNode);
+            this.updateToVisit(destinationQueue, currentDestinationNode);
         }
     }
 
@@ -64,7 +64,7 @@ class Graph {
   }
 }
 
-class Stack {
+class Queue {
   constructor(item) {
     this.visited = new Set();
     this.toVisit = [];
@@ -73,14 +73,14 @@ class Stack {
     }
   }
 
-  pop() {
-    let nextToVisit = this.toVisit.shift(); // BFS, use pop() for DFS queue
+  dequeue() {
+    let nextToVisit = this.toVisit.shift(); // BFS, use pop() for DFS stack
     this.visited.add(nextToVisit);
 
     return nextToVisit;
   }
 
-  push(item) {
+  enqueue(item) {
     if (!this.visited.has(item)) {
       this.toVisit.push(item);
     }
