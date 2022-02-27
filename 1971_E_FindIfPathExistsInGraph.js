@@ -37,43 +37,53 @@ class Graph {
       }
   }
 
+  // Bi-directional BFS
   hasPath(source, destination) {
-      const sourceVisited = new Set();
-      const sourceToVisit = [source];
+    const sourceStack = new Stack(source);
+    const destinationStack = new Stack(destination);
 
-      const destinationVisited = new Set();
-      const destinationToVisit = [destination];
+    while (sourceStack.toVisit.length && destinationStack.toVisit.length) {
+        let currentSourceNode = sourceStack.pop();
+        let currentDestinationNode = destinationStack.pop();
 
-      while (sourceToVisit.length && destinationToVisit.length) {
-          // Bi-directional BFS
-          let currentSourceNode = sourceToVisit.shift(); // BFS
-          sourceVisited.add(currentSourceNode);
+        if (sourceStack.visited.has(currentDestinationNode) || destinationStack.visited.has(currentSourceNode)) {
+            return true;
+        } else {
+            this.updateToVisit(sourceStack, currentSourceNode);
+            this.updateToVisit(destinationStack, currentDestinationNode);
+        }
+    }
 
-          let currentDestinationNode = destinationToVisit.shift(); // BFS
-          destinationVisited.add(currentDestinationNode);
-
-          if (sourceVisited.has(currentDestinationNode) || destinationVisited.has(currentSourceNode)) {
-              return true;
-          } else {
-              // Add associations to stack if not visited
-              this.updateToVisit(sourceToVisit, sourceVisited, currentSourceNode);
-              this.updateToVisit(destinationToVisit, destinationVisited, currentDestinationNode);
-          }
-      }
-
-      return false;
+    return false;
   }
 
-  updateToVisit(toVisit, visited, currentNode) {
-      // Add associations to stack if not visited
-      let associations = this.graph[currentNode];
-      for (let association of associations) {
-          if (visited.has(association)) {
-              continue;
-          }
-
-          toVisit.push(association);
+  updateToVisit(stack, currentNode) {
+      for (let adjacentNode of this.graph[currentNode]) {
+        stack.push(adjacentNode);
       }
+  }
+}
+
+class Stack {
+  constructor(item) {
+    this.visited = new Set();
+    this.toVisit = [];
+    if (item !== undefined) {
+      this.toVisit.push(item);
+    }
+  }
+
+  pop() {
+    let nextToVisit = this.toVisit.shift(); // BFS, use pop() for DFS queue
+    this.visited.add(nextToVisit);
+
+    return nextToVisit;
+  }
+
+  push(item) {
+    if (!this.visited.has(item)) {
+      this.toVisit.push(item);
+    }
   }
 }
 
