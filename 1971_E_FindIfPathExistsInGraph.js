@@ -57,9 +57,9 @@ class Graph {
     return false;
   }
 
-  updateToVisit(stack, currentNode) {
+  updateToVisit(queue, currentNode) {
       for (let adjacentNode of this.graph[currentNode]) {
-        stack.enqueue(adjacentNode);
+        queue.enqueue(adjacentNode);
       }
   }
 }
