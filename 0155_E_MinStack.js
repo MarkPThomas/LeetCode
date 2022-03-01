@@ -15,7 +15,7 @@ var MinStack = function() {
 */
 MinStack.prototype.push = function(val) {
   let currentMin = this.minValues.length === 0
-    ? Number.POSITIVE_INFINITY
+    ? val
     : this.getMin();
   let newMin = val < currentMin ? val : currentMin;
   this.minValues.push(newMin);
