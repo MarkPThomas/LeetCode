@@ -23,7 +23,7 @@ class Graph {
   }
 
   buildGraph(edges, numberOfEdges) {
-      // Below is only OK based on definition of N & formation of graph, otherwise hashes should be based on edges noes & NOT i
+      // Below is only OK based on definition of N & formation of graph, otherwise hashes should be based on edges nodes & NOT i
       for (let i = 0; i < numberOfEdges; i++) {
           this.graph[i] = [];
       }
