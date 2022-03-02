@@ -1,6 +1,6 @@
 // O(n) time complexity (for int to digit conversion)
 // O(n) space complexity (for hash map)
-// Time to complete: xx min
+// Time to complete: 11:07 min
 // Patterns: Hash map, linked list cycles, runner technique
 // Notes w.r.t. solution:
 //    Can have time O(log(n)) if using numerical method to parse number.
