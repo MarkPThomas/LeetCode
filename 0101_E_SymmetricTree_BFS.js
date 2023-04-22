@@ -17,36 +17,22 @@
  * @return {boolean}
  */
 var isSymmetric = function (root) {
-  if (root.left === null && root.right === null) {
-    return true;
-  }
-  if (root.left === null || root.right === null || root.left.val !== root.right.val) {
-    return false;
-  }
+  const queue = [root, root];
 
-  const queueLeft = [root.left];
-  const queueRight = [root.right];
+  while (queue.length) {
+    const nodeLeft = queue.shift();
+    const nodeRight = queue.shift();
 
-  while (queueLeft.length && queueRight.length) {
-    const nodeLeft = queueLeft.shift();
-    const nodeRight = queueRight.shift();
-    if (nodeLeft.val !== nodeRight.val) {
+    if (nodeLeft === null && nodeRight === null) {
+      continue;
+    } else if (nodeLeft === null || nodeRight === null || nodeLeft.val !== nodeRight.val) {
       return false;
     }
 
-    if (nodeLeft.left && nodeRight.right) {
-      queueLeft.push(nodeLeft.left);
-      queueRight.push(nodeRight.right);
-    } else if (!(nodeLeft.left === null && nodeRight.right === null)) {
-      return false;
-    }
-
-    if (nodeLeft.right && nodeRight.left) {
-      queueLeft.push(nodeLeft.right);
-      queueRight.push(nodeRight.left);
-    } else if (!(nodeLeft.right === null && nodeRight.left === null)) {
-      return false;
-    }
+    queue.push(nodeLeft.left);
+    queue.push(nodeRight.right);
+    queue.push(nodeLeft.right);
+    queue.push(nodeRight.left);
   }
 
   return true;
