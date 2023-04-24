@@ -17,14 +17,13 @@
  */
 var reverseList = function (head) {
   let currNode = head;
-  let nextNode = head?.next;
   let prevNode = null;
   while (currNode) {
+    let nextNode = currNode.next;
     currNode.next = prevNode;
 
     prevNode = currNode;
     currNode = nextNode;
-    nextNode = nextNode?.next;
   }
 
   return prevNode;
