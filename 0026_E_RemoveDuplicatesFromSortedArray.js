@@ -1,3 +1,30 @@
+// 2023 Solution
+// O(n) time complexity
+// O(1) space complexity
+// where n = length of the input numbers
+// Time to complete: 12 min + 3 min debugging = 15 min
+// Patterns: 2 pointers, runner technique
+// Notes w.r.t. solution:
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var removeDuplicates = function (nums) {
+    let insertIndex = 1;
+    for (let currIndex = 1; currIndex < nums.length; currIndex++) {
+        const lastNum = nums[currIndex - 1];
+        const currNum = nums[currIndex];
+
+        if (lastNum !== currNum) {
+            nums[insertIndex] = currNum;
+            insertIndex++;
+        }
+    }
+
+    return insertIndex;
+};
+
+// 2022 Solution
 // O(N) time complexity
 // O(1) space complexity
 // Time to complete: 18:53 min - lost some time due to not reading the instructions carefully enough
@@ -8,37 +35,37 @@
  * @param {number[]} nums
  * @return {number}
  */
- var removeDuplicates = function(nums) {
-  if (nums.length < 1 || Math.pow(30, 4) < nums.length) {
-      return 0;
-  }
+var removeDuplicates = function (nums) {
+    if (nums.length < 1 || Math.pow(30, 4) < nums.length) {
+        return 0;
+    }
 
-  if (nums.length === 1) {
-      return 1;
-  }
+    if (nums.length === 1) {
+        return 1;
+    }
 
-  let insertionIndex = 0;
-  let hasRepeatingNumbers = false;
-  if (nums[0] < -100 || 100 < nums[0]) {
-     return 0;
-  }
+    let insertionIndex = 0;
+    let hasRepeatingNumbers = false;
+    if (nums[0] < -100 || 100 < nums[0]) {
+        return 0;
+    }
 
-  for (let i = 1; i < nums.length; i++) {
-      if (nums[i] < -100 || 100 < nums[i]) {
-          return 0;
-      }
+    for (let i = 1; i < nums.length; i++) {
+        if (nums[i] < -100 || 100 < nums[i]) {
+            return 0;
+        }
 
-      if (nums[i] === nums[i - 1] && !hasRepeatingNumbers) {
-          // number is duplicate
-          insertionIndex = i;
-          hasRepeatingNumbers = true;
-      } else if (hasRepeatingNumbers && nums[i] !== nums[i - 1]) {
-          nums[insertionIndex] = nums[i];
-          insertionIndex++;
-      }
-  }
+        if (nums[i] === nums[i - 1] && !hasRepeatingNumbers) {
+            // number is duplicate
+            insertionIndex = i;
+            hasRepeatingNumbers = true;
+        } else if (hasRepeatingNumbers && nums[i] !== nums[i - 1]) {
+            nums[insertionIndex] = nums[i];
+            insertionIndex++;
+        }
+    }
 
-  return hasRepeatingNumbers ? insertionIndex : nums.length;
+    return hasRepeatingNumbers ? insertionIndex : nums.length;
 };
 
 // TODO: Add tests later? Expand to compare arrays
