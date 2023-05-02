@@ -42,7 +42,7 @@ var isSameTree = function (p, q) {
 
 // O(n) time complexity
 // O(n) space complexity
-// Time to complete:
+// Time to complete: 5 min
 // Patterns: Tree Preorder DFS
 // Notes w.r.t. solution: Seems to be faster in Leetcode runs than iterative solution. Certainly easier to read.
 /**
