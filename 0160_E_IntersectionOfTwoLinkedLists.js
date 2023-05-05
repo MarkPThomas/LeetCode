@@ -1,3 +1,33 @@
+// 2023
+// O(n + m) time complexity
+// O(1) space complexity
+// Time to complete: 6 min
+// Patterns: 2-pointer
+// Notes w.r.t. solution:
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+
+/**
+ * @param {ListNode} headA
+ * @param {ListNode} headB
+ * @return {ListNode}
+ */
+var getIntersectionNode = function (headA, headB) {
+    let ptrA = headA;
+    let ptrB = headB;
+    while (ptrA !== ptrB) {
+        ptrA = ptrA === null ? headB : ptrA.next;
+        ptrB = ptrB === null ? headA : ptrB.next;
+    }
+    return ptrA;
+};
+
+// 2022
 // O(n*m) time complexity for brute force, O(n+m) time complexity for other 2 solutions
 // O(1) space complexity for O(n*m) brute force, O(m+n) for O(m+n) queue case, O(m) for hash case. O(1) for 2-pointer case
 // Time to complete:
@@ -23,8 +53,8 @@
  * @param {ListNode} headB
  * @return {ListNode}
  */
- var getIntersectionNodeBruteSol = function(headA, headB) {
-// It appears that the lists merge rather than cross at intersection
+var getIntersectionNodeBruteSol = function (headA, headB) {
+    // It appears that the lists merge rather than cross at intersection
     // Intersection must be determined by next reference & not val!
 
     // Brute force solution O(n*m)
@@ -50,14 +80,14 @@
  * @param {ListNode} headB
  * @return {ListNode}
  */
- var getIntersectionNodeImprovedSol = function(headA, headB) {
-  // It appears that the lists merge rather than cross at intersection
+var getIntersectionNodeImprovedSol = function (headA, headB) {
+    // It appears that the lists merge rather than cross at intersection
     // Intersection must be determined by next reference & not val!
 
     // improved solution w/ array queue
     let nodeA = headA;
     let nodeB = headB;
-    if (!nodeA || ! nodeB) {
+    if (!nodeA || !nodeB) {
         return null;
     }
     if (nodeA === nodeB) {
@@ -99,14 +129,14 @@
     }
 
     return null;
-  };
+};
 
-  /**
- * @param {ListNode} headA
- * @param {ListNode} headB
- * @return {ListNode}
- */
- var getIntersectionNodeBestSol = function(headA, headB) {
+/**
+* @param {ListNode} headA
+* @param {ListNode} headB
+* @return {ListNode}
+*/
+var getIntersectionNodeBestSol = function (headA, headB) {
     // best solution O(n+m) w/ O(1) space complexity
     let pA = headA;
     let pB = headB;
@@ -117,16 +147,3 @@
     }
     return pA;
 };
-
-// Test later
-// const testCases = [
-// { input: '',
-//   expected: ''},
-// ];
-
-// testCases.forEach((testCase) => {
-//   // let result = FUT(testCase.input); // insert function name here
-//   let pass = result === testCase.expected;
-//   console.log(`Input: ${testCase.input}\nExpected: ${testCase.expected}\nResult: ${result}\nPass: ${pass}\n`);
-//   }
-// );
