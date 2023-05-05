@@ -1,17 +1,83 @@
 // O() time complexity
 // O(1) space complexity
-// Time to complete: xx min
-// Patterns:
+// Time to complete: 1 min
+// Patterns: String & array libraries
 // Notes w.r.t. solution:
-
-const testCases = [
-{ input: '',
-  expected: ''},
-];
-
-testCases.forEach((testCase) => {
-  // let result = FUT(testCase.input); // insert function name here
-  let pass = result === testCase.expected;
-  console.log(`Input: ${testCase.input}\nExpected: ${testCase.expected}\nResult: ${result}\nPass: ${pass}\n`);
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseWords = function (s) {
+  const words = s.split(' ');
+  for (let i = 0; i < words.length; i++) {
+    words[i] = [...words[i]].reverse().join('');
   }
-);
+  return words.join(' ');
+}
+
+// Trying to be smart & avoid libraries. This seems to be more what they were going for.
+// O(n) time complexity
+// O(1) space complexity (or O(n), depends on if counting space for output counts)
+// where n = # characters in string
+// Time to complete: 15 min
+// Patterns: Sliding window & 2-pointer
+// Notes w.r.t. solution: Few more minutes to refactor below to be a bit cleaner
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseWords = function (s) {
+  let indexLastSpace = -1;
+  const chars = [...s];
+  for (let i = 0; i <= chars.length; i++) {
+    if (chars[i] === ' ' || i === chars.length) {
+      let indexStart = indexLastSpace + 1;
+      let indexEnd = i - 1;
+      while (indexStart < indexEnd) {
+        const temp = chars[indexStart];
+        chars[indexStart] = chars[indexEnd];
+        chars[indexEnd] = temp;
+        indexStart++;
+        indexEnd--;
+      }
+      indexLastSpace = i;
+    }
+  }
+  return chars.join('');
+};
+
+// Trying to be smart & avoid libraries. This seems to be more what they were going for.
+// O(n) time complexity
+// O(m) space complexity
+// where n = # words, m = length of longest word.
+// Time to complete: 15 min
+// Patterns: Sliding window & 2-pointer
+// Notes w.r.t. solution:
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseWords = function (s) {
+  let indexStart = 0;
+  let indexEnd = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === ' ' || i === s.length - 1) {
+      indexEnd = (i === s.length - 1) ? i : i - 1;
+      s = reverseWord(s, indexStart, indexEnd);
+      indexStart = indexEnd + 2;
+    }
+  }
+  return s;
+};
+
+function reverseWord(s, left, right) {
+  const word = [...s];
+  while (left < right) {
+    const temp = word[left];
+    word[left] = word[right];
+    word[right] = temp;
+    left++;
+    right--;
+  }
+  return word.join('');
+}
