@@ -1,3 +1,45 @@
+// Refactored, optimized & simplified solution
+// O(n) time complexity
+// O(1) space complexity
+// Time to complete: 21:00
+// Patterns: Greedy?
+// Notes w.r.t. solution: Worked out MUCH better by more carefully working out cases carefully
+//    for both when to count a plot as valid, and how much to increment (optimization).
+//  Looking more carefully I saw opportunities to shorten the code & make it easier to understand
+//    by simplifying cases
+/**
+ * @param {number[]} flowerbed
+ * @param {number} n
+ * @return {boolean}
+ */
+var canPlaceFlowers = function (flowerbed, n) {
+  let i = 0;
+  while (i < flowerbed.length) {
+    let emptyPlot = flowerbed[i] === 0;
+    let emptyLeftPlot = (i === 0 || flowerbed[i - 1] === 0);
+    let emptyRightPlot = (i === flowerbed.length - 1 || flowerbed[i + 1] === 0);
+    // Plant flower if plot empty
+    if (emptyLeftPlot && emptyPlot && emptyRightPlot) {
+      flowerbed[i] = 1;
+      n--;
+    }
+
+    if (n <= 0) {
+      return true;
+    }
+
+    // Increment based on plot arrangement
+    if (!emptyRightPlot) {
+      i += 3;
+    } else if (emptyPlot && !emptyLeftPlot) {
+      i += 1;
+    } else {
+      i += 2;
+    }
+  }
+  return false;
+};
+
 // Optimized & simplified solution
 // O(n) time complexity
 // O(1) space complexity
@@ -58,7 +100,8 @@ var canPlaceFlowers = function (flowerbed, n) {
 // O(1) space complexity
 // Time to complete: 1:14:00 min (ouch!)
 // Patterns:
-// Notes w.r.t. solution:
+// Notes w.r.t. solution: Wasted time initially solving for case of all new flowers being in a contiguous set.
+//    Slow down & read more carefully!
 /**
  * @param {number[]} flowerbed
  * @param {number} n
