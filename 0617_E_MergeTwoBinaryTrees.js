@@ -1,17 +1,34 @@
-// O() time complexity
-// O(1) space complexity
-// Time to complete: xx min
-// Patterns:
+// O(m) time complexity
+// O(m) space complexity
+// where m = min # nodes overlapping between the 2 trees
+// Time to complete: 13 min (6 min on aborted iterative solution, 7 min on recursive solution)
+// Patterns: Binary Tree, Preorder DFS
 // Notes w.r.t. solution:
-
-const testCases = [
-{ input: '',
-  expected: ''},
-];
-
-testCases.forEach((testCase) => {
-  // let result = FUT(testCase.input); // insert function name here
-  let pass = result === testCase.expected;
-  console.log(`Input: ${testCase.input}\nExpected: ${testCase.expected}\nResult: ${result}\nPass: ${pass}\n`);
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root1
+ * @param {TreeNode} root2
+ * @return {TreeNode}
+ */
+var mergeTrees = function (root1, root2) {
+  if (root1 === null && root2 === null) {
+    return null;
+  } else if (!root2) {
+    return root1;
+  } else if (!root1) {
+    return root2;
   }
-);
+
+  root1.val += root2.val;
+  root1.left = mergeTrees(root1.left, root2.left);
+  root1.right = mergeTrees(root1.right, root2.right);
+
+  return root1;
+};
