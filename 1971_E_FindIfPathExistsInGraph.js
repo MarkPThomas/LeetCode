@@ -11,7 +11,7 @@
  * @param {number} destination
  * @return {boolean}
  */
- var validPath = function(n, edges, source, destination) {
+var validPath = function (n, edges, source, destination) {
   const graph = new Graph();
   graph.buildGraph(edges, n);
   return graph.hasPath(source, destination);
@@ -19,22 +19,22 @@
 
 class Graph {
   constructor() {
-      this.graph = {};
+    this.graph = {};
   }
 
   buildGraph(edges, numberOfEdges) {
-      // Below is only OK based on definition of N & formation of graph, otherwise hashes should be based on edges nodes & NOT i
-      for (let i = 0; i < numberOfEdges; i++) {
-          this.graph[i] = [];
-      }
+    // Below is only OK based on definition of N & formation of graph, otherwise hashes should be based on edges nodes & NOT i
+    for (let i = 0; i < numberOfEdges; i++) {
+      this.graph[i] = [];
+    }
 
-      // Set up associations
-      for (let edge of edges) {
-          const [nodeI, nodeJ] = edge;
+    // Set up associations
+    for (let edge of edges) {
+      const [nodeI, nodeJ] = edge;
 
-          this.graph[nodeI].push(nodeJ);
-          this.graph[nodeJ].push(nodeI);
-      }
+      this.graph[nodeI].push(nodeJ);
+      this.graph[nodeJ].push(nodeI);
+    }
   }
 
   // Bi-directional BFS
@@ -43,24 +43,24 @@ class Graph {
     const destinationQueue = new QueueState(destination);
 
     while (sourceQueue.toVisit.length && destinationQueue.toVisit.length) {
-        let currentSourceNode = sourceQueue.dequeue();
-        let currentDestinationNode = destinationQueue.dequeue();
+      let currentSourceNode = sourceQueue.dequeue();
+      let currentDestinationNode = destinationQueue.dequeue();
 
-        if (sourceQueue.visited.has(currentDestinationNode) || destinationQueue.visited.has(currentSourceNode)) {
-            return true;
-        } else {
-            this.updateToVisit(sourceQueue, currentSourceNode);
-            this.updateToVisit(destinationQueue, currentDestinationNode);
-        }
+      if (sourceQueue.visited.has(currentDestinationNode) || destinationQueue.visited.has(currentSourceNode)) {
+        return true;
+      } else {
+        this.updateToVisit(sourceQueue, currentSourceNode);
+        this.updateToVisit(destinationQueue, currentDestinationNode);
+      }
     }
 
     return false;
   }
 
   updateToVisit(queue, currentNode) {
-      for (let adjacentNode of this.graph[currentNode]) {
-        queue.enqueue(adjacentNode);
-      }
+    for (let adjacentNode of this.graph[currentNode]) {
+      queue.enqueue(adjacentNode);
+    }
   }
 }
 
@@ -86,16 +86,3 @@ class QueueState {
     }
   }
 }
-
-// Test later
-// const testCases = [
-// { input: '',
-//   expected: ''},
-// ];
-
-// testCases.forEach((testCase) => {
-//   // let result = FUT(testCase.input); // insert function name here
-//   let pass = result === testCase.expected;
-//   console.log(`Input: ${testCase.input}\nExpected: ${testCase.expected}\nResult: ${result}\nPass: ${pass}\n`);
-//   }
-// );
