@@ -1,6 +1,6 @@
 // O(n) time complexity
 // O(1) space complexity
-// Time to complete: xx min
+// Time to complete: 4 min
 // Patterns: 2 Pointer
 // Notes w.r.t. solution:
 
