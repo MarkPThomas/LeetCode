@@ -1,5 +1,34 @@
-// O() time complexity
-// O(1) space complexity
-// Time to complete: xx min
-// Patterns:
-// Notes w.r.t. solution:
+// O(n) time complexity
+// O(n) space complexity
+// Time to complete: Too long min
+// Patterns: Binary Search Tree
+// Notes w.r.t. solution: Problem introduction was BAD as far as expected form of p & q, and expected return value.
+//  These cost me LOTS of time sussing out. Maybe retry this one later with improved intro.
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {TreeNode}
+ */
+var lowestCommonAncestor = function (root, p, q) {
+  const parentVal = root.val;
+  const pVal = p.val;
+  const qVal = q.val;
+
+  if (pVal > parentVal && qVal > parentVal) {
+    return lowestCommonAncestor(root.right, p, q);
+  } else if (pVal < parentVal && qVal < parentVal) {
+    return lowestCommonAncestor(root.left, p, q);
+  } else {
+    return root;
+  }
+};
