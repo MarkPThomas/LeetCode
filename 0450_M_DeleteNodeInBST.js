@@ -1,7 +1,7 @@
 // O(log(n)) time complexity
 // O(log(n)) space complexity
 // Time to complete: 15:00 min
-// Patterns: Binary Search Tree
+// Patterns: Binary Search Tree, Preorder DFS
 // Notes w.r.t. solution:
 
 /**
