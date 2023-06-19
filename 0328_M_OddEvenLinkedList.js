@@ -5,6 +5,23 @@
 // Notes w.r.t. solution: After working out solution, jumped in too fast & then got bogged down in whack-a-mole.
 //      Final solution went fast once I reworked from scratch properly :-/
 
+
+// MOST CONCISE SOLUTION (not mine):
+// var oddEvenList = function (head) {
+//     if (head == null) return null;
+//     let odd = head;
+//     let evenHead = head.next;
+//     let even = evenHead;
+//     while (even != null && even.next != null) {
+//         odd.next = even.next;
+//         odd = odd.next;
+//         even.next = odd.next;
+//         even = even.next;
+//     }
+//     odd.next = evenHead;
+//     return head;
+// }
+
 /**
  * Definition for singly-linked list.
  * function ListNode(val, next) {
