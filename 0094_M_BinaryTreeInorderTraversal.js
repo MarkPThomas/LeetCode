@@ -1,17 +1,39 @@
-// O() time complexity
-// O(1) space complexity
-// Time to complete: xx min
-// Patterns:
+// O(n) time complexity
+// O(n) space complexity
+// Time to complete: 1:00 min
+// Patterns: Binary Tree DFS Inorder
 // Notes w.r.t. solution:
 
-const testCases = [
-{ input: '',
-  expected: ''},
-];
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var inorderTraversal = function (root) {
+  const values = [];
+  dfsInOrder(root, values);
+  return values;
+};
 
-testCases.forEach((testCase) => {
-  // let result = FUT(testCase.input); // insert function name here
-  let pass = result === testCase.expected;
-  console.log(`Input: ${testCase.input}\nExpected: ${testCase.expected}\nResult: ${result}\nPass: ${pass}\n`);
+function dfsInOrder(root, values) {
+  if (!root) {
+    return;
   }
-);
+
+  if (root.left) {
+    dfsInOrder(root.left, values);
+  }
+
+  values.push(root.val);
+
+  if (root.right) {
+    dfsInOrder(root.right, values);
+  }
+}
