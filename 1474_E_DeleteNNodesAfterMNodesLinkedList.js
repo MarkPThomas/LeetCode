@@ -1,5 +1,5 @@
-// O() time complexity
-// O() space complexity
+// O(n) time complexity
+// O(1) space complexity
 // Time to complete: 19 min (wrong method), 9 min (right method)
 // Patterns: Linked Lists
 // Notes w.r.t. solution: Was unnclear about handling remainder nodes. This required working a different solution.
