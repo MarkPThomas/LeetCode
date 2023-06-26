@@ -1,7 +1,7 @@
-// O() time complexity
-// O() space complexity
+// O(n) time complexity
+// O(n) space complexity
 // Time to complete: 3:00 min w/ array queue, 11:00 w/ linked list queue
-// Patterns:
+// Patterns: Hash map, queue
 // Notes w.r.t. solution:
 
 /**
