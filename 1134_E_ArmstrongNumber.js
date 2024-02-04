@@ -10,7 +10,7 @@
  * @param {number} n
  * @return {boolean}
  */
-var isArmstrong = function (n) {
+var isArmstrongNumbers = function (n) {
   let tempN = n;
 
   let numDigits = 0;
@@ -35,7 +35,7 @@ var isArmstrong = function (n) {
  * @param {number} n
  * @return {boolean}
  */
-var isArmstrong = function (n) {
+var isArmstrongStrings = function (n) {
   let nString = n.toString();
   let numDigits = [];
 
