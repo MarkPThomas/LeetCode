@@ -1,31 +1,27 @@
 // O(n) time complexity
-// O(m) space complexity
-// where n = # of integers, m = # unique integers
-// Time to complete: 13 min
+// O(1) space complexity
+// where n = # of chars in word. Keyboard size doesn't matter since it is constant at 26 chars.
+// Time to complete: 5:16 min
 // Patterns: Hash map
-// Notes w.r.t. solution: Solved in 7 min but was a bit rushed. Took 6 min to debug a small error.
+// Notes w.r.t. solution:
 
 /**
- * @param {number[]} nums
+ * @param {string} keyboard
+ * @param {string} word
  * @return {number}
  */
-var largestUniqueNumber = function (nums) {
-  const numCount = [];
-  nums.forEach((num) => {
-    if (!numCount[num]) {
-      numCount[num] = 1;
-    } else {
-      numCount[num]++;
-    }
-  });
+var calculateTime = function (keyboard, word) {
+  const keyIndices = [];
+  for (let i = 0; i < keyboard.length; i++) {
+    keyIndices[keyboard[i]] = i;
+  }
 
-  let maxNum = -1;
-  Object.keys(numCount).forEach((key) => {
-    const num = parseInt(key);
-    if (numCount[key] === 1 && num > maxNum) {
-      maxNum = num;
-    }
-  });
+  let distance = 0;
+  let lastIndex = 0;
+  for (let i = 0; i < word.length; i++) {
+    distance += Math.abs(keyIndices[word[i]] - lastIndex);
+    lastIndex = keyIndices[word[i]];
+  }
 
-  return maxNum;
+  return distance;
 };
