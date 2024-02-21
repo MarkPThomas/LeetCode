@@ -10,9 +10,14 @@
  * @return {boolean}
  */
 var validWordSquare = function (words) {
-  let k = 0;
-  while (k < words.length && k < words[0].length) {
-    if (words[k].length > words.length) {
+  if (words[0].length !== words.length) {
+    return false;
+  }
+
+  const maxWordLength = words[0].length;
+
+  for (let k = 0; k < words[0].length; k++) {
+    if (words[k].length > maxWordLength) {
       return false;
     }
 
@@ -21,7 +26,6 @@ var validWordSquare = function (words) {
         return false;
       }
     }
-    k++;
   }
 
   return true;
