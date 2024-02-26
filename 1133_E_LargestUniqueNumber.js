@@ -1,6 +1,6 @@
 // O(n) time complexity
-// O(n) space complexity
-// where n = # of numbers
+// O(m) space complexity
+// where n = # of integers, m = # unique integers -> n worst case
 // Time to complete: 13 min
 // Patterns: Hash map
 // Notes w.r.t. solution: Solved in 7 min but was a bit rushed. Took 6 min to debug a small error.
