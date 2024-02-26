@@ -32,3 +32,32 @@ var guessNumber = function (n) {
     }
   }
 };
+
+
+// O(log(n)) time complexity
+// O(1) space complexity
+// Time to complete: 9:50 min
+// Patterns: Binary Search
+// Notes w.r.t. solution:
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var guessNumber20240226 = function (n) {
+  let min = 1;
+  let max = n;
+
+  while (min <= max) {
+    const guessNum = Math.floor(min + (max - min) / 2);
+    const result = guess(guessNum);
+    if (!result) {
+      return guessNum;
+    } else if (result === -1) {
+      max = guessNum - 1;
+    } else if (result === 1) {
+      min = guessNum + 1;
+    }
+  }
+
+  return min;
+};
