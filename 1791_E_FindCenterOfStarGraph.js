@@ -1,3 +1,4 @@
+// 2023/04/?
 // O(1) time complexity
 // O(1) space complexity
 // Time to complete: 9:42 min
@@ -25,4 +26,33 @@ var findCenter = function (edges) {
       return node2;
     }
   }
+};
+
+// 2024/02/29
+// O(1) time complexity
+// O(1) space complexity
+// Time to complete: 4:30min
+// Patterns: Graph
+// Notes w.r.t. solution:
+/**
+ * @param {number[][]} edges
+ * @return {number}
+ */
+var findCenter20240229 = function (edges) {
+  // each non-center edge only has one connection
+  // each center edge has > 1 connection
+  let nodes = [];
+  for (const edge of edges) {
+    if (!nodes[edge[0]]) {
+      nodes[edge[0]] = 1;
+    } else {
+      return edge[0];
+    }
+    if (!nodes[edge[1]]) {
+      nodes[edge[1]] = 1;
+    } else {
+      return edge[1];
+    }
+  }
+  return false;
 };
