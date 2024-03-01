@@ -1,3 +1,4 @@
+// 2023/05
 // O(n) time complexity
 // O(1) space complexity
 // Time to complete: 10 min + 15 min (debugging minor issue) = 25 min
@@ -44,3 +45,33 @@ testCases.forEach((testCase) => {
   console.log(`Input: ${testCase.input}\nExpected: ${testCase.expected}\nResult: ${result}\nPass: ${pass}\n`);
 }
 );
+
+// 2024/03/01
+// O(n) time complexity
+// O(1) space complexity
+// Time to complete: 18 min + 10 min debugging = 28 min
+// Patterns: 2 Pointers
+// Notes w.r.t. solution: This solution seems better/easier to read than the 2023 one.
+/**
+ * @param {number[]} nums
+ * @param {number} val
+ * @return {number}
+ */
+var removeElement20240301 = function (nums, val) {
+  let valPtr = nums.length;
+  let k = 0;
+  for (let i = 0; i < valPtr; i++) {
+    if (nums[i] === val) {
+      k++;
+      valPtr--;
+      while (nums[valPtr] === val && valPtr > i) {
+        k++;
+        valPtr--;
+      }
+      nums[i] = nums[valPtr];
+      nums[valPtr] = val;
+    }
+  }
+
+  return nums.length - k;
+};
