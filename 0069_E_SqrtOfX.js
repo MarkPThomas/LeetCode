@@ -1,4 +1,38 @@
-// 2023
+// 2024/03
+// O(log(n)) time complexity
+// O(1) space complexity
+// Time to complete: 12:50 min
+// Patterns: Binary search
+// Notes w.r.t. solution: Less elegant than prior solution.
+/**
+ * @param {number} x
+ * @return {number}
+ */
+var mySqrt = function (x) {
+    if (x === 0 || x === 1) {
+        return x;
+    }
+
+    let min = 0;
+    let max = x;
+    let mid = 0;
+    while (min < max) {
+        mid = Math.floor(min + 0.5 * (max - min));
+        const result = mid ** 2;
+
+        if (result > x) {
+            max = mid;
+        } else if (result === x || (result < x && x < (mid + 1) ** 2)) {
+            return mid;
+        } else {
+            min = mid + 1;
+        }
+    }
+
+    return mid;
+};
+
+// 2023/05
 // O(log(n)) time complexity
 // O(1) space complexity
 // Time to complete: 7 min
@@ -8,7 +42,7 @@
  * @param {number} x
  * @return {number}
  */
-var mySqrt = function (x) {
+var mySqrt2023 = function (x) {
     // Find first # that <= x when squared,
     // such that the next highest # > x when squared
     let left = 0;
@@ -41,7 +75,7 @@ var mySqrt = function (x) {
  * @param {number} x
  * @return {number}
  */
-var mySqrt = function (x) {
+var mySqrt2022 = function (x) {
     if (x < 2) {
         return x;
     }
