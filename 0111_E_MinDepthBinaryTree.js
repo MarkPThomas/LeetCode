@@ -1,3 +1,51 @@
+// 2024/03/11
+// O(n) time complexity
+// O(n) space complexity
+// Time to complete: 7:38 min (shift vs unshift bug pushed to 9:08)
+// Patterns: Binary Tree. BFS.
+// Notes w.r.t. solution:
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var minDepth = function (root) {
+  if (!root) {
+    return 0;
+  }
+
+  // BFS pre-order, first leaf
+  const nodes = [root, null];
+  let depth = 1;
+  while (nodes.length > 1) {
+    let node = nodes.shift();
+    if (node) {
+      if (!node.left && !node.right) {
+        return depth;
+      } else {
+        if (node.left) {
+          nodes.push(node.left);
+        }
+        if (node.right) {
+          nodes.push(node.right);
+        }
+      }
+    } else {
+      depth++;
+      nodes.push(null);
+    }
+  }
+  return 0;
+};
+
+// 2023/04
 // O(n) time complexity
 // O(n) space complexity
 // Time to complete: 5 min each
