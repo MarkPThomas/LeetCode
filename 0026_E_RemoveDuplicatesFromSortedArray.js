@@ -1,3 +1,29 @@
+// 2024/03/12
+// O(n) time complexity
+// O(1) space complexity
+// where n = length of the input numbers
+// Time to complete: 6:11 min
+// Patterns: 2 pointers, runner technique
+// Notes w.r.t. solution:
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var removeDuplicates = function (nums) {
+    let k = 0;
+    for (let i = 1; i < nums.length; i++) {
+        if (nums[k] !== nums[i]) {
+            k++;
+            const swap = nums[k];
+            nums[k] = nums[i]
+            nums[i] = swap;
+        }
+    }
+
+    return k + 1;
+};
+
+
 // 2023 Solution
 // O(n) time complexity
 // O(1) space complexity
@@ -9,7 +35,7 @@
  * @param {number[]} nums
  * @return {number}
  */
-var removeDuplicates = function (nums) {
+var removeDuplicates2023 = function (nums) {
     let insertIndex = 1;
     for (let currIndex = 1; currIndex < nums.length; currIndex++) {
         const lastNum = nums[currIndex - 1];
@@ -23,6 +49,7 @@ var removeDuplicates = function (nums) {
 
     return insertIndex;
 };
+
 
 // 2022 Solution
 // O(N) time complexity
