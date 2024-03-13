@@ -1,4 +1,47 @@
-// 2023
+// 2024/03/12
+// O(n * log(n)) time complexity
+// O(n) space complexity
+// Time to complete: 13:32 min
+// Patterns: 2 ptrs
+// Notes w.r.t. solution:
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function (nums, target) {
+  const numsSorted = [...nums].sort((a, b) => a - b);
+
+  let low = 0;
+  let high = nums.length - 1;
+  while (numsSorted[low] + numsSorted[high] !== target && low < high) {
+    if (numsSorted[low] + numsSorted[high] > target) {
+      high--;
+    } else if (numsSorted[low] + numsSorted[high] < target) {
+      low++;
+    }
+  }
+
+  let lowResult = -1;
+  let highResult = -1;
+  for (let i = 0; i < nums.length; i++) {
+    if (lowResult === -1 && nums[i] === numsSorted[low]) {
+      lowResult = i;
+    } else if (highResult === -1 && nums[i] === numsSorted[high]) {
+      highResult = i
+    }
+
+    if (lowResult !== -1 && highResult !== -1) {
+      break;
+    }
+  }
+
+
+  return [lowResult, highResult];
+};
+
+
+// 2023/05
 // O(n * log(n)) time complexity
 // O(n) space complexity
 // Time to complete: 22 min (17 to solve, 5 to debug)
@@ -10,7 +53,7 @@
  * @param {number} target
  * @return {number[]}
  */
-var twoSum = function (nums, target) {
+var twoSum2023_05 = function (nums, target) {
   const sortedNums = [...nums].sort((a, b) => a - b);
   let ptrLow = 0;
   let ptrHigh = sortedNums.length - 1;
@@ -57,7 +100,7 @@ var twoSum = function (nums, target) {
  * @param {number} target
  * @return {number[]}
  */
-var twoSum = function (nums, target) {
+var twoSum2022 = function (nums, target) {
   if (!isWithinValidRangeInclusive(nums.length, 2, Math.pow(10, 4))
     || !isWithinValidRangeInclusive(target, -Math.pow(10, 9), Math.pow(10, 9))) {
     return [];
