@@ -1,3 +1,35 @@
+// 2024/03/18
+// O(m + n) time complexity
+// O(1) space complexity
+// where n = length of nums 1, m = length of nums 2
+// Time to complete: 10:46 min
+// Patterns: 3 pointers
+// Notes w.r.t. solution:
+/**
+ * @param {number[]} nums1
+ * @param {number} m
+ * @param {number[]} nums2
+ * @param {number} n
+ * @return {void}
+ */
+var merge = function (nums1, m, nums2, n) {
+    let ptr1 = m - 1;
+    let ptr2 = n - 1;
+    let ptr = nums1.length - 1;
+
+    while (0 <= ptr && 0 <= ptr2) {
+        if (nums1[ptr1] < nums2[ptr2] || nums1[ptr1] === undefined) {
+            nums1[ptr] = nums2[ptr2];
+            ptr2--;
+        } else {
+            nums1[ptr] = nums1[ptr1];
+            nums1[ptr1] = 0;
+            ptr1--;
+        }
+        ptr--;
+    }
+};
+
 // 2023
 // O(n + m) time complexity
 // O(1) space complexity
@@ -12,7 +44,7 @@
  * @param {number} n
  * @return {void}
  */
-var merge = function (nums1, m, nums2, n) {
+var merge2023 = function (nums1, m, nums2, n) {
     let ptr1 = m - 1;
     let ptr2 = n - 1;
     for (let i = m + n - 1; i >= 0; i--) {
@@ -44,7 +76,7 @@ var merge = function (nums1, m, nums2, n) {
  * @param {number} n
  * @return {void} Do not return anything, modify nums1 in-place instead.
  */
-var merge = function (nums1, m, nums2, n) {
+var merge2022 = function (nums1, m, nums2, n) {
     // m states the point where nums1 is 0
     // ultimately nums1 has m+n, so last entry is the least of nums1[m] & nums2[n]
     // makes sense to have 3 pointers:
