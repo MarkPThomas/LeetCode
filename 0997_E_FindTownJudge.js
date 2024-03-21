@@ -1,3 +1,49 @@
+// 2024/03/21
+// O(e) time complexity
+// O(n) space complexity
+// where e = # edges (length of 'trust'), n = # of people
+// Time to complete: 14:34
+// Patterns: Graph
+// Notes w.r.t. solution:
+/**
+ * @param {number} n
+ * @param {number[][]} trust
+ * @return {number}
+ */
+var findJudge = function (n, trust) {
+    if (n === 1) {
+        return 1;
+    }
+
+    const trusting = {};
+    const trusted = {};
+
+    for (let i = 0; i < trust.length; i++) {
+        if (!trusting[trust[i][0]]) {
+            trusting[trust[i][0]] = 1;
+        } else {
+            trusting[trust[i][0]]++;
+        }
+
+        if (!trusted[trust[i][1]]) {
+            trusted[trust[i][1]] = 1;
+        } else {
+            trusted[trust[i][1]]++;
+        }
+    }
+
+    const judges = [];
+    const keys = Object.keys(trusted);
+    for (let i = 0; i < keys.length; i++) {
+        if (trusted[keys[i]] === n - 1) {
+            judges.push(keys[i]);
+        }
+    }
+
+    return judges.length === 1 && !trusting[judges[0]] ? judges[0] : -1;
+};
+
+// 2023
 // O(e) time complexity
 // O(n) space complexity
 // where e = # edges (length of 'trust'), n = # of people
@@ -10,7 +56,7 @@
  * @param {number[][]} trust
  * @return {number}
  */
-var findJudge = function (n, trust) {
+var findJudge2023 = function (n, trust) {
     if (n === 1) {
         return 1;
     }
@@ -44,7 +90,7 @@ var findJudge = function (n, trust) {
  * @param {number[][]} trust
  * @return {number}
  */
-var findJudge = function (n, trust) {
+var findJudge2022 = function (n, trust) {
     let townsPeople = new Graph();
     townsPeople.buildGraph(n, trust);
 
