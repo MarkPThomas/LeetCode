@@ -1,3 +1,63 @@
+// 2024/03/30
+// O(n) time complexity
+// O(n) space complexity
+// Time to complete:  11:30 min
+// Patterns: BFS
+// Notes w.r.t. solution:
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var averageOfLevels202403 = function (root) {
+  const rowAverages = [];
+  let rowSum = 0;
+  let rowNodeCount = 0;
+
+  if (!root) {
+    return rowAverages;
+  }
+
+  let nodes = [root];
+  let nodesNext = [];
+
+  while (nodes.length) {
+    const node = nodes.shift();
+
+    rowSum += node.val;
+    rowNodeCount++;
+
+    if (node.left) {
+      nodesNext.push(node.left);
+    }
+    if (node.right) {
+      nodesNext.push(node.right);
+    }
+
+    if (nodes.length === 0) {
+      nodes = nodesNext;
+      nodesNext = [];
+
+      if (rowNodeCount) {
+        rowAverages.push(rowSum / rowNodeCount);
+      }
+      rowSum = 0;
+      rowNodeCount = 0;
+    }
+  }
+
+  return rowAverages;
+};
+
+
+// 2023/04
 // O(n) time complexity
 // O(n) space complexity
 // Time to complete: 18 min
@@ -15,7 +75,7 @@
  * @param {TreeNode} root
  * @return {number[]}
  */
-var averageOfLevels = function (root) {
+var averageOfLevels2023 = function (root) {
   let children = [root];
   let nextChildren = [];
   const averageValues = [root.val];
