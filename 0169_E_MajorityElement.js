@@ -1,3 +1,30 @@
+// 2024/03/31
+// O(n) time complexity
+// O(n) space complexity
+// Time to complete: 3:34 min
+// Patterns: Hash Map
+// Notes w.r.t. solution:
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var majorityElement = function (nums) {
+    const targetFreq = Math.floor(nums.length / 2);
+    const numsFreq = {};
+
+    for (let i = 0; i < nums.length; i++) {
+        if (!numsFreq[nums[i]]) {
+            numsFreq[nums[i]] = 1;
+        } else {
+            numsFreq[nums[i]]++;
+        }
+
+        if (numsFreq[nums[i]] > targetFreq) {
+            return nums[i];
+        }
+    }
+};
+
 // 2023 Solution
 // O(n) time complexity
 // O(n) space complexity
@@ -8,7 +35,7 @@
  * @param {number[]} nums
  * @return {number}
  */
-var majorityElement = function (nums) {
+var majorityElement2023 = function (nums) {
     const count = {};
     nums.forEach((num) => {
         if (!count[num]) {
@@ -37,7 +64,7 @@ var majorityElement = function (nums) {
  * @param {number[]} nums
  * @return {number}
  */
-var majorityElement = function (nums) {
+var majorityElement2022 = function (nums) {
     let frequency = {};
     for (let i = 0; i < nums.length; i++) {
         if (!frequency[nums[i]]) {
