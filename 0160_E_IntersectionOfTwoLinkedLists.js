@@ -1,8 +1,32 @@
+// 2024/04/03
+// O(n + m) time complexity
+// O(1) space complexity
+// where n = length of list A, m = length of list B
+// Time to complete: 7:00 min
+// Patterns: 2-pointer, Linked List
+// Notes w.r.t. solution:
+/**
+ * @param {ListNode} headA
+ * @param {ListNode} headB
+ * @return {ListNode}
+ */
+var getIntersectionNode = function (headA, headB) {
+    let nodeA = headA;
+    let nodeB = headB;
+
+    while (nodeA !== nodeB) {
+        nodeA = (nodeA !== null) ? nodeA.next : headB;
+        nodeB = (nodeB !== null) ? nodeB.next : headA;
+    }
+
+    return nodeA;
+};
+
 // 2023
 // O(n + m) time complexity
 // O(1) space complexity
 // Time to complete: 6 min
-// Patterns: 2-pointer
+// Patterns: 2-pointer, Linked List
 // Notes w.r.t. solution:
 /**
  * Definition for singly-linked list.
@@ -17,7 +41,7 @@
  * @param {ListNode} headB
  * @return {ListNode}
  */
-var getIntersectionNode = function (headA, headB) {
+var getIntersectionNode2023 = function (headA, headB) {
     let ptrA = headA;
     let ptrB = headB;
     while (ptrA !== ptrB) {
