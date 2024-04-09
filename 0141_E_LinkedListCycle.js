@@ -1,4 +1,38 @@
-// 2023
+// 2024/04/09
+// O(n) time complexity
+// O(1) space complexity
+// Time to complete: 1:40 min
+// Patterns: Linked list, 2 runners
+// Notes w.r.t. solution:
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+
+/**
+ * @param {ListNode} head
+ * @return {boolean}
+ */
+var hasCycle = function (head) {
+    let fastPtr = head;
+    let slowPtr = head;
+
+    while (fastPtr) {
+        fastPtr = fastPtr.next?.next;
+        slowPtr = slowPtr.next;
+
+        if (fastPtr === slowPtr) {
+            return true;
+        }
+    }
+
+    return false;
+};
+
+// 2023/05
 // O(n) time complexity
 // O(1) space complexity
 // Time to complete: 10 min
@@ -16,7 +50,7 @@
  * @param {ListNode} head
  * @return {boolean}
  */
-var hasCycle = function (head) {
+var hasCycle2023 = function (head) {
     if (!head) {
         return false;
     }
@@ -53,7 +87,7 @@ var hasCycle = function (head) {
  * @param {ListNode} head
  * @return {boolean}
  */
-var hasCycle = function (head) {
+var hasCycle2022 = function (head) {
     let ptrSlow = head;
     let ptrFast = head;
 
