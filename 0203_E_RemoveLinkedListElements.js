@@ -1,3 +1,49 @@
+// 2024/04/11
+// O(n) time complexity
+// O(1) space complexity
+// Time to complete: 14:14 min
+// Patterns: Linked List
+// Notes w.r.t. solution: Got bogged down in minor mistakes of handling head, then prev. Moved too fast!
+//  Otherwise, closer to 3-4 min.
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} val
+ * @return {ListNode}
+ */
+var removeElements = function (head, val) {
+    if (!head) {
+        return null;
+    }
+
+    let prev = null;
+    let curr = head;
+    while (curr) {
+        if (curr.val === val) {
+            if (curr === head) {
+                head = head.next;
+                curr.next = null;
+                curr = head;
+            } else if (prev) {
+                prev.next = curr.next;
+                curr = curr.next;
+            }
+        } else {
+            prev = curr;
+            curr = curr.next;
+        }
+    }
+
+    return head;
+};
+
+// 2023/05
 // O(N) time complexity
 // O(1) space complexity
 // Time to complete: 7 min
@@ -15,7 +61,7 @@
  * @param {number} val
  * @return {ListNode}
  */
-var removeElements = function (head, val) {
+var removeElements2023 = function (head, val) {
     if (!head) {
         return head;
     }
@@ -33,7 +79,7 @@ var removeElements = function (head, val) {
     return head.val === val ? head.next : head;
 };
 
-
+// 2022
 // O(N) time complexity
 // O(1) space complexity
 // Time to complete: 12:20 min (8:30 min but had to debug)
@@ -52,7 +98,7 @@ var removeElements = function (head, val) {
  * @param {number} val
  * @return {ListNode}
  */
-var removeElements = function (head, val) {
+var removeElements2022 = function (head, val) {
     let node = head;
 
     while (node) {
@@ -69,16 +115,3 @@ var removeElements = function (head, val) {
     }
     return head;
 };
-
-// Test later
-// const testCases = [
-// { input: '',
-//   expected: ''},
-// ];
-
-// testCases.forEach((testCase) => {
-//   // let result = FUT(testCase.input); // insert function name here
-//   let pass = result === testCase.expected;
-//   console.log(`Input: ${testCase.input}\nExpected: ${testCase.expected}\nResult: ${result}\nPass: ${pass}\n`);
-//   }
-// );
