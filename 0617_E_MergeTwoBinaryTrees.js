@@ -4,7 +4,8 @@
 // where m = min # nodes between the trees
 // Time to complete: 16:01 min
 // Patterns: Binary Tree, BFS iterative
-// Notes w.r.t. solution: Would have been around 10 min but thrown off by a minor bug (undefined entering queue)
+// Notes w.r.t. solution: Would have been around 10 min but thrown off by not checking LENGTH of queue.
+//    Also, stack is more efficient w/ arrays & also works, as only order of levels covered matters, NOT left/right children.
 /**
  * Definition for a binary tree node.
  * function TreeNode(val, left, right) {
