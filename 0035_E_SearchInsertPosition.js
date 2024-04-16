@@ -1,5 +1,41 @@
 // O(log(n)) time complexity
 // O(1) space complexity
+// Time to complete: 8:41 min
+// Patterns: Binary search
+// Notes w.r.t. solution: Would have been 5 min but had mistake of taking value rather than index for mid.
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var searchInsert = function (nums, target) {
+    let left = 0;
+    let right = nums.length - 1;
+
+    if (target < nums[left]) {
+        return 0;
+    } else if (nums[right] < target) {
+        return nums.length;
+    }
+
+    while (left <= right) {
+        const mid = Math.floor(left + 0.5 * (right - left));
+
+        if (nums[mid] === target) {
+            return mid;
+        } else if (nums[mid] < target) {
+            left++;
+        } else {
+            right--;
+        }
+    }
+
+    return left;
+};
+
+
+// O(log(n)) time complexity
+// O(1) space complexity
 // Time to complete: 4 min
 // Patterns: Binary search
 /**
@@ -73,19 +109,3 @@ const getMidIndex = function (startIndex, endIndex) {
 const indexDifference = function (startIndex, endIndex) {
     return endIndex - startIndex;
 }
-
-// TODO: Add tests later
-// const testCases = [
-// { input: {
-//   nums: '',
-//   target: ''
-//   },
-//   expected: ''},
-// ];
-
-// testCases.forEach((testCase) => {
-//   let result = searchInsert(testCase.input.nums, testCase.input.target);
-//   let pass = result === testCase.expected;
-//   console.log(`Input: ${testCase.input}\nExpected: ${testCase.expected}\nResult: ${result}\nPass: ${pass}\n`);
-//   }
-// );
