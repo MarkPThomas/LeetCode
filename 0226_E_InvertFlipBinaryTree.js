@@ -1,8 +1,53 @@
+// 2024/04/16
+// O(n) time complexity
+// O(n) space complexity
+// Time to complete: 2:42 min
+// Patterns: Binary Tree
+// Notes w.r.t. solution: DFS Preorder w/ Iterations
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {TreeNode}
+ */
+var invertTree = function (root) {
+  if (!root) {
+    return root;
+  }
+
+  // DFS - Preorder
+  const stack = [root];
+  while (stack.length) {
+    const node = stack.pop();
+
+    const temp = node.left;
+    node.left = node.right;
+    node.right = temp;
+
+    if (node.left) {
+      stack.push(node.left);
+    }
+
+    if (node.right) {
+      stack.push(node.right);
+    }
+  }
+
+  return root;
+};
+
+// 2023/04
 // O(n) time complexity
 // O(n) space complexity
 // Time to complete: 3 min
 // Patterns: Binary Tree
-// Notes w.r.t. solution:
+// Notes w.r.t. solution: BFS, also DFS Inorder w/ Recursion
 
 /**
  * Definition for a binary tree node.

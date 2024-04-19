@@ -1,3 +1,44 @@
+// 2024/04/16
+// O(log(n)) time complexity
+// O(1) space complexity
+// Time to complete: 6:56 min
+// Patterns: Binary Search
+// Notes w.r.t. solution:
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {boolean}
+ */
+var isMajorityElement = function (nums, target) {
+  if (target < nums[0] || nums[nums.length - 1] < target) {
+    return false;
+  }
+
+  // Get first occurrence
+  let firstOccurrence = -1;
+  let start = 0;
+  let end = nums.length - 1;
+  while (start <= end) {
+    const mid = Math.floor(start + 0.5 * (end - start));
+
+    if (nums[mid] === target && nums[mid - 1] !== target) {
+      firstOccurrence = mid;
+      break;
+    } else if (nums[mid] < target) {
+      start = mid + 1;
+    } else {
+      end = mid - 1;
+    }
+  }
+
+  const lastOccurrence = firstOccurrence + Math.floor(nums.length / 2);
+
+  return nums[lastOccurrence] === target;
+};
+
+
+
+// 2024/01
 // O(log(n)) time complexity
 // O(1) space complexity
 // Time to complete: Too long. Overthought binary search. Doh!
@@ -11,7 +52,7 @@
  * @param {number} target
  * @return {boolean}
  */
-var isMajorityElement = function (nums, target) {
+var isMajorityElement202401 = function (nums, target) {
   if (target < nums[0] || nums[nums.length] < target) {
     return false;
   }
