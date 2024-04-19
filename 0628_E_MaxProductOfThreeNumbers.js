@@ -1,3 +1,105 @@
+// 2024/04/19
+// O(n) time complexity
+// O(1) space complexity
+// Time to complete: 19:36 min
+// Patterns:
+// Notes w.r.t. solution: Single Scan
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maximumProduct = function (nums) {
+    // <= 3 +: max 3 positive
+    // <= 2 - & 1 +: min 2 negative * max positive
+    // all -: max 3 negative
+
+    let max1 = -Infinity;
+    let max2 = -Infinity;
+    let max3 = -Infinity;
+
+    let min1 = Infinity;
+    let min2 = Infinity;
+
+    let maxMin1 = -Infinity;
+    let maxMin2 = -Infinity;
+    let maxMin3 = -Infinity;
+
+    nums.forEach((num) => {
+        if (num > max1) {
+            max3 = max2;
+            max2 = max1;
+            max1 = num;
+        } else if (num > max2) {
+            max3 = max2;
+            max2 = num;
+        } else if (num > max3) {
+            max3 = num;
+        }
+
+        if (num < min1) {
+            min2 = min1;
+            min1 = num;
+        } else if (num < min2) {
+            min2 = num;
+        }
+
+        if (num < 0 && maxMin1 < num) {
+            if (maxMin2 !== -Infinity) {
+                if (maxMin3 !== -Infinity) {
+                    maxMin3 = maxMin2;
+                }
+                maxMin2 = maxMin1;
+            }
+            maxMin1 = num;
+        }
+    });
+
+    const maxMax = max1 * max2 * max3;
+    const maxMin = min1 * min2 * max1;
+    return Math.max(maxMax, maxMin);
+};
+
+// 2024/04/19
+// O(n log(n)) time complexity - for sorting
+// O(n) space complexity - for sorting
+// Time to complete: 19:09 min
+// Patterns:
+// Notes w.r.t. solution: Sorting
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maximumProduct = function (nums) {
+    // get 3 largest positive #s
+    // get 2 smallest negative #s
+    // get 3 largest negative #s
+
+    if (nums.length === 3) {
+        return nums[0] * nums[1] * nums[2];
+    }
+
+    nums.sort((a, b) => a - b);
+    const minMin = nums[0] * nums[1] * nums[nums.length - 1];
+    const maxMin = nums[nums.length - 1] * nums[nums.length - 2] * nums[nums.length - 3];
+
+    if (0 < minMin && 0 < maxMin) {
+        return Math.max(maxMin, minMin);
+    } else if (0 < minMin) {
+        return minMin;
+    } else {
+        for (let i = 1; i < nums.length; i++) {
+            if (nums[i - 1] < 0 && 0 <= nums[i]) {
+                const min = 1 < i ? nums[i] * nums[i - 1] * nums[i - 2] : -Infinity;
+                const mid = 0 < i && i + 1 < nums.length ? nums[i] * nums[i - 1] * nums[i + 1] : -Infinity;
+                const max = 0 < i && i + 2 < nums.length ? nums[i] * nums[i + 1] * nums[i + 2] : -Infinity;
+
+                return Math.max(min, mid, max);
+            }
+        }
+        return nums[nums.length - 1] * nums[nums.length - 2] * nums[nums.length - 3];
+    }
+};
+
 // 2023 Solution
 // O(n) time complexity
 // O(1) space complexity
