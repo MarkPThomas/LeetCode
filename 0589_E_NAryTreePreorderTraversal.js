@@ -12,6 +12,13 @@
  *    this.children = children;
  * };
  */
+/**
+ * // Definition for a Node.
+ * function Node(val, children) {
+ *    this.val = val;
+ *    this.children = children;
+ * };
+ */
 
 /**
  * @param {Node|null} root
@@ -19,14 +26,19 @@
  */
 var preorder = function (root) {
   // DFS pre-order
-  const queue = [root];
+  const stack = [root];
   const output = [];
 
-  while (queue.length) {
-    const node = queue.shift();
+  while (stack.length) {
+    const node = stack.pop();
     if (node) {
       output.push(node.val);
-      queue.unshift(...node.children);
+
+      if (node.children) {
+        for (let i = node.children.length - 1; 0 <= i; i--) {
+          stack.push(node.children[i]);
+        }
+      }
     }
   }
 
