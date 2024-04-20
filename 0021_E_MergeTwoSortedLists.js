@@ -1,3 +1,44 @@
+// 2024/04/20
+// O(n) time complexity
+// O(1) space complexity
+// where n = length of list 1, m = length of list 2
+// Time to complete: 12:33 min
+// Patterns: list structure, 2 pointer
+// Notes w.r.t. solution:
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+
+/**
+ * @param {ListNode} list1
+ * @param {ListNode} list2
+ * @return {ListNode}
+ */
+var mergeTwoLists = function (list1, list2) {
+  const sentinel = { next: null };
+
+  let prev = sentinel;
+  while (list1 && list2) {
+    if (list1.val <= list2.val) {
+      prev.next = list1;
+      list1 = list1.next;
+    } else {
+      prev.next = list2;
+      list2 = list2.next;
+    }
+    prev = prev.next;
+  }
+
+  prev.next = list1 ? list1 : list2;
+
+  return sentinel.next;
+};
+
+
 // 2024/04/15
 // O(n + m) time complexity
 // O(1) space complexity
