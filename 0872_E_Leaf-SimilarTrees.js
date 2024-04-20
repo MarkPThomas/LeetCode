@@ -52,7 +52,7 @@ function leafValueSequence(root, sequence = []) {
 // O(T1) space complexity
 // where T1 = length of tree 1
 // Time to complete: 15 min... not doing the simplest solution, but optimized
-// Patterns: Binary Tree DFS Preorder Traversal
+// Patterns: Binary Tree DFS Preorder Traversal with Stacks
 // Notes w.r.t. solution: Rather than comparing 2 lists from separate DFS, I only made a list from the
 //    first tree, and then 'unraveled' it doing a reversed DFS on tree 2.
 //    I also added short-circuiting mechanisms throughout, such as first mismatch, or as soon as T2 had more leaves.
