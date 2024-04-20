@@ -1,4 +1,34 @@
-// 2023
+// 2024/04/15
+// O(n * log(n)) time complexity
+// O(1) space complexity
+// Time to complete: 7:57
+// Patterns: Math
+// Notes w.r.t. solution: This problem is dumb
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var largestPerimeter = function (nums) {
+  nums.sort((a, b) => b - a);
+
+  for (let i = 0; i < nums.length - 2; i++) {
+    const side1 = nums[i];
+    if (!side1) {
+      break;
+    }
+
+    const side2 = nums[i + 1];
+    const side3 = nums[i + 2];
+
+    if (side1 < side2 + side3) {
+      return side1 + side2 + side3;
+    }
+  }
+
+  return 0;
+};
+
+// 2023/05
 // O(n * log(n)) time complexity
 // O(1) space complexity
 // Time to complete: 18:00
@@ -37,7 +67,6 @@ var largestPerimeter = function (nums) {
 // Time to complete: 8:00 min.
 // Patterns:
 // Notes w.r.t. solution:
-
 var largestPerimeter = function (nums) {
   // largest perimeter = 3 largest segments added together
   // array is comprised of segment lengths
