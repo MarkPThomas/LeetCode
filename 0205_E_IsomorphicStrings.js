@@ -1,7 +1,42 @@
+// 2024/04/22
+// O(n) time complexity
+// O(n) -> O(1) space complexity since # chars is ultimately limited
+// where n = s.length
+// Time to complete: 7:05  min
+// Patterns: Hash Map
+// Notes w.r.t.
+
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+var isIsomorphic = function (s, t) {
+  if (s.length !== t.length) {
+    return false;
+  }
+
+  const charMapS = {};
+  const charMapT = {};
+
+  for (let i = 0; i < s.length; i++) {
+    if (!charMapS[s[i]] && !charMapS[s[i]]) {
+      charMapS[s[i]] = t[i];
+      charMapT[t[i]] = s[i];
+    } else if (charMapS[s[i]] !== t[i] || charMapT[t[i]] !== s[i]) {
+      return false;
+    }
+  }
+
+  return Object.keys(charMapS).length === Object.keys(charMapT).length;
+};
+
 // 2023 Solution - Refactored
 // O(N) time complexity where N = s.length
 // O(1) space complexity
 // Time to complete: 5 min (including original solution)
+// Patterns: Hash Map
+// Notes w.r.t.
 /**
  * @param {string} s
  * @param {string} t

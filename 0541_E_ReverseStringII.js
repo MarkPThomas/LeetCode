@@ -1,3 +1,51 @@
+// 2024/04/22
+// O(n + 0.5 (n / k)) time complexity
+// O(1) space complexity (ignoring the O(n) that must be generated for output)
+// Time to complete: 12:50 min
+// Patterns: 2 Ptr
+/**
+ * @param {string} s
+ * @param {number} k
+ * @return {string}
+ */
+var reverseStr = function (s, k) {
+  function reverseK(ptr1, ptr2, chars) {
+    while (ptr1 < ptr2) {
+      const temp = chars[ptr1];
+      chars[ptr1] = chars[ptr2];
+      chars[ptr2] = temp;
+
+      ptr1++;
+      ptr2--;
+    }
+  }
+
+  const chars = s.split(''); // S: O(n)
+
+  let isReversing = true;
+  let ptr1 = 0;
+  let ptr2 = 0;
+  for (let i = 0; i < chars.length; i++) { // T: O(n)
+    if (!((i + 1) % k)) {
+      ptr2 = i;
+
+      if (isReversing) {
+        reverseK(ptr1, ptr2, chars);    // T: O(k)
+      }
+
+      ptr1 = i + 1;
+      isReversing = !isReversing;
+    }
+  }
+
+  if (chars.length - (ptr1 + 1) < k && isReversing) {
+    reverseK(ptr1, chars.length - 1, chars);
+  }
+
+  return chars.join('');
+};
+
+// 2023/04
 // Optimized & refactoreed solution
 // O(n) time complexity
 // O(1) space complexity (ignoring the O(n) that must be generated for output)
