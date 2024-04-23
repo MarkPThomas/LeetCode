@@ -1,6 +1,39 @@
 // Given a string s, reverse the order of characters in each word within a sentence while still
 //    preserving whitespace and initial word order.
 
+// 2024/04/
+// O(n) time complexity
+// O(1) space complexity
+// Time to complete: 13:45 min
+// Patterns: Sliding window & 2-pointer
+// Notes w.r.t. solution: Would have been 7 min but had some minor debugging errors.
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseWords = function (s) {
+  const words = s.split('');
+  let ptrL = 0;
+
+  for (let i = 0; i < words.length; i++) {
+    if (words[i] === ' ' || i === words.length - 1) {
+      let ptrR = (i === words.length - 1) ? i : i - 1;
+      while (ptrL < ptrR) {
+        const temp = words[ptrL];
+        words[ptrL] = words[ptrR];
+        words[ptrR] = temp;
+
+        ptrL++;
+        ptrR--;
+      }
+      ptrL = i + 1;
+    }
+  }
+
+  return words.join('');
+};
+
+// 2023/04
 // O() time complexity
 // O(1) space complexity
 // Time to complete: 1 min

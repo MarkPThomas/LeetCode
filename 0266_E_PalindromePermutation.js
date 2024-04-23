@@ -1,3 +1,38 @@
+// 2024/04/23
+// O(n) time complexity
+// O(1) space complexity, since # chars is limited
+// Time to complete: 7:36 min
+// Patterns: Hash map
+// Notes w.r.t. solution: Would have been 5:30 but made an in/of iteration error
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var canPermutePalindrome = function (s) {
+  const charFreq = {};
+  for (let i = 0; i < s.length; i++) {
+    if (!charFreq[s[i]]) {
+      charFreq[s[i]] = 0;
+    }
+    charFreq[s[i]]++;
+  }
+
+  const numOddMax = s.length % 2 ? 1 : 0;
+  let oddNum = 0;
+  for (value of Object.values(charFreq)) {
+    if (value % 2) {
+      oddNum++;
+      if (oddNum > numOddMax) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+};
+
+
+// 2023/06
 // O(n) time complexity
 // O(1) space complexity
 // Time to complete: 9:00 min
