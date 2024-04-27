@@ -1,3 +1,35 @@
+// 2024/04/27
+// O(n) time complexity
+// O(n) space complexity
+// Time to complete: 11:40 min
+// Patterns: Hashmap
+// Notes w.r.t. solution: Create a queue from a linked list to optimize further
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[]}
+ */
+var anagramMappings = function (nums1, nums2) {
+  const indices = {};
+  for (let i1 = 0; i1 < nums1.length; i1++) {
+    const num1 = nums1[i1]
+    if (!indices[num1]) {
+      indices[num1] = [];
+    }
+    indices[num1].push(i1);
+  }
+
+  const mapping = Array(nums1.length);
+  for (let i2 = 0; i2 < nums2.length; i2++) {
+    const i1 = indices[nums2[i2]].shift();
+    mapping[i1] = i2;
+  }
+
+  return mapping;
+}
+
+
+// 2023/06
 // O(n) time complexity
 // O(n) space complexity
 // Time to complete: 3:00 min w/ array queue, 11:00 w/ linked list queue
