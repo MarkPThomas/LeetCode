@@ -1,8 +1,13 @@
 class MaxHeap {
   size = 0;
   items = [];
+  comparator = (child, parent) => a > b;
 
-  constructor(items = []) {
+  constructor(items = [], comparator = null) {
+    if (comparator) {
+      this.comparator = comparator;
+    }
+
     if (Array.isArray(items)) {
       this.items = [...items];
     } else {
@@ -74,7 +79,7 @@ class MaxHeap {
   }
 
   shouldSwap(indexChild, indexParent) {
-    return this.items[indexChild] > this.items[indexParent];
+    return this.comparator(this.items[indexChild], this.items[indexParent]);
   }
 
   swap(i, j) {
