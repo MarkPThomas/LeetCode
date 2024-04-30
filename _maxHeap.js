@@ -1,7 +1,7 @@
 class MaxHeap {
   size = 0;
   items = [];
-  comparator = (child, parent) => a > b;
+  comparator = (child, parent) => child > parent;
 
   constructor(items = [], comparator = null) {
     if (comparator) {
