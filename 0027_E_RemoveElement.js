@@ -1,3 +1,36 @@
+// 2024/05/03
+// O(n) time complexity
+// O(1) space complexity
+// Time to complete: 15:00 min
+// Patterns: 2 Pointers
+// Notes w.r.t. solution: Solved in 6:51, debugging added another 10ish min. Error in k calc & edge cases. Slow down!
+/**
+ * @param {number[]} nums
+ * @param {number} val
+ * @return {number}
+ */
+var removeElement = function (nums, val) {
+  let end = nums.length - 1;
+  while (nums[end] === val) {
+    end--;
+  }
+
+  let i = 0;
+  while (i < end) {
+    if (nums[i] === val) {
+      nums[i] = nums[end];
+      nums[end] = val;
+      while (nums[end] === val) {
+        end--;
+      }
+    }
+
+    i++;
+  }
+
+  return end + 1;
+};
+
 // 2023/05
 // O(n) time complexity
 // O(1) space complexity

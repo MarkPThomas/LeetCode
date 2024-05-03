@@ -1,3 +1,43 @@
+// 2024/05/03
+// O(n * m) time complexity
+// O(1) space complexity
+// where n = # words in input list, m = total length of input words
+// Time to complete: 4:41 min
+// Patterns: 2 Pointers
+// Notes w.r.t. solution:
+/**
+ * @param {string[]} wordsDict
+ * @param {string} word1
+ * @param {string} word2
+ * @return {number}
+ */
+var shortestDistance = function (wordsDict, word1, word2) {
+  let shortestDistance = Infinity;
+  let ptr1 = -1;
+  let ptr2 = -1;
+
+  for (let i = 0; i < wordsDict.length; i++) {
+    if (wordsDict[i] === word1) {
+      ptr1 = i;
+      if (ptr2 !== -1) {
+        shortestDistance = Math.min(shortestDistance, Math.abs(ptr2 - ptr1));
+      }
+    } else if (wordsDict[i] === word2) {
+      ptr2 = i;
+      if (ptr1 !== -1) {
+        shortestDistance = Math.min(shortestDistance, Math.abs(ptr2 - ptr1));
+      }
+    }
+
+    if (shortestDistance === 1) {
+      break;
+    }
+  }
+
+  return shortestDistance;
+};
+
+
 // 2023 Solution - optimized
 // O(n * m) time complexity
 // O(1) space complexity
