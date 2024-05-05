@@ -1,3 +1,71 @@
+// 2024/05/04
+// O(1) time complexity
+// O(1) space complexity
+// Time to complete: 27:28 min
+// Patterns: Design, Process on demand
+// Notes w.r.t. solution: Finished in 9:22 min debugging took me nearly 20 min! Fully optimized. Simpler than last one.
+/**
+ * @param {string} compressedString
+ */
+var StringIterator = function (compressedString) {
+  this.compressedString = compressedString;
+  this.ptr = 0;
+  this.nextPtr = 0;
+  this.currCount = 0;
+
+  this.calcNextCount();
+};
+
+StringIterator.prototype.calcNextCount = function () {
+  let i = this.ptr + 1;
+  let nextCount = '';
+  while (!isNaN(parseInt(this.compressedString[i]))) {
+    nextCount += this.compressedString[i];
+    i++;
+  }
+
+  this.nextPtr = i;
+  this.currCount = +nextCount;
+}
+
+StringIterator.prototype.movePtr = function () {
+  this.ptr = this.nextPtr;
+}
+
+/**
+* @return {character}
+*/
+StringIterator.prototype.next = function () {
+  if (this.hasNext()) {
+    const char = this.compressedString[this.ptr];
+
+    this.currCount--;
+    if (!this.currCount) {
+      this.movePtr();
+      this.calcNextCount();
+    }
+
+    return char;
+  } else {
+    return ' ';
+  }
+};
+
+/**
+* @return {boolean}
+*/
+StringIterator.prototype.hasNext = function () {
+  return !!(this.currCount || this.compressedString[this.nextPtr]);
+};
+
+/**
+* Your StringIterator object will be instantiated and called as such:
+* var obj = new StringIterator(compressedString)
+* var param_1 = obj.next()
+* var param_2 = obj.hasNext()
+*/
+
+// 2024/01/22
 // Final, most optimized solution
 // O(1) time complexity
 // O(1) space complexity
@@ -66,6 +134,7 @@ StringIterator.prototype.hasNext = function () {
 * var param_2 = obj.hasNext()
 */
 
+// 2024/01/22
 // More optimized solution
 // O(1) time complexity
 // O(n) space complexity
