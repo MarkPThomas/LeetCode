@@ -1,3 +1,82 @@
+// 2024/05/05
+// O(m + n) time complexity (for sort)
+// O(n) space complexity  (for count hashmap)
+// Time to complete: N/A min
+// Patterns: Bucket Sort
+// Notes w.r.t. solution: Reworked problem integrating bucket sort. Made alteration to allow sorting on sub-element.
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
+var topKFrequent = function (nums, k) {
+  const counts = {};
+  nums.forEach((num) => {
+    if (!counts[num]) {
+      counts[num] = 1;
+    } else {
+      counts[num]++;
+    }
+  })
+
+  let countsKeys = Object.entries(counts);
+  countsKeys = bucketSort(countsKeys, (a) => a[1]);
+
+  const topKs = [];
+  let i = 0;
+  while (i < k) {
+    topKs.push(countsKeys[countsKeys.length - 1 - i][0])
+    i++;
+  }
+
+  return topKs;
+};
+
+var bucketSort = function (nums, getVal = null) {
+  if (!getVal) {
+    getVal = (a) => a;
+  }
+
+  // Establish ranges, break if no sorting needed
+  let min = getVal(nums[0]);
+  let max = getVal(nums[0]);
+  nums.forEach((num) => {
+    const val = getVal(num)
+    min = Math.min(min, val);
+    max = Math.max(max, val);
+  });
+
+  if (min === max) {
+    return nums;
+  }
+
+  // Create & fill buckets
+  const numBuckets = 10;    // Reasonable guess, post-sorting still needed
+  const buckets = Array(numBuckets).fill(0).map(() => []);
+
+  nums.forEach((num) => {
+    const idx = Math.floor((getVal(num) - min) * (buckets.length - 1) / (max - min));
+    buckets[idx].push(num);
+  });
+
+  // Merge buckets
+  let ptr = 0;
+  for (const vals of Object.values(buckets)) {
+    let valsLength = vals.length;
+    while (valsLength) {
+      nums[ptr] = vals[vals.length - valsLength];
+      ptr++;
+      valsLength--;
+    }
+  }
+
+  // Sort result for mildly disordered list
+  nums.sort((a, b) => getVal(a) - getVal(b));
+
+  return nums;
+};
+
+// 2024/04/29
 // O(n * log(n)) time complexity (for sort)
 // O(n) space complexity  (for count hashmap)
 // Time to complete: 5:05 min
@@ -125,6 +204,7 @@ class MaxHeap {
   }
 }
 
+// 2024/04/04
 // O(n * log(n)) time complexity (for sort)
 // O(n) space complexity (for sort)
 // Time to complete: 12:20 min
