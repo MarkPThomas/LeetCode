@@ -1,3 +1,54 @@
+// 2024/05/05
+// O(n) time complexity
+// O(h) -> O(n) if tree is very unbalanced space complexity
+// where h = height of binary tree, n = # nodes
+// Time to complete: 7:17 min
+// Patterns: DFS, Binary Trees, Bottom-Up Recursion
+// Notes w.r.t. solution:
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isBalanced = function (root) {
+  return getHeight(root) !== false;
+};
+
+// A height-balanced binary tree is a binary tree in which
+// the depth of the two subtrees
+// of every node never differs by more than one.
+
+var getHeight = function (root) {
+  if (!root) {
+    return 0;
+  }
+
+  let heightL = 0;
+  if (root.left) {
+    heightL = getHeight(root.left);
+  }
+
+  let heightR = 0;
+  if (root.right) {
+    heightR = getHeight(root.right);
+  }
+
+  if (heightL === false || heightR === false
+    || Math.abs(heightL - heightR) > 1) {
+    return false;
+  } else {
+    return Math.max(heightL, heightR) + 1;
+  }
+}
+
+
 // 2024/03
 // O(n) time complexity
 // O(h) -> O(n) if tree is very unbalanced space complexity
