@@ -1,3 +1,80 @@
+// 2024/05/09
+// O(m * n) time complexity
+// O(m + n) space complexity
+//  where n = # nodes in root, m = # nodes in subroot
+// Time to complete: 18:20 min
+// Patterns: Binary Tree, DFS Preorder
+// Notes w.r.t. solution: Again, had worked things out by 13 min. Debugging for minor gotchyas got me.
+//  When traversing tree, it is OK to optimize not including null nodes.
+//  When comparing trees, make sure to include null nodes in order to maintain L/R branch matching.
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} subRoot
+ * @return {boolean}
+ */
+var isSubtree = function (root, subRoot) {
+  // search for subroot value in root
+  const rootStack = [root];
+
+  while (rootStack.length) {
+    const node = rootStack.pop();
+
+    if (node.val === subRoot.val) {
+      // if found, check matching, including leaves
+      const nodesCheck = [node];
+      const subNodesCheck = [subRoot];
+
+      let isMatching = true;
+      while (nodesCheck.length && subNodesCheck.length) {
+        const nodeCheck = nodesCheck.pop();
+        const subNodeCheck = subNodesCheck.pop();
+
+        // Note that we want to check nulls in order to ensure L/R branch matches
+        //      in addition to values
+        if (subNodeCheck) {
+          subNodesCheck.push(subNodeCheck.left);
+          subNodesCheck.push(subNodeCheck.right);
+        }
+
+        if (nodeCheck) {
+          nodesCheck.push(nodeCheck.left);
+          nodesCheck.push(nodeCheck.right);
+        }
+
+        if (nodeCheck?.val !== subNodeCheck?.val) {
+          isMatching = false;
+          break;
+        }
+      }
+
+      if (isMatching && !subNodesCheck.length && !nodesCheck.length) {
+        return true;
+      }
+      //      if not matching, resume search
+    }
+
+    if (node.left) {
+      rootStack.push(node.left);
+    }
+
+    if (node.right) {
+      rootStack.push(node.right);
+    }
+  }
+
+  return false;
+}
+
+
+
 // 2024/03/17
 // O(m * n) time complexity
 // O(m + n) space complexity
