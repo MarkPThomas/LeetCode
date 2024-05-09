@@ -13,62 +13,62 @@
 // Time to complete: N/A min
 // Patterns: Quick Sort
 // Notes w.r.t. solution:
-function quickSortRecursive(arr, low, hi) {
-  if (low >= hi) {
+function quickSortRecursive(arr, low, high) {
+  if (low >= high) {
     return;
   }
 
-  let [s, e] = partition(arr, low, hi);
+  let [s, e] = partition(arr, low, high);
 
-  quickSortRecursive(arr, low, e);
-  quickSortRecursive(arr, s, hi);
+  quickSortRecursive(arr, low, end);
+  quickSortRecursive(arr, start, high);
 }
 
-function quickSortIterative(arr, low, hi) {
-  const stack = [[low, hi]];
+function quickSortIterative(arr, low, high) {
+  const stack = [[low, high]];
 
   while (stack.length) {
-    let [low, hi] = stack.pop();
-    let [s, e] = partition(arr, low, hi);
+    let [low, high] = stack.pop();
+    let [start, end] = partition(arr, low, high);
 
-    if (e > low) {
-      stack.push([low, e]);
+    if (end > low) {
+      stack.push([low, end]);
     }
 
-    if (s < hi) {
-      stack.push([s, hi]);
+    if (start < high) {
+      stack.push([start, high]);
     }
   }
 }
 
-function partition(arr, low, hi) {
-  let s = low;
-  let e = hi;
+function partition(arr, low, high) {
+  let start = low;
+  let end = high;
 
-  let m = s + Math.floor(Math.random() * (e - s));
-  let pivot = arr[m];
+  let mid = start + Math.floor(Math.random() * (end - start));
+  let pivot = arr[mid];
 
 
-  while (s <= e) {
-    while (arr[s] < pivot) {
-      s++;
+  while (start <= end) {
+    while (arr[start] < pivot) {
+      start++;
     }
 
-    while (arr[e] > pivot) {
-      e--;
+    while (arr[end] > pivot) {
+      end--;
     }
 
-    if (s <= e) {
-      let temp = arr[s];
-      arr[s] = arr[e];
-      arr[e] = temp;
+    if (start <= e) {
+      let temp = arr[start];
+      arr[start] = arr[end];
+      arr[end] = temp;
 
-      s++;
-      e--;
+      start++;
+      end--;
     }
   }
 
-  return [s, e];
+  return [start, end];
 }
 
 
@@ -106,8 +106,7 @@ function mergeSortRecursive(nums, leftIdx, rightIdx) {
   return nums;
 }
 
-var mergeSortIterative = function (nums) {
-
+function mergeSortIterative(nums) {
   // subdivide to lowest pairs (i.e. start with size set to 1)
   // increment back to full array length (i.e. double size w/ each iteration since pairs merged each time)
   for (let size = 1; size < nums.length; size *= 2) {
@@ -165,7 +164,7 @@ function mergeSorted(nums, low, mid, high) {
  * @param {number[]} nums
  * @return {number[]}
  */
-var sortArray = function (nums) {
+var radixSortSigned = function (nums) {
   // Radix sort ignores signs
   // Extract negative values
   const negatives = [];
@@ -261,7 +260,7 @@ var bucketSort = function (nums, radix, power) {
  * @param {number[]} nums
  * @return {number[]}
  */
-var sortArray = function (nums) {
+var bucketSort = function (nums) {
   // Establish ranges, break if no sorting needed
   let min = nums[0];
   let max = nums[0];
@@ -323,7 +322,7 @@ var sortArray = function (nums) {
  * @param {number[]} nums
  * @return {number[]}
  */
-var sortArrayCountingSort = function (nums) {
+var countingSort = function (nums) {
   let min = 0;
   let max = -Infinity;
   nums.forEach((num) => {
@@ -373,7 +372,7 @@ var sortArrayCountingSort = function (nums) {
  * @param {number[]} nums
  * @return {number[]}
  */
-var sortArrayBubbleSort = function (nums) {
+var bubbleSort = function (nums) {
   for (let endOffset = 0; endOffset < nums.length - 1; endOffset++) {
     for (let startIdx = 0; startIdx < nums.length - 1 - endOffset; startIdx++) {
       if (nums[startIdx] > nums[startIdx + 1]) {
@@ -395,7 +394,7 @@ var sortArrayBubbleSort = function (nums) {
  * @param {number[]} nums
  * @return {number[]}
  */
-var sortArraySelectionSort = function (nums) {
+var selectionSort = function (nums) {
   for (let startIdx = 0; startIdx < nums.length - 1; startIdx++) {
     let minIdx = startIdx;
     for (let ptrIdx = startIdx + 1; ptrIdx < nums.length; ptrIdx++) {
@@ -423,7 +422,7 @@ var sortArraySelectionSort = function (nums) {
  * @param {number[]} nums
  * @return {number[]}
  */
-var sortArrayInsertionSort = function (nums) {
+var insertionSort = function (nums) {
   for (let currIdx = 1; currIdx < nums.length; currIdx++) {
     let insertIdx = currIdx;
 
