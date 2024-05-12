@@ -1,3 +1,30 @@
+// 2024/05/12
+// O(n) time complexity
+// O(1) space complexity
+// Time to complete: 9:33 min
+// Patterns:
+// Notes w.r.t. solution:
+/**
+ * @param {string} columnTitle
+ * @return {number}
+ */
+var titleToNumber = function (columnTitle) {
+  const base = 26;
+  let colNumber = 0;
+
+  let power = 0;
+  for (let i = columnTitle.length - 1; 0 <= i; i--) {
+    const increment = columnTitle.charCodeAt(i) - 'A'.charCodeAt() + 1;
+
+    colNumber += increment * base ** power;
+    power++;
+  }
+
+  return colNumber;
+};
+
+
+// 2023/04
 // O(n) time complexity
 // O(1) space complexity
 // Time to complete: 26 min
@@ -18,17 +45,3 @@ var titleToNumber = function (columnTitle) {
   }
   return colNumber;
 };
-
-const testCases = [
-  {
-    input: '',
-    expected: ''
-  },
-];
-
-testCases.forEach((testCase) => {
-  // let result = FUT(testCase.input); // insert function name here
-  let pass = result === testCase.expected;
-  console.log(`Input: ${testCase.input}\nExpected: ${testCase.expected}\nResult: ${result}\nPass: ${pass}\n`);
-}
-);
