@@ -1,3 +1,32 @@
+// 2024/05/16
+// O(n) time complexity
+// O(n) space complexity
+// Time to complete: 3:25 min
+// Patterns: Hashmap
+// Notes w.r.t. solution:
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function (nums, target) {
+  const numsMap = {};
+  for (let i = 0; i < nums.length; i++) {
+    const remainder = target - nums[i];
+    if (numsMap[remainder]) {
+      return [numsMap[remainder][0], i];
+    }
+
+    if (!numsMap[nums[i]]) {
+      numsMap[nums[i]] = [];
+    }
+    numsMap[nums[i]].push(i);
+  }
+
+  return [-1, -1];
+};
+
+
 // 2024/03/12
 // O(n * log(n)) time complexity
 // O(n) space complexity
