@@ -1,3 +1,32 @@
+// 2024/05/15
+// O(n) time complexity
+// O(n) space complexity
+// Time to complete: 6:59 min
+// Patterns: Recursion
+// Notes w.r.t. solution: Just as an exercise on recursion. This is a bad way to solve this one! :-P
+/**
+ * @param {character[]} s
+ * @return {void} Do not return anything, modify s in-place instead.
+ */
+var reverseString = function (s) {
+  function reverse(s, start) {
+    if (start === s.length) {
+      return [];
+    }
+
+    const reversed = reverse(s, start + 1);
+    reversed.push(s[start]);
+
+    return reversed;
+  }
+
+  const reversed = reverse(s, 0);
+  for (let i = 0; i < s.length; i++) {
+    s[i] = reversed[i];
+  }
+};
+
+
 // 2024/04/20
 // O(n/2) time complexity
 // O(1) space complexity
