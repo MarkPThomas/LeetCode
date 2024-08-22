@@ -1,6 +1,48 @@
 // 2024/04/10
 // O(n) time complexity
 // O(1) space complexity
+// Time to complete: 11:59 min
+// Patterns: Recursion, Linked List
+// Notes w.r.t. solution:
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var reverseList = function (head) {
+  if (!head) {
+    return head;
+  }
+
+  return reverseNodes(null, head);
+};
+
+function reverseNodes(prevTail, nodeA) {
+  if (!nodeA) {
+    return prevTail;
+  }
+
+  let nodeB = nodeA.next;
+  nodeA.next = prevTail;
+  if (!nodeB) {
+    return nodeA;
+  }
+
+  let tail = nodeB.next;
+  nodeB.next = nodeA;
+
+  return reverseNodes(nodeB, tail)
+}
+
+// 2024/04/10
+// O(n) time complexity
+// O(1) space complexity
 // Time to complete: 4:52 min
 // Patterns: Linked List
 // Notes w.r.t. solution:
