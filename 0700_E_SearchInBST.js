@@ -1,3 +1,37 @@
+// 2024/08/22 - Recursive
+// O(log(n)) time complexity
+// O(log(n)) space complexity for stack
+// Time to complete:  3:21 min
+// Patterns: Binary Search Tree, recursion
+// Notes w.r.t. solution: Modified iterative back to recursive.
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} val
+ * @return {TreeNode}
+ */
+var searchBST = function (root, val) {
+  return recurseSearchBST(root, val);
+};
+
+function recurseSearchBST(node, val) {
+  if (node === null || node.val === val) {
+    return node;
+  } else if (val < node.val) {
+    return recurseSearchBST(node.left, val);
+  } else if (val > node.val) {
+    return recurseSearchBST(node.right, val);
+  }
+}
+
+
 // 2024/04/09 - Iterative
 // O(log(n)) time complexity
 // O(log(n)) space complexity for stack

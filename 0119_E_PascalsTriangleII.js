@@ -1,3 +1,35 @@
+// 2024/08/22
+// O(k^2) time complexity
+// O(k) space complexity
+// Time to complete: 6:37 min
+// Patterns: Dynamic Programming, Recursion
+// Notes w.r.t. solution:
+/**
+ * @param {number} rowIndex
+ * @return {number[]}
+ */
+var getRow = function (rowIndex) {
+  // generate Pascal's Triangle
+  // we only need to preserve prior row to make the next row
+
+  return rowIndexRecurse(rowIndex - 1, [1])
+};
+
+function rowIndexRecurse(rowIndex, row) {
+  if (rowIndex < 0) {
+    return row;
+  }
+
+  const nextRow = [1];
+  for (let i = 1; i < row.length; i++) {
+    nextRow.push(row[i - 1] + row[i]);
+  }
+  nextRow.push(1);
+
+  return rowIndexRecurse(rowIndex - 1, nextRow);
+}
+
+// 2024/05/07
 // O(k^2) time complexity
 // O(k) space complexity
 // Time to complete: 12:13 min
