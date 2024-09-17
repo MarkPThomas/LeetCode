@@ -2,7 +2,7 @@
 // O(n^2) time complexity
 // O(n) space complexity
 // Time to complete: 47:56 min
-// Patterns: Recursion
+// Patterns: Recursion w/ hashmap optimization
 // Notes w.r.t. solution: Solved in 20:15 w/ timeout.
 //    Optimization w/ debugging took another 27 min!
 /**
