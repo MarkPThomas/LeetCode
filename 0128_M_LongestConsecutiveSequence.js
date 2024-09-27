@@ -1,42 +1,48 @@
-// O(3 * n) -> O(n) time complexity
+// O(2 * n) -> O(n) time complexity
 // O(2 * n) -> O(n) space complexity
 // where n = nums.length
-// Time to complete: 24:00 min
-// Patterns: Graph DFS Traversal
-// Notes w.r.t. solution:
-
-// Refactored to be more brief: i.e. no need to attach & traverse nodes.
-// Can loosely infer this from presence & increments of +/- 1
+// Time to complete: 14:55 min
+// Patterns: Hashmap
+// Notes w.r.t. solution: Spent 21:01 on array strategy that ended up in TLE.
+//  Spent 7:13 on hashmap strategy that ended in TLE, peeked at past solution roughly for hint
+//  After hint, optimized solution over another 7:42
 /**
  * @param {number[]} nums
  * @return {number}
  */
 var longestConsecutive = function (nums) {
-  // build adjacency list, marking adjacent to any existing number that is +/-1
-  const numSet = {};
-  for (let i = 0; i < nums.length; i++) {
-    numSet[nums[i]] = null;
+  if (!nums.length) {
+    return 0;
   }
 
-  // traverse adjaceny list & count nodes
-  let maxCount = 0;
-  // get nodes that have no parents and traverse down children
-  let numsUnique = Object.keys(numSet);
+  const numsMap = {}
+  nums.forEach((num) => {
+    numsMap[num] = true;
+  });
+
+  // To avoid counting repeating #s, just traverse map keys
+  const numsUnique = Object.keys(numsMap);
+
+  // To avoid an extra map or extra work, we can just find the lowest # in a sequence
+  // Lowest # is where there is no i - 1
+  // Sequence counts so long as there is i + 1
+  let longestSequence = 0;
   for (let i = 0; i < numsUnique.length; i++) {
-    let currentNum = parseInt(numsUnique[i]);
-    if (!numSet.hasOwnProperty(currentNum - 1)) {
-      // No children, smallest # in sequence
-      let count = 1;
-      while (numSet.hasOwnProperty(currentNum + 1)) {
-        // Num has parent, continue traversing/incrementing to highest parent
-        count++;
-        currentNum++;
+    const num = parseInt(numsUnique[i]);
+    if (!numsMap[num - 1]) {
+      // Lowest # in sequence
+      let sequence = 1;
+
+      // Count how many higher adjacent #s are in list
+      while (numsMap[num + sequence]) {
+        sequence++;
       }
-      maxCount = Math.max(maxCount, count);
+
+      longestSequence = Math.max(longestSequence, sequence);
     }
   }
 
-  return maxCount;
+  return longestSequence;
 };
 
 // // Original solution, fully-graph-oriented
