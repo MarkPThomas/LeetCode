@@ -1,3 +1,107 @@
+// 2024/10/01
+// O(1) time complexity
+// O(1) space complexity
+// Time to complete: 27:01 min
+// Patterns: stack, doubly-linked list
+// Notes w.r.t. solution: Finished in 11:23 but spent rest of time on careless mistakes. Oops!
+//    Like return val instead of node, compare to node val rather than node.
+class Node {
+  constructor(val, next, prev) {
+    this.val = val;
+    this.next = next ?? null;
+    this.prev = prev ?? null;
+  }
+}
+
+class LinkedList {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+  }
+
+  push(val) {
+    const node = new Node(val);
+    if (!this.head) {
+      this.head = node;
+      this.tail = node;
+    } else {
+      node.prev = this.tail;
+      this.tail.next = node;
+
+      this.tail = node;
+    }
+  }
+
+  pop() {
+    const node = this.tail;
+
+    if (node) {
+      this.tail = node.prev;
+      node.prev = null;
+      if (this.tail) {
+        this.tail.next = null;
+
+        if (this.tail.prev === null) {
+          this.head = this.tail;
+        }
+      } else {
+        this.head = null;
+      }
+    }
+
+    return node;
+  }
+}
+
+var MinStack = function () {
+  this.values = new LinkedList();
+  this.mins = new LinkedList();;
+};
+
+/**
+* @param {number} val
+* @return {void}
+*/
+MinStack.prototype.push = function (val) {
+  this.values.push(val);
+
+  const node = this.mins.tail;
+  const minPrev = (node === null || val < node.val) ? val : node.val;
+  this.mins.push(minPrev);
+};
+
+/**
+* @return {void}
+*/
+MinStack.prototype.pop = function () {
+  this.mins.pop();
+  return this.values.pop()?.val;
+};
+
+/**
+* @return {number}
+*/
+MinStack.prototype.top = function () {
+  return this.values.tail?.val;
+};
+
+/**
+* @return {number}
+*/
+MinStack.prototype.getMin = function () {
+  return this.mins.tail?.val;
+};
+
+/**
+* Your MinStack object will be instantiated and called as such:
+* var obj = new MinStack()
+* obj.push(val)
+* obj.pop()
+* var param_3 = obj.top()
+* var param_4 = obj.getMin()
+*/
+
+
 // 2023 - Refactored
 // O(1) time complexity
 // O(1) space complexity
