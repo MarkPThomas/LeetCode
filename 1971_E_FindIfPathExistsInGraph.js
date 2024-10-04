@@ -73,7 +73,6 @@ var validPath = function (n, edges, source, destination) {
 // Time to complete: 31 min, could have done faster but missed a couple of points at first
 // Patterns: Graph, BFS, Bi-directional BFS
 // Notes w.r.t. solution:
-
 /**
  * @param {number} n
  * @param {number[][]} edges
@@ -139,7 +138,6 @@ var validPath = function (n, edges, source, destination) {
 // Time to complete: Over time - learning graph construction from solution. Study for later examples
 // Patterns: Graph, BFS, Bi-directional BFS
 // Notes w.r.t. solution: Study up again on Sets, classes, BFS vs. DFS w/ arrays & 2-way connections (e.g. visited status)
-
 /**
  * @param {number} n
  * @param {number[][]} edges

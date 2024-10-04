@@ -1,3 +1,11 @@
+// 2024/10/04
+// Time to complete:  min
+// Patterns: Trie
+// Notes w.r.t. solution:
+
+
+
+// 2023/08
 // Time to complete: 11 min
 // Patterns: Trie
 // Notes w.r.t. solution:
