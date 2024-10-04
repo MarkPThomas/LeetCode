@@ -1,3 +1,222 @@
+// 2024/10/04
+// O(m) time complexity for m union operations
+// O(n) space complexity for n nodes in DSU
+// where m = # edges, n = # nodes
+// Time to complete: 5:21 min
+// Patterns: Graph, DSU
+// Notes w.r.t. solution:
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @param {number} source
+ * @param {number} destination
+ * @return {boolean}
+ */
+var validPath = function (n, edges, source, destination) {
+  const dsu = new DSU(n);
+
+  for (const edge of edges) {
+    dsu.union(edge[0], edge[1]);
+  }
+
+  return dsu.isConnected(source, destination);
+}
+
+class DSU {
+  constructor(n) {
+    this.root = [];
+    this.rank = [];
+    for (let i = 0; i < n; i++) {
+      this.root[i] = i;
+      this.rank[i] = 1;
+    }
+  }
+
+  find(x) {
+    if (this.root[x] !== x) {
+      this.root[x] = this.find(this.root[x]);
+    }
+
+    return this.root[x];
+  }
+
+  union(child, parent) {
+    let childRoot = this.find(child);
+    let parentRoot = this.find(parent);
+
+    if (childRoot !== parentRoot) {
+      if (this.rank[childRoot] < this.rank[parentRoot]) {
+        const swap = childRoot;
+        childRoot = parentRoot;
+        parentRoot = swap;
+      }
+
+      this.root[childRoot] = parentRoot;
+      this.rank[parentRoot] += this.rank[childRoot];
+    }
+  }
+
+  isConnected(x, y) {
+    return this.find(x) === this.find(y);
+  }
+}
+
+
+// 2024/10/04
+// O(m + n/2) -> O(m + n) time complexity
+// O(m + n) space complexity
+// where m = # edges, n = # nodes
+// Time to complete: 10:10 (refactoring from BFS)
+// Patterns: Graph, BFS bi-directional
+// Notes w.r.t. solution:
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @param {number} source
+ * @param {number} destination
+ * @return {boolean}
+ */
+var validPath = function (n, edges, source, destination) {
+  //Build connectivity
+  const connectivity = [];
+  for (let i = 0; i < n; i++) {
+    connectivity[i] = [];
+  }
+
+  for (const edge of edges) {
+    connectivity[edge[0]].push(edge[1]);
+    connectivity[edge[1]].push(edge[0]);
+  }
+
+  // BFS
+  const visitedA = {};
+  const queueA = [source];
+
+  const visitedB = {};
+  const queueB = [destination];
+
+  while (queueA.length && queueB.length) {
+    const nodeA = queueA.shift();
+    const nodeB = queueB.shift();
+
+    if (nodeA === nodeB || visitedA[nodeB] || visitedB[nodeA]) {
+      return true;
+    }
+
+    visitedA[nodeA] = true;
+    for (const child of connectivity[nodeA]) {
+      if (!visitedA[child]) {
+        queueA.push(child);
+      }
+    }
+
+    visitedB[nodeB] = true;
+    for (const child of connectivity[nodeB]) {
+      if (!visitedB[child]) {
+        queueB.push(child);
+      }
+    }
+  }
+
+  return false;
+}
+
+
+// 2024/10/04
+// O() time complexity
+// O(m + n) space complexity
+// where m = # edges, n = # nodes
+// Time to complete: 7:02 (refactoring from DFS)
+// Patterns: Graph, BFS
+// Notes w.r.t. solution: TLE for BFS
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @param {number} source
+ * @param {number} destination
+ * @return {boolean}
+ */
+var validPath = function (n, edges, source, destination) {
+  //Build connectivity
+  const connectivity = [];
+  for (let i = 0; i < n; i++) {
+    connectivity[i] = [];
+  }
+
+  for (const edge of edges) {
+    connectivity[edge[0]].push(edge[1]);
+    connectivity[edge[1]].push(edge[0]);
+  }
+
+  // BFS
+  const visited = {};
+  const queue = [source];
+  while (queue.length) {
+    const node = queue.shift();
+
+    if (node === destination) {
+      return true;
+    }
+    visited[node] = true;
+
+    for (const child of connectivity[node]) {
+      if (!visited[child]) {
+        queue.push(child);
+      }
+    }
+  }
+
+  return false;
+}
+
+// 2024/10/04
+// O() time complexity
+// O(m + n) space complexity
+// where m = # edges, n = # nodes
+// Time to complete: 6:17
+// Patterns: Graph, DFS
+// Notes w.r.t. solution: TLE for DFS
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @param {number} source
+ * @param {number} destination
+ * @return {boolean}
+ */
+var validPath = function (n, edges, source, destination) {
+  //Build connectivity
+  const connectivity = [];
+  for (let i = 0; i < n; i++) {
+    connectivity[i] = [];
+  }
+
+  for (const edge of edges) {
+    connectivity[edge[0]].push(edge[1]);
+    connectivity[edge[1]].push(edge[0]);
+  }
+
+  // DFS, Preorder
+  const visited = {};
+  const stack = [source];
+  while (stack.length) {
+    const node = stack.pop();
+
+    if (node === destination) {
+      return true;
+    }
+    visited[node] = true;
+
+    for (const child of connectivity[node]) {
+      if (!visited[child]) {
+        stack.push(child);
+      }
+    }
+  }
+
+  return false;
+}
+
+
 // 2024/04/15
 // O(m + n) time complexity
 // O(m + n) space complexity
