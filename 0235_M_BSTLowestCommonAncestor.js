@@ -1,3 +1,36 @@
+// 2024/10/08
+// O(n) time complexity
+// O(n) space complexity
+// Time to complete: 2:57
+// Patterns: Binary Search Tree, recursive
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {TreeNode}
+ */
+var lowestCommonAncestor = function (root, p, q) {
+  if (p.val < root.val && q.val < root.val) {
+    return lowestCommonAncestor(root.left, p, q);
+  } else if (p.val > root.val && q.val > root.val) {
+    return lowestCommonAncestor(root.right, p, q);
+  } else {
+    return root;
+  }
+
+
+
+};
+
+// 2023/06
 // O(n) time complexity
 // O(n) space complexity
 // Time to complete: Too long min
