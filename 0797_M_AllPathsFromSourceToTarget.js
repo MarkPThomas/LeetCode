@@ -1,6 +1,6 @@
 // 2024/10/10
-// O(n + m) time complexity
-// O(1) space complexity
+// O() time complexity
+// O() space complexity
 // Time to complete: 14:08 min (total after refactoring from DFS solution)
 // Patterns: Graph, BFS w/ Iteration
 // Notes w.r.t. solution:
@@ -33,8 +33,8 @@ var allPathsSourceTarget = function (graph) {
 
 
 // 2024/10/10
-// O(n + m) time complexity
-// O(1) space complexity
+// O() time complexity
+// O() space complexity
 // Time to complete: 12:43 min
 // Patterns: Graph, DFS w/ Iteration
 // Notes w.r.t. solution:
