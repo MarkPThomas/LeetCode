@@ -1,3 +1,40 @@
+// 2024/10/22
+// O(n *log (m) + m * log (m)) = O((n + m) * log(m)) time complexity
+// O(log(m)) space complexity (JavaScript sorting)
+// where n = # spells, m = # potions
+// Time to complete: 12:44 min
+// Patterns: Binary Search
+// Notes w.r.t. solution:
+/**
+ * @param {number[]} spells
+ * @param {number[]} potions
+ * @param {number} success
+ * @return {number[]}
+ */
+var successfulPairs = function (spells, potions, success) {
+  potions.sort((a, b) => a - b);
+  const pairs = [];
+  for (const spell of spells) {
+    let left = 0;
+    let right = potions.length - 1;
+
+    while (left <= right) {
+      const mid = left + Math.floor((right - left) / 2);
+      if (spell * potions[mid] >= success) {
+        right = mid - 1;
+      } else {
+        left = mid + 1;
+      }
+    }
+
+    const numSuccess = potions.length - left > 0 ? potions.length - left : 0;
+    pairs.push(numSuccess);
+  }
+
+  return pairs;
+};
+
+// 2024/04
 // O((m + n) * log (m)) time complexity
 // O(log(m)) space complexity (JavaScript sorting)
 // where n = # spells, m = # potions
