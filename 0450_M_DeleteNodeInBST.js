@@ -21,17 +21,12 @@
 var deleteNode = function (root, key) {
   const sentinel = { right: root }
 
-  // Find node to delete & its parent
+  // Find node to delete & it's parent
   let parent = sentinel;
   let target = root;
   while (target && target.val !== key) {
-    if (target.val < key) {
-      parent = target;
-      target = target.right;
-    } else {
-      parent = target;
-      target = target.left;
-    }
+    parent = target;
+    target = target.val < key ? target.right : target.left;
   }
 
   if (!target) {
@@ -41,12 +36,7 @@ var deleteNode = function (root, key) {
   // If leaf, just remove
   let child = null;
 
-  // If target has one child, just swap
-  if (target.left && !target.right) {
-    child = target.left;
-  } else if (!target.left && target.right) {
-    child = target.right;
-  } else if (target.left && target.right) {
+  if (target.left && target.right) {
     // If target has 2 children, get first first inorder predeccesor
     // right-most from left branch (if present)
     let prev = target;
@@ -68,6 +58,9 @@ var deleteNode = function (root, key) {
     }
 
     child = predecessor;
+  } else {
+    // If target has one child, just swap
+    child = (target.left && !target.right) ? target.left : target.right;
   }
 
   // Disconnect target children
