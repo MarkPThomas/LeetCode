@@ -19,6 +19,36 @@
  * @return {TreeNode}
  */
 var deleteNode = function (root, key) {
+  function getChild(target) {
+    if (target.left && target.right) {
+      // If target has 2 children, get first first inorder predeccesor
+      // right-most from left branch (if present)
+      let prev = target;
+      let predecessor = target.left;
+      while (predecessor.right) {
+        prev = predecessor;
+        predecessor = predecessor.right
+      }
+
+      // Disconnect predecessor && attach target children to predecessor
+      predecessor.right = target.right;
+      if (prev === target) {
+        // Predecessor is left child of target
+        prev.left = predecessor.left;
+      } else {
+        // Predecessor is on a right branch of the left child of target
+        prev.right = predecessor.left;
+        predecessor.left = target.left;
+      }
+
+      return predecessor;
+    } else {
+      // If target has one child, just swap
+      // If leaf, just remove (child = target.right = null implicitly if both left & right are null)
+      return (target.left && !target.right) ? target.left : target.right;
+    }
+  }
+
   const sentinel = { right: root }
 
   // Find node to delete & it's parent
@@ -33,35 +63,7 @@ var deleteNode = function (root, key) {
     return root;
   }
 
-  // If leaf, just remove
-  let child = null;
-
-  if (target.left && target.right) {
-    // If target has 2 children, get first first inorder predeccesor
-    // right-most from left branch (if present)
-    let prev = target;
-    let predecessor = target.left;
-    while (predecessor.right) {
-      prev = predecessor;
-      predecessor = predecessor.right
-    }
-
-    // Disconnect predecessor && attach target children to predecessor
-    predecessor.right = target.right;
-    if (prev === target) {
-      // Predecessor is left child of target
-      prev.left = predecessor.left;
-    } else {
-      // Predecessor is on a right branch of the left child of target
-      prev.right = predecessor.left;
-      predecessor.left = target.left;
-    }
-
-    child = predecessor;
-  } else {
-    // If target has one child, just swap
-    child = (target.left && !target.right) ? target.left : target.right;
-  }
+  const child = getChild(target);
 
   // Disconnect target children
   target.left = null;
