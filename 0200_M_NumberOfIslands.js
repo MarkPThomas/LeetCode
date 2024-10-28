@@ -13,6 +13,9 @@ var numIslands = function (grid) {
   const directions = [[-1, 0], [0, -1], [1, 0], [0, 1]];
   const visited = {};
 
+  const numRows = grid.length;
+  const numCols = grid[0].length;
+
   function addNeighbors(row, col, coords) {
     for (const [rowDelt, colDelt] of directions) {
       const nextRow = row + rowDelt;
@@ -34,12 +37,9 @@ var numIslands = function (grid) {
     }
   }
 
-  const numRows = grid.length;
-  const numCols = grid[0].length;
-
   let count = 0;
-  for (let row = 0; row < grid.length; row++) {
-    for (let col = 0; col < grid[row].length; col++) {
+  for (let row = 0; row < numRows; row++) {
+    for (let col = 0; col < numCols; col++) {
       if (grid[row][col] === LAND) {
         const root = [row, col];
         if (visited[root]) {
@@ -83,6 +83,9 @@ var numIslands = function (grid) {
   const directions = [[-1, 0], [0, -1], [1, 0], [0, 1]];
   const visited = {};
 
+  const numRows = grid.length;
+  const numCols = grid[0].length;
+
   function addNeighbors(row, col, coords) {
     for (const [rowDelt, colDelt] of directions) {
       const nextRow = row + rowDelt;
@@ -104,12 +107,9 @@ var numIslands = function (grid) {
     }
   }
 
-  const numRows = grid.length;
-  const numCols = grid[0].length;
-
   let count = 0;
-  for (let row = 0; row < grid.length; row++) {
-    for (let col = 0; col < grid[row].length; col++) {
+  for (let row = 0; row < numRows; row++) {
+    for (let col = 0; col < numCols; col++) {
       if (grid[row][col] === LAND) {
         const root = [row, col];
         if (visited[root]) {
@@ -151,8 +151,8 @@ var numIslands = function (grid) {
   const dsu = new DSU(numRows * numCols, numCols);
 
   let count = 0;
-  for (let row = 0; row < grid.length; row++) {
-    for (let col = 0; col < grid[row].length; col++) {
+  for (let row = 0; row < numRows; row++) {
+    for (let col = 0; col < numCols; col++) {
       if (grid[row][col] === LAND) {
         count++;
 
