@@ -2,7 +2,7 @@
 // O(n) time complexity
 // O(n) space complexity
 // Time to complete: 19:02 min
-// Patterns: Hashmap
+// Patterns: Hashmap, Binary Tree DFS Post-order
 // Notes w.r.t. solution: Lost a lot of time forgetting that implicit hashmap string key conversion of an object is [Object object].
 //  This needs to be explicityly constructed for nested objects.
 //  Was nice on myself & dropped the time spend debugging that derp.
