@@ -1,6 +1,6 @@
 // 2024/11/22
-// O(n + e) time complexity
-// O(n + e^2 * log(e)) space complexity (well, e)
+// O(n + e^2 * log(n)) time complexity (would be n + e * log(n) if using heap rather than re-sorting)
+// O(n + e) space complexity
 //  where n = # nodes
 //    e = # edges
 // Time to complete: OT min ~ 1 hr?
