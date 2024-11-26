@@ -21,7 +21,7 @@ class Heap {
 
   insert(val) {
     if (this.nums.length === this.sizeLimit) {
-      if (this.nums[0] > val) {
+      if (!this.shouldSwap(this.nums[0], val)) {
         return;
       } else {
         this.nums[0] = val;
