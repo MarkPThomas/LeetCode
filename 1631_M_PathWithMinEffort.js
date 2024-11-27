@@ -4,7 +4,108 @@
 // Time to complete:
 // Patterns: Disjoint Set - Union Find
 // Notes w.r.t. solution: Example worked through for notes
+/**
+ * @param {number[][]} heights
+ * @return {number}
+ */
+var minimumEffortPath = function (heights) {
+  const rows = heights.length;
+  const cols = heights[0].length;
 
+  if (rows === 1 && cols === 1) {
+    return 0;
+  }
+
+  const dsu = new DSU(heights);
+
+  const edges = [];
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const index = dsu.get1DIndex(row, col);
+
+      if (row > 0) {
+        const nextRow = row - 1;
+        const diffRow = Math.abs(heights[row][col] - heights[nextRow][col]);
+        const edge = new Edge(index, dsu.get1DIndex(nextRow, col), diffRow);
+        edges.push(edge);
+      }
+
+      if (col > 0) {
+        const nextCol = col - 1;
+        const diffCol = Math.abs(heights[row][col] - heights[row][nextCol]);
+        const edge = new Edge(index, dsu.get1DIndex(row, nextCol), diffCol);
+        edges.push(edge);
+      }
+    }
+  }
+  edges.sort((a, b) => a.diff - b.diff);
+
+  for (const { x, y, diff } of edges) {
+    dsu.union(x, y);
+
+    if (dsu.find(0) === dsu.find(rows * cols - 1)) {
+      return diff;
+    }
+  }
+
+  return -1;
+};
+
+class DSU {
+  constructor(heights) {
+    this.roots = [];
+    this.ranks = [];
+    this.edges = [];
+
+    const rows = heights.length;
+    this.cols = heights[0].length;
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < this.cols; col++) {
+        const index = this.get1DIndex(row, col);
+        this.roots.push(index);
+        this.ranks.push(1);
+      }
+    }
+  }
+
+  get1DIndex(row, col, cols) {
+    return row * this.cols + col;
+  }
+
+  find(x) {
+    if (this.roots[x] !== x) {
+      this.roots[x] = this.find(this.roots[x]);
+    }
+
+    return this.roots[x];
+  }
+
+  union(child, parent) {
+    let childRoot = this.find(child);
+    let parentRoot = this.find(parent);
+
+    if (childRoot !== parentRoot) {
+      if (this.ranks[childRoot] > this.ranks[parentRoot]) {
+        const swap = childRoot;
+        childRoot = parentRoot;
+        parentRoot = swap;
+      }
+
+      this.roots[childRoot] = parentRoot;
+      this.ranks[parentRoot] += this.ranks[childRoot];
+    }
+
+  }
+}
+
+class Edge {
+  constructor(x, y, difference) {
+    this.x = x;
+    this.y = y;
+    this.diff = difference;
+  }
+}
 
 // 2024/11/25
 // O(m * n * log(m * n)) time complexity
@@ -25,7 +126,7 @@ var minimumEffortPath = function (heights) {
   const minDiffs = Array(rows).fill().map(() => Array(cols).fill(Infinity));
   minDiffs[0][0] = 0;
 
-  const queue = new MyPriorityQueue((a, b) => a[2] - b[2]);
+  const queue = new MyPriorityQueue((a, b) => a[2] - b[2]);  // a.diff - b.diff
   queue.enqueue([0, 0, 0]);
 
   while (queue.size()) {
