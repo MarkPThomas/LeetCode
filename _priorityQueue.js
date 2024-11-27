@@ -42,7 +42,6 @@ class LinkedList {
   constructor(comparator) {
     this.comparator = comparator;
     this.head = null;
-    this.tail = null;
     this.length = 0;
   }
 
@@ -56,21 +55,7 @@ class LinkedList {
     }
 
     const node = this.head;
-    if (!node.next) {
-      this.head = null;
-      this.tail = null;
-    } else {
-      this.head = node.next;
-      if (this.head) {
-        this.head.prev = null;
-      }
-
-      if (node === this.tail) {
-        this.tail.prev = null;
-      }
-
-      node.next = null;
-    }
+    this.head = this.head.next;
 
     this.length--;
 
@@ -78,48 +63,18 @@ class LinkedList {
   }
 
   insert(item) {
-    let node = this.head;
-    while (node) {
-      if (this.comparator(item, node.val) <= 0) {
-        break;
-      } else {
-        node = node.next;
-      }
-    }
-
-    this.insertBefore(item, node);
-  }
-
-  insertBefore(item, nextNode) {
     const node = new Node(item);
-
-    if (!this.head) {
-      // empty
+    if (!this.head || this.comparator(item, node.val) < 0) {
+      node.next = this.head;
       this.head = node;
-      this.tail = this.head;
-    } else if (!nextNode) {
-      // at tail
-      node.prev = this.tail;
-      this.tail.next = node;
-
-      this.tail = node;
     } else {
-      // in between nodes, or at beginning
-      const prevNode = nextNode.prev;
-      if (!prevNode) {
-        // at head
-        node.next = this.head;
-        this.head.prev = node;
-
-        this.head = node;
-      } else {
-        // in between nodes
-        node.prev = prevNode;
-        node.next = nextNode;
-
-        prevNode.next = node;
-        nextNode.prev = node;
+      let currNode = this.head;
+      while (currNode.next && this.comparator(item, currNode.next.val) >= 0) {
+        currNode = currNode.next;
       }
+
+      node.next = currNode.next;
+      currNode.next = node;
     }
     this.length++;
   }
