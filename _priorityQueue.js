@@ -13,7 +13,7 @@ class MyPriorityQueue {
     this.queue.insert(item);
   }
 
-  dequeue(item) {
+  dequeue() {
     return this.queue.removeRoot();
   }
 }
