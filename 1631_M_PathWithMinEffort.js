@@ -55,7 +55,6 @@ class DSU {
   constructor(heights) {
     this.roots = [];
     this.ranks = [];
-    this.edges = [];
 
     const rows = heights.length;
     this.cols = heights[0].length;
