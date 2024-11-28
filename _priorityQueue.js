@@ -1,12 +1,16 @@
 class MyPriorityQueue {
   constructor(comparator) {
-    // this.queue = new ArrayQueue(comparator);
+    this.queue = new ArrayQueue(comparator);
     // this.queue = new LinkedList(comparator);
-    this.queue = new Heap(comparator);
+    // this.queue = new Heap(comparator);
   }
 
   size() {
     return this.queue.size();
+  }
+
+  peek() {
+    return this.queue.peek();
   }
 
   enqueue(item) {
@@ -22,6 +26,12 @@ class ArrayQueue {
   constructor(comparator) {
     this.comparator = comparator;
     this.items = [];
+    this.isDirty = false;
+  }
+
+  peek() {
+    this.sortIfDirty();
+    return this.items[this.items.length - 1];
   }
 
   size() {
@@ -30,11 +40,19 @@ class ArrayQueue {
 
   insert(item) {
     this.items.push(item);
+    this.isDirty = true;
   }
 
   removeRoot() {
-    this.items.sort((a, b) => -1 * this.comparator(a, b));
+    this.sortIfDirty();
     return this.items.pop();
+  }
+
+  sortIfDirty() {
+    if (this.isDirty) {
+      this.items.sort((a, b) => -1 * this.comparator(a, b));
+      this.isDirty = false;
+    }
   }
 }
 
@@ -43,6 +61,10 @@ class LinkedList {
     this.comparator = comparator;
     this.head = null;
     this.length = 0;
+  }
+
+  peek() {
+    return this.head?.val;
   }
 
   size() {
@@ -64,12 +86,12 @@ class LinkedList {
 
   insert(item) {
     const node = new Node(item);
-    if (!this.head || this.comparator(item, node.val) < 0) {
+    if (!this.head || this.comparator(item, this.head.val) <= 0) {
       node.next = this.head;
       this.head = node;
     } else {
       let currNode = this.head;
-      while (currNode.next && this.comparator(item, currNode.next.val) >= 0) {
+      while (currNode.next && this.comparator(item, currNode.next.val) > 0) {
         currNode = currNode.next;
       }
 
