@@ -1,8 +1,8 @@
 class MyPriorityQueue {
-  constructor(comparator) {
-    this.queue = new ArrayQueue(comparator);
-    // this.queue = new LinkedList(comparator);
-    // this.queue = new Heap(comparator);
+  constructor(comparator, nums) {
+    this.queue = new ArrayQueue(comparator, nums);
+    // this.queue = new LinkedList(comparator, nums);
+    // this.queue = new Heap(comparator, nums);
   }
 
   size() {
@@ -23,10 +23,10 @@ class MyPriorityQueue {
 }
 
 class ArrayQueue {
-  constructor(comparator) {
+  constructor(comparator, nums) {
     this.comparator = comparator;
-    this.items = [];
-    this.isDirty = false;
+    this.items = nums ?? [];
+    this.isDirty = !!this.items.length;
   }
 
   peek() {
@@ -57,10 +57,16 @@ class ArrayQueue {
 }
 
 class LinkedList {
-  constructor(comparator) {
+  constructor(comparator, nums) {
     this.comparator = comparator;
     this.head = null;
     this.length = 0;
+
+    if (nums.length) {
+      for (let i = 0; i < nums.length; i++) {
+        this.insert(nums[i]);
+      }
+    }
   }
 
   peek() {
