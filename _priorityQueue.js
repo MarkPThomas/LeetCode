@@ -62,7 +62,7 @@ class LinkedList {
     this.head = null;
     this.length = 0;
 
-    if (nums.length) {
+    if (nums?.length) {
       for (let i = 0; i < nums.length; i++) {
         this.insert(nums[i]);
       }
