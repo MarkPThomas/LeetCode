@@ -1,4 +1,41 @@
 // 2024/12/07
+// O(x + k * log(x)) time complexity
+// O(x) space complexity
+//  where x = min(k, #rows)
+// Time to complete: NA min
+// Patterns: Priority Queue/MinHeap
+// Notes w.r.t. solution: Implemented LeetCode solution.
+//  Time complexity is faster, but actually runs slower than my MaxHeap solution...
+/**
+ * @param {number[][]} matrix
+ * @param {number} k
+ * @return {number}
+ */
+var kthSmallest = function (matrix, k) {
+  // Element = [value, row, col]
+  const queue = new MyPriorityQueue((a, b) => a[0] - b[0]);
+  const n = matrix.length;
+  const x = Math.min(n, k);
+
+  for (let row = 0; row < x; row++) {
+    queue.enqueue([matrix[row][0], row, 0]);
+  }
+
+  let element = queue.peek();
+  while (k > 0) {
+    k--;
+    element = queue.dequeue();
+    const [, row, col] = element;
+
+    if (col < n - 1) {
+      queue.enqueue([matrix[row][col + 1], row, col + 1]);
+    }
+  }
+
+  return element[0];
+};
+
+// 2024/12/07
 // O(n^2 * log(k)) time complexity
 // O(k) space complexity
 // Time to complete: NA min
