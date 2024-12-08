@@ -138,17 +138,8 @@ class Heap {
   }
 
   insert(val) {
-    if (this.nums.length === this.sizeLimit) {
-      if (!this.shouldSwap(this.nums[0], val)) {
-        return;
-      } else {
-        this.nums[0] = val;
-        this.heapifyDown(0);
-      }
-    } else {
-      this.nums.push(val);
-      this.heapifyUp(this.nums.length - 1);
-    }
+    this.nums.push(val);
+    this.heapifyUp(this.nums.length - 1);
   }
 
   removeRoot() {
