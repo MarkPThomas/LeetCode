@@ -1,3 +1,51 @@
+// 2024/12/09
+// O(m * n * log(m * n)) time complexity
+// O(m * n) space complexity
+// Time to complete: xx min
+// Patterns: Shortest Path - SPFA
+// Notes w.r.t. solution:
+/**
+ * @param {number[][]} heights
+ * @return {number}
+ */
+var minimumEffortPath = function (heights) {
+  const DIRS = [[0, -1], [0, 1], [1, 0], [-1, 0]];
+
+  const minDiffs = Array(heights.length).fill().map(() => Array(heights[0].length).fill(Infinity));
+  minDiffs[0][0] = 0;
+
+  const queue = [[0, 0]];
+  while (queue.length) {
+    adjCount = queue.length;
+    while (adjCount) {
+      adjCount--;
+
+      const [currRow, currCol] = queue.shift();
+
+      for (const [rowDelt, colDelt] of DIRS) {
+        const adjRow = currRow + rowDelt;
+        const adjCol = currCol + colDelt;
+
+        if (adjRow < 0 || heights.length <= adjRow
+          || adjCol < 0 || heights[0].length <= adjCol) {
+          continue;
+        }
+
+        const currDiff = Math.abs(heights[adjRow][adjCol] - heights[currRow][currCol]);
+        const maxDiff = Math.max(currDiff, minDiffs[currRow][currCol]);
+
+        if (minDiffs[adjRow][adjCol] > maxDiff) {
+          minDiffs[adjRow][adjCol] = maxDiff;
+          queue.push([adjRow, adjCol, maxDiff]);
+        }
+      }
+
+    }
+  }
+
+  return minDiffs[minDiffs.length - 1][minDiffs[0].length - 1];
+}
+
 // 2024/11/25
 // O(m * n * log(m * n)) time complexity
 // O(m * n) space complexity
