@@ -4,7 +4,9 @@
 //  where n = # buildings, L = # ladders <= n
 // Time to complete: Overtime :-(
 // Patterns: Priority Queue
-// Notes w.r.t. solution:
+// Notes w.r.t. solution: Was on the right track, but took too long.
+//    More careful laying out of strategy in advance would have helped.
+//    Also simple code outline before writing full code - would have avoided mistakes from unnecessary complexity/redundancy.
 /**
  * @param {number[]} heights
  * @param {number} bricks
