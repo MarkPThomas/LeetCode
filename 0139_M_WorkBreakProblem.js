@@ -1,3 +1,58 @@
+// 2024/12/14
+// O(n * k * L) time complexity
+// O(n + k * L) space complexity
+// Time to complete: NA
+// Patterns: Dynamic Programming - Iteration
+// Notes w.r.t. solution: Mild speed optimization for large dictionary sets at the cost of space.
+//    Instead of iterating all words, we just iterate words that end with the matching current character.
+/**
+ * @param {string} s
+ * @param {string[]} wordDict
+ * @return {boolean}
+ */
+var wordBreak = function (s, wordDict) {
+  const words = {};
+  for (const word of wordDict) {
+    let lastChar = word[word.length - 1];
+    if (!words[lastChar]) {
+      words[lastChar] = [];
+    }
+    words[lastChar].push(word);
+  }
+
+
+  const dp = Array(s.length).fill(false);
+
+  function checkIndexForWord(i) {
+    let prevWords = words[s[i]];
+    if (!prevWords) {
+      return;
+    }
+
+    for (const word of prevWords) {
+      // For curr word length matching
+      if (i === word.length - 1   // At end of potential first word
+        || dp[i - word.length]    // At offset from prior word
+      ) {
+        // Check char range of word length ending @ position
+        const start = i - word.length + 1;
+        const end = i + 1;
+        if (s.substring(start, end) === word) {
+          dp[i] = true;   // Matching word found that ends @ i
+          return;
+        };
+      }
+    }
+  }
+
+  for (let i = 0; i < s.length; i++) {
+    checkIndexForWord(i);
+  }
+
+  // Should be True if we made it to the end of the string
+  return dp[s.length - 1];
+};
+
 // 2024/12/13
 // O(n * k * L) time complexity
 // O(n) space complexity
@@ -23,7 +78,7 @@ var wordBreak = function (s, wordDict) {
         const end = i + 1;
         if (s.substring(start, end) === word) {
           dp[i] = true;   // Matching word found that ends @ i
-          return
+          return;
         };
       }
     }
