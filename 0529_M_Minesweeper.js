@@ -49,8 +49,8 @@ var updateBoard = function (board, click) {
 
         for (const [adjRow, adjCol] of adjCells) {
           if (!visited[adjRow][adjCol]) {
-            queue.push(...adjCells);
             visited[adjRow][adjCol] = true;
+            queue.push([adjRow, adjCol]);
           }
         }
       }
