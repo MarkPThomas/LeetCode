@@ -4,6 +4,29 @@
 // Time to complete: NA min
 // Patterns: DP - Iteration
 // Notes w.r.t. solution: After peeking at solution, making tweaks to my prior attempt
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var lengthOfLIS = function (nums) {
+  const dp = Array(nums.length).fill(1);
+  for (let end = 1; end < nums.length; end++) {
+    for (let curr = 0; curr < end; curr++) {
+      if (nums[curr] < nums[end]) {
+        dp[end] = Math.max(dp[end], dp[curr] + 1);
+      }
+    }
+  }
+
+  let longest = 0;
+  for (const length of dp) {
+    longest = Math.max(longest, length);
+  }
+
+
+  return longest;
+};
+
 
 
 // 2024/12/17
