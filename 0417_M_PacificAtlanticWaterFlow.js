@@ -1,3 +1,83 @@
+// 2024/12/28
+// O(m * n) time complexity
+// O(m * n) space complexity
+// Time to complete: 22:16 min
+// Patterns: BFS
+// Notes w.r.t. solution: Coded in 14:06.
+//  To 17:42 to fix minor array init mistake
+//  To 22:16 to fix attempt of being 'smart' & avoiding redundant starting cells @ corners
+/**
+ * @param {number[][]} heights
+ * @return {number[][]}
+ */
+var pacificAtlantic = function (heights) {
+  const DIRS = [[0, -1], [1, 0], [0, 1], [-1, 0]];
+  function getReachable(queue) {
+    const reachable = Array(heights.length).fill().map(() => Array(heights[0].length).fill(false));
+    for (let i = 0; i < queue.length; i++) {
+      const [row, col] = queue[i];
+      reachable[row][col] = true;
+    }
+
+    while (queue.length) {
+      const nextQueue = [];
+      for (let i = 0; i < queue.length; i++) {
+        const [row, col] = queue[i];
+
+        for (const [deltaRow, deltaCol] of DIRS) {
+          const adjRow = row + deltaRow;
+          const adjCol = col + deltaCol;
+
+          // Check in-bounds
+          if (adjRow < 0 || heights.length <= adjRow
+            || adjCol < 0 || heights[0].length <= adjCol) {
+            continue;
+          }
+
+          // Add if reachable & not checked
+          if (!reachable[adjRow][adjCol] && heights[adjRow][adjCol] >= heights[row][col]) {
+            reachable[adjRow][adjCol] = true;
+            nextQueue.push([adjRow, adjCol]);
+          }
+        }
+      }
+      queue = nextQueue;
+    }
+
+    return reachable;
+  }
+
+  const pacific = [];
+  const atlantic = [];
+
+  // Get starting edges
+  for (let row = 0; row < heights.length; row++) {
+    pacific.push([row, 0]);
+    atlantic.push([row, heights[0].length - 1]);
+  }
+
+  for (let col = 0; col < heights[0].length; col++) {
+    pacific.push([0, col]);
+    atlantic.push([heights.length - 1, col]);
+  }
+
+  // Get all reachable cells
+  const pacificReachable = getReachable(pacific);
+  const atlanticReachable = getReachable(atlantic);
+
+  // Get shared reachable cells
+  const reachable = [];
+  for (let row = 0; row < heights.length; row++) {
+    for (let col = 0; col < heights[0].length; col++) {
+      if (pacificReachable[row][col] && atlanticReachable[row][col]) {
+        reachable.push([row, col]);
+      }
+    }
+  }
+
+  return reachable;
+};
+
 // 2024/12/16
 // O(m * n) time complexity
 // O(m * n) space complexity
