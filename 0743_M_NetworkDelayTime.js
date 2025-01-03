@@ -27,9 +27,9 @@ var networkDelayTime = function (times, n, k) {
     return hasUpdate;
   }
 
-  let curr = Array(n + 1).fill(Infinity);
-  curr[0] = 0;
-  curr[k] = 0;
+  const minTimes = Array(n + 1).fill(Infinity);
+  minTimes[0] = 0;
+  minTimes[k] = 0;
 
   // // More verbose, failsafe in case of negative weight cycles
   // for (let steps = 0; steps < n; steps++) {
@@ -39,10 +39,10 @@ var networkDelayTime = function (times, n, k) {
   // }
 
   // Simpler, if we know there are no negative weight cycles present
-  while (timesUpdate(times, [...curr], curr)) { }
+  while (timesUpdate(times, [...minTimes], minTimes)) { }
 
   let maxTime = 0;
-  for (const time of Object.values(curr)) {
+  for (const time of Object.values(minTimes)) {
     maxTime = Math.max(maxTime, time);
   }
 
@@ -65,35 +65,42 @@ var networkDelayTime = function (times, n, k) {
  * @return {number}
  */
 var networkDelayTime = function (times, n, k) {
-  const adjacencies = {};
-  for (const [from, to, time] of times) {
-    if (!adjacencies[from]) {
-      adjacencies[from] = [];
+
+  function getAdjacencies(times) {
+    const adjacencies = {};
+    for (const [from, to, time] of times) {
+      if (!adjacencies[from]) {
+        adjacencies[from] = [];
+      }
+      adjacencies[from].push([to, time]);
     }
-    adjacencies[from].push([to, time]);
+    return adjacencies;
   }
 
+  function timesUpdate(adjacencies, from, fromTime, minTimes, neighbors) {
+    for (const [to, time] of adjacencies[from]) {
+      const newTime = fromTime + time;
+
+      if (!minTimes.hasOwnProperty(to) || minTimes[to] > newTime) {
+        minTimes[to] = newTime;
+        neighbors.push([to, newTime]);
+      }
+    }
+  }
+
+  const adjacencies = getAdjacencies(times);
   const minTimes = Array(n + 1).fill(Infinity);
   minTimes[0] = 0;
   minTimes[k] = 0;
 
   const neighbors = [[k, 0]];
-
   while (neighbors.length) {
     const [from, fromTime] = neighbors.pop();
-
     if (!adjacencies[from]) {
       continue;
     }
 
-    for (const [to, time] of adjacencies[from]) {
-      const newTime = fromTime + time;
-
-      if (minTimes[to] > newTime) {
-        minTimes[to] = newTime;
-        neighbors.push([to, newTime]);
-      }
-    }
+    timesUpdate(adjacencies, from, fromTime, minTimes, neighbors);
   }
 
   let maxTime = 0;
@@ -105,7 +112,7 @@ var networkDelayTime = function (times, n, k) {
 };
 
 // 2024/11/22
-// O(n + e^2 * log(n)) time complexity (would be n + e * log(n) if using heap rather than re-sorting)
+// O(n + e * log(n)) time complexity
 // O(n + e) space complexity
 //  where n = # nodes
 //    e = # edges
@@ -119,46 +126,49 @@ var networkDelayTime = function (times, n, k) {
  * @return {number}
  */
 var networkDelayTime = function (times, n, k) {
-  const adjacencies = {};
-  for (const [from, to, time] of times) {
-    if (!adjacencies[from]) {
-      adjacencies[from] = [];
+
+  function getAdjacencies(times) {
+    const adjacencies = {};
+    for (const [from, to, time] of times) {
+      if (!adjacencies[from]) {
+        adjacencies[from] = [];
+      }
+      adjacencies[from].push([to, time]);
     }
-    adjacencies[from].push([to, time]);
+    return adjacencies;
   }
 
-  const minTimes = {};
-  minTimes[k] = 0;
-  const neighbors = [k];
-  while (neighbors.length) {
-    const from = neighbors.pop();
-    if (!adjacencies[from]) {
-      continue;
-    }
-
-    let nodesAdded = false;
+  function timesUpdate(adjacencies, from, minTimes, neighbors) {
     for (const [to, time] of adjacencies[from]) {
       const newTime = minTimes[from] + time;
 
       if (!minTimes.hasOwnProperty(to) || minTimes[to] > newTime) {
         minTimes[to] = newTime;
-        neighbors.push(to);
-        nodesAdded = true;
+        neighbors.enqueue(to);
       }
     }
-
-    if (nodesAdded) {
-      neighbors.sort((a, b) => a[1] - b[1]);
-    }
   }
 
-  if (Object.keys(minTimes).length === n) {
-    let maxTime = 0;
-    for (const time of Object.values(minTimes)) {
-      maxTime = Math.max(maxTime, time);
+  const adjacencies = getAdjacencies(times);
+  const minTimes = Array(n + 1).fill(Infinity);
+  minTimes[0] = 0;
+  minTimes[k] = 0;
+
+  const neighbors = new PriorityQueue({ compare: (a, b) => a[1] - b[1] });
+  neighbors.enqueue(k);
+  while (neighbors.size()) {
+    const from = neighbors.dequeue();
+    if (!adjacencies[from]) {
+      continue;
     }
-    return maxTime;
-  } else {
-    return -1;
+
+    timesUpdate(adjacencies, from, minTimes, neighbors);
   }
+
+  let maxTime = 0;
+  for (const time of Object.values(minTimes)) {
+    maxTime = Math.max(maxTime, time);
+  }
+
+  return maxTime === Infinity ? -1 : maxTime;
 };
