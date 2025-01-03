@@ -19,7 +19,8 @@
  */
 var removeDuplicates = function (s, k) {
   const counts = [];
-  const result = [];
+  const result = s.split('');
+
   let left = 0;
   for (let right = 0; right < s.length; left++, right++) {
     result[left] = result[right];
