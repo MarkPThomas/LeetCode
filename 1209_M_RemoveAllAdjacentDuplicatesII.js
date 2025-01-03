@@ -30,7 +30,7 @@ var removeDuplicates = function (s, k) {
     } else {
       const incremented = counts.pop() + 1;
       if (incremented === k) {
-        left = left - k;
+        left -= k;
       } else {
         counts.push(incremented);
       }
