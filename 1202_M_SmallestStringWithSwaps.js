@@ -74,7 +74,7 @@ var smallestStringWithSwaps = function (s, pairs) {
 var smallestStringWithSwaps = function (s, pairs) {
   const dsu = new DSU(s.length);
   for (const [source, destination] of pairs) {
-    dsu.union(destination, source);
+    dsu.union(source, destination);
   }
 
   // Get vertices that are in the same component, organized by root
