@@ -2,7 +2,7 @@
 // O(n) time complexity
 // O(1) space complexity
 // Time to complete: 3:02 min
-// Patterns: Greedy
+// Patterns: Greedy, Kadane's Alg
 // Notes w.r.t. solution:
 /**
  * @param {number[]} prices
