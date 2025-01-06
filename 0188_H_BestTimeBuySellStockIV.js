@@ -15,8 +15,8 @@ var maxProfit = function (k, prices) {
     return 0;
   }
 
-  const profit = Array(k + 1).fill(0);
   const cost = Array(k + 1).fill(Infinity);
+  const profit = Array(k + 1).fill(0);
 
   for (const price of prices) {
     for (let i = 0; i < k; i++) {
