@@ -1,3 +1,61 @@
+// 2025/01/08
+// O(n * log(max - min)) time complexity
+// O(n * log(max - min)) space complexity
+// Time to complete: NA min
+// Patterns: Binary Search
+// Notes w.r.t. solution: Implemented LeetCode solution.
+/**
+ * @param {number[][]} matrix
+ * @param {number} k
+ * @return {number}
+ */
+var kthSmallest = function (matrix, k) {
+  const smallest = matrix[0][0];
+  const largest = matrix[matrix.length - 1][matrix[0].length - 1];
+
+  let start = smallest;
+  let end = largest;
+  while (start < end) {
+    const mid = start + Math.floor((end - start) / 2);
+    const { count, largestSmall, smallestLarge } = countLessEqual(matrix, mid, smallest, largest);
+
+    if (count === k) {
+      return largestSmall;
+    }
+
+    if (count < k) {
+      start = smallestLarge;
+    } else {
+      end = largestSmall;
+    }
+  }
+
+  return start;
+};
+
+function countLessEqual(matrix, mid, smallest, largest) {
+  let largestSmall = smallest;
+  let smallestLarge = largest;
+
+  let count = 0;
+  let row = matrix.length - 1;
+  let col = 0;
+  while (row >= 0 && col < matrix[0].length) {
+    const value = matrix[row][col];
+    if (value > mid) {
+      smallestLarge = Math.min(smallestLarge, value);
+      row--;
+    } else {
+      largestSmall = Math.max(largestSmall, value);
+      col++;
+
+      count += row + 1;
+    }
+  }
+
+  return { count, largestSmall, smallestLarge };
+}
+
 // 2024/12/07
 // O(x + k * log(x)) time complexity
 // O(x) space complexity
