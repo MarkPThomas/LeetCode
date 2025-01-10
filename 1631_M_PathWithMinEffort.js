@@ -10,17 +10,14 @@
  */
 var minimumEffortPath = function (heights) {
   const DIRS = [[0, -1], [0, 1], [1, 0], [-1, 0]];
-
   const minDiffs = Array(heights.length).fill().map(() => Array(heights[0].length).fill(Infinity));
   minDiffs[0][0] = 0;
 
-  const queue = [[0, 0]];
+  let queue = [[0, 0]];
   while (queue.length) {
-    adjCount = queue.length;
-    while (adjCount) {
-      adjCount--;
-
-      const [currRow, currCol] = queue.shift();
+    const nextQueue = [];
+    for (let i = 0; i < queue.length; i++) {
+      const [currRow, currCol] = queue[i];
 
       for (const [rowDelt, colDelt] of DIRS) {
         const adjRow = currRow + rowDelt;
@@ -36,11 +33,11 @@ var minimumEffortPath = function (heights) {
 
         if (minDiffs[adjRow][adjCol] > maxDiff) {
           minDiffs[adjRow][adjCol] = maxDiff;
-          queue.push([adjRow, adjCol, maxDiff]);
+          nextQueue.push([adjRow, adjCol]);
         }
       }
-
     }
+    queue = nextQueue;
   }
 
   return minDiffs[minDiffs.length - 1][minDiffs[0].length - 1];
