@@ -64,8 +64,6 @@ var deserialize = function (data) {
       const parent = row[j];
 
       i++;
-      console.log('i', i)
-      console.log('array[i]', array[i])
       const nodeL = array[i] !== '' ? new TreeNode(Number(array[i])) : null;
       if (nodeL) {
         parent.left = nodeL;
@@ -73,8 +71,6 @@ var deserialize = function (data) {
       }
 
       i++;
-      console.log('i', i)
-      console.log('array[i]', array[i])
       const nodeR = array[i] !== '' ? new TreeNode(Number(array[i])) : null;
       if (nodeR) {
         parent.right = nodeR;
