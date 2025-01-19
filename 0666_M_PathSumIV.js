@@ -3,6 +3,60 @@
 // O(n) space complexity
 // Time to complete: NA min
 // Patterns: Tree DFS, Hashmap
+// Notes w.r.t. solution: Worked leetcode solution, converting recursive DFS to iterative
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var pathSum = function (nums) {
+  const tree = {};
+
+  // build hash map as nums is parsed, storing {depth-position: val}
+  for (let num of nums) {
+    const key = Math.floor(num / 10);
+    const val = num % 10;
+    tree[key] = val;
+  }
+
+  // DFS of hashmap tree
+  let totalSum = 0;
+  const stack = [[nums[0] / 10, 0]];
+  while (stack.length) {
+    const [rootRaw, preSum] = stack.pop();
+    const root = Math.floor(rootRaw);
+
+    // left & right child coords
+    const level = Math.floor(root / 10);
+    const position = root % 10;
+    const left = (level + 1) * 10 + position * 2 - 1;
+    const right = (level + 1) * 10 + position * 2;
+
+    let currSum = preSum + tree[root];
+
+    // If leaf, add root to leaf path sum to total sum
+    if (!(left in tree) && !(right in tree)) {
+      totalSum += currSum;
+      continue;
+    }
+
+    // Else, continue DFS summing through children
+    if (left in tree) {
+      stack.push([left, currSum]);
+    }
+
+    if (right in tree) {
+      stack.push([right, currSum]);
+    }
+  }
+
+  return totalSum;
+};
+
+// 2025/01/19
+// O(n) time complexity
+// O(n) space complexity
+// Time to complete: NA min
+// Patterns: Tree DFS, Hashmap
 // Notes w.r.t. solution: Worked leetcode solution
 /**
  * @param {number[]} nums
