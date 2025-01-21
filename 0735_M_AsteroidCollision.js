@@ -49,7 +49,7 @@ var asteroidCollision = function (asteroids) {
 };
 
 // 2025/01/21
-// O(n * log(n)) time complexity
+// O(n) time complexity
 // O(1) space complexity
 // Time to complete: 39:46 min
 // Patterns: 2 Pointers
