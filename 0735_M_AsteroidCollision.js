@@ -23,7 +23,7 @@ var asteroidCollision = function (asteroids) {
       let nextSize = Math.abs(asteroid);
       let prevSize = Math.abs(prevAsteroid);
 
-      while (remaining.length && prevSize                                     // prev asteroids remain
+      while (remaining.length && prevSize                                   // prev asteroids remain
         && hasCollision(prevAsteroid, asteroid) && prevSize <= nextSize) {  // collisions continue
 
         // prev asteroid is always destroyed
@@ -74,7 +74,7 @@ var asteroidCollision = function (asteroids) {
         if (Math.abs(asteroids[prev]) > Math.abs(asteroids[next])) {
           // next asteroid destroyed by skipping to next
           next++;
-        } else if (Math.abs(asteroids[next]) > Math.abs(asteroids[prev])) {
+        } else if (Math.abs(asteroids[prev]) < Math.abs(asteroids[next])) {
           // prev asteroid destroyed by copying next over prev
           asteroids[prev] = asteroids[next]
           next++;
