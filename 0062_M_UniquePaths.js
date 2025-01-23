@@ -1,17 +1,29 @@
-// O() time complexity
-// O(1) space complexity
-// Time to complete: xx min
-// Patterns:
+// 2025/01/22
+// O(m * n) time complexity
+// O(m * n) space complexity
+// Time to complete: 7:27 min
+// Patterns: Dynamic Programming - Matrix, Combination
 // Notes w.r.t. solution:
+/**
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var uniquePaths = function (m, n) {
+  const totalWays = Array(m).fill().map(() => Array(n).fill(0));
+  totalWays[0][0] = 1;
 
-const testCases = [
-{ input: '',
-  expected: ''},
-];
+  for (let row = 0; row < m; row++) {
+    for (let col = 0; col < n; col++) {
+      if (row > 0) {
+        totalWays[row][col] += totalWays[row - 1][col];
+      }
 
-testCases.forEach((testCase) => {
-  // let result = FUT(testCase.input); // insert function name here
-  let pass = result === testCase.expected;
-  console.log(`Input: ${testCase.input}\nExpected: ${testCase.expected}\nResult: ${result}\nPass: ${pass}\n`);
+      if (col > 0) {
+        totalWays[row][col] += totalWays[row][col - 1];
+      }
+    }
   }
-);
+
+  return totalWays[m - 1][n - 1];
+};
