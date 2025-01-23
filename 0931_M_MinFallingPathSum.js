@@ -1,6 +1,6 @@
 // 2025/01/22
 // O(m * n) time complexity
-// O(1) space complexity
+// O(m * n) space complexity
 // Time to complete: 13:55 min
 // Patterns: Dynamic Programming - Matrix
 // Notes w.r.t. solution:
