@@ -18,15 +18,10 @@ var minFallingPathSum = function (matrix) {
       if (row === 0) { // Base cases are initial row
         minSums[0][col] = matrix[row][col];
       } else {
-        let prevMinSum = minSums[row - 1][col];
-
-        if (col > 0) { // Check left diagonal
-          prevMinSum = Math.min(prevMinSum, minSums[row - 1][col - 1]);
-        }
-
-        if (col < matrix[0].length - 1) { // Check right diagonal
-          prevMinSum = Math.min(prevMinSum, minSums[row - 1][col + 1]);
-        }
+        let prevMinSum = Math.min(
+          minSums[row - 1][col],
+          minSums[row - 1][col - 1] ?? Infinity,  // Check left diagonal
+          minSums[row - 1][col + 1] ?? Infinity)  // Check right diagonal
 
         minSums[row][col] = matrix[row][col] + prevMinSum;
       }
