@@ -1,64 +1,73 @@
-// 2025/01/25
+// 2024/09/01
 // O(n!) time complexity
-// O(n^2) space complexity
-// Time to complete: 20:14 min
-// Patterns: Backtracking
+// O(n^2 + n) -> O(n^2) space complexity
+// Time to complete: 29:50 min
+// Patterns: Backtracking, dynamic programming, recursion
 // Notes w.r.t. solution:
 /**
  * @param {number} n
- * @return {string[][]}
+ * @return {number}
  */
-var solveNQueens = function (n) {
-  const solutions = [];
+var totalNQueens = function (n) {
+  const board = new Array(n * n).fill(0);
 
-  const board = Array(n).fill().map(() => Array(n).fill('.'));
-  const cols = {};
-  const diags = {};
-  const diagsAnti = {};
-
-  function isValid(row, col) {
-    return !cols[col] && !diags[row + col] && !diagsAnti[row - col];
+  function getIdx(row, col) {
+    return (row * n) + col;
   }
 
-  function mark(row, col, val) {
-    cols[col] = val;
-    diags[row + col] = val;
-    diagsAnti[row - col] = val;
+  function canPlacePiece(row, col) {
+    let offset = 1;
+    while (row - offset >= 0) {
+      const currRow = row - offset;
 
-    if (val) {
-      board[row][col] = 'Q';
-    } else {
-      board[row][col] = '.';
-    }
-  }
-
-  function cloneBoard() {
-    const validBoard = [];
-    for (const row of board) {
-      validBoard.push(row.join(''));
-    }
-
-    return validBoard;
-  }
-
-  function backtrack(row) {
-    // If after last row, save result & break
-    if (row === n) {
-      solutions.push(cloneBoard());
-      return;
-    }
-
-    // Try each col
-    for (let col = 0; col < n; col++) {
-      if (isValid(row, col)) {   // If valid square
-        mark(row, col, true);  // try placement
-        backtrack(row + 1);    // continue to next row
-        mark(row, col, false); // then remove placement
+      // no prior rows have this col
+      const colIdx = getIdx(currRow, col);
+      if (board[colIdx] === 1) {
+        return false;
       }
+
+      // no prior rows have +/- row offset piece (diagonals check)
+      const minIdx = getIdx(currRow, 0);
+      const leftDiagIdx = getIdx(currRow, col - offset);
+      if (minIdx <= leftDiagIdx && board[leftDiagIdx] === 1) {
+        return false;
+      }
+
+      const maxIdx = getIdx(currRow, n - 1);
+      const rightDiagIdx = getIdx(currRow, col + offset);
+      if (rightDiagIdx <= maxIdx && board[rightDiagIdx] === 1) {
+        return false;
+      }
+
+      offset++;
     }
+
+    return true;
   }
 
-  backtrack(0, 0);
+  function placePiece(row, col) {
+    board[getIdx(row, col)] = 1;
+  }
 
-  return solutions;
+  function removePiece(row, col) {
+    board[getIdx(row, col)] = 0;
+  }
+
+  function nQueensCount(n, row, count) {
+    for (let col = 0; col < n; col++) {
+      if (canPlacePiece(row, col)) {
+        if (row === n - 1) {
+          count++;
+        } else {
+          placePiece(row, col);
+          count = nQueensCount(n, row + 1, count);
+        }
+      }
+      removePiece(row, col);
+    }
+
+    return count;
+  }
+
+  return nQueensCount(n, 0, 0);
 };
