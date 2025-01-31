@@ -1,3 +1,79 @@
+// 2025/01/31
+// O(n/2) time complexity
+// O(n/2) space complexity
+// Time to complete: 32:53
+// Patterns: BFS Bi-directional
+// Notes w.r.t. solution: Went OT on some dumb bugs. Tips:
+//  1. Collect coords into coord variable to avoid mistakes in referencing in grid & visited
+//  2. Keep neighbors addition simple - only check in-bounds, not visited & is valid tile.
+//    Keep marking of visited & checking intersections outside, for current tile, before adding it's neighbors.
+var shortestPathBinaryMatrix = function (grid) {
+  const start = [0, 0];
+  const end = [grid.length - 1, grid[0].length - 1];
+  if (grid[start[0]][start[1]] === 1 || grid[end[0]][end[1]] === 1) {
+    return -1;
+  }
+
+  const DIRS = [[-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1]];
+
+  function processQueue(queue, visited, visitedOther, nextQueue) {
+    for (let i = 0; i < queue.length; i++) {
+      const [coord, dist] = queue[i];
+
+      // Check intersection of other path
+      if (visitedOther[coord]) {
+        return dist + visitedOther[coord] - 1;
+      }
+
+      if (visited[coord]) {
+        continue;
+      }
+      visited[coord] = dist;
+
+      for (const [deltaRow, deltaCol] of DIRS) {
+        const nextRow = coord[0] + deltaRow;
+        const nextCol = coord[1] + deltaCol;
+
+        // Check in-bounds
+        if (nextRow < 0 || grid.length <= nextRow
+          || nextCol < 0 || grid[0].length <= nextCol) {
+          continue;
+        }
+
+        // Add if valid
+        const nextCoord = [nextRow, nextCol];
+        if (grid[nextCoord[0]][nextCoord[1]] === 0 && !visited[nextCoord]) {
+          nextQueue.push([nextCoord, dist + 1]);
+        }
+      }
+    }
+  }
+
+  let queueStart = [[start, 1]];
+  const visitedStart = {};
+
+  let queueEnd = [[end, 1]]
+  const visitedEnd = {};
+
+  while (queueStart.length || queueEnd.length) {
+    const nextQueueStart = [];
+    const startDist = processQueue(queueStart, visitedStart, visitedEnd, nextQueueStart);
+    if (startDist) {
+      return startDist;
+    }
+    queueStart = nextQueueStart;
+
+    const nextQueueEnd = [];
+    const endDist = processQueue(queueEnd, visitedEnd, visitedStart, nextQueueEnd);
+    if (endDist) {
+      return endDist;
+    }
+    queueEnd = nextQueueEnd;
+  }
+
+  return -1;
+};
+
 // 2024/10/18
 // O(n/2) time complexity
 // O(n/2) space complexity
