@@ -52,6 +52,65 @@ var findMedianSortedArrays = function (nums1, nums2) {
 };
 
 // 2025/01/31
+// O(log(m * n)) time complexity
+// O(1) space complexity
+//  where n = length of nums1, m = length of nums2
+// Time to complete: xx min
+// Patterns: Binary Search
+// Notes w.r.t. solution: Worked solution
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
+ */
+var findMedianSortedArrays = function (nums1, nums2) {
+
+  function getElementAt(k) {
+    let start1 = 0;
+    let end1 = nums1.length - 1;
+
+    let start2 = 0;
+    let end2 = nums2.length - 1;
+
+    while (start1 <= end1 && start2 <= end2) {
+      const mid1 = start1 + Math.floor((end1 - start1) / 2);
+      const val1 = nums1[mid1];
+
+      const mid2 = start2 + Math.floor((end2 - start2) / 2);
+      const val2 = nums2[mid2];
+
+      if (mid1 + mid2 < k) {  // Answer cannot be in one of the first halfs
+        if (val1 > val2) {  // Answer cannot be in first half of nums2
+          start2 = mid2 + 1;  // Remove first half of nums2
+        } else {
+          start1 = mid1 + 1;  // Remove first half of nums1
+        }
+      } else {
+        if (val1 > val2) {  // Answer cannot be in last half of nums1
+          end1 = mid1 - 1;  // Remove last half of nums1
+        } else {
+          end2 = mid2 - 1;  // Remove last half of nums 2
+        }
+      }
+    }
+
+    return end1 < start1 ? nums2[k - start1] : nums1[k - start2];
+  }
+
+  const totalLength = nums1.length + nums2.length;
+  const k = Math.floor(totalLength / 2);
+
+  const kVal = getElementAt(k);
+  if (totalLength % 2) {
+    return kVal;
+  } else {
+    const lVal = getElementAt(k - 1);
+    return (lVal + kVal) / 2;
+  }
+};
+
+
+// 2025/01/31
 // O() time complexity
 // O() space complexity
 // Time to complete: OT min
