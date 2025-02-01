@@ -29,8 +29,7 @@ var findMedianSortedArrays = function (nums1, nums2) {
     const shortMid = shortLeft + Math.floor((shortRight - shortLeft) / 2);
     const [shortMaxLeft, shortMinRight] = getBoundedVals(shortMid, short);
 
-    const longMid = Math.floor((long.length + short.length + 1) / 2 - shortMid);
-    // const longMid = short.length + Math.floor((long.length - short.length + 1) / 2) - shortMid;
+    const longMid = short.length + Math.floor((long.length - short.length + 1) / 2) - shortMid;
     const [longMaxLeft, longMinRight] = getBoundedVals(longMid, long);
 
     if (shortMaxLeft <= longMinRight && longMaxLeft <= shortMinRight) {
