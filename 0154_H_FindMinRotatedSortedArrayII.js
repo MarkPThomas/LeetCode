@@ -31,7 +31,7 @@ var findMin = function (nums) {
 // O(1) space complexity
 // Time to complete: 27:36 min @ 182/193, then 1:04:41 OT
 // Patterns: Binary Search
-// Notes w.r.t. solution:
+// Notes w.r.t. solution: It turns out I was VERY close. Should have drawn it out & kept it simple.
 /**
  * @param {number[]} nums
  * @return {number}
