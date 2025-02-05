@@ -4,7 +4,8 @@
 //  where n = # words, c = avg word length => n * c = total length of all words combined
 // Time to complete: OT min
 // Patterns: Topological Sort
-// Notes w.r.t. solution:
+// Notes w.r.t. solution: Was close, but tripped up on edge cases & lost time w/ sloppy logic.
+//  Slow down! Also review Topological sort more/more carefully.
 /**
  * @param {string[]} words
  * @return {string}
