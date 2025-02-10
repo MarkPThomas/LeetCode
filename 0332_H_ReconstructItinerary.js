@@ -13,12 +13,12 @@ var findItinerary = function (tickets) {
   let itinerary = [];
 
   // DFS Post-order
-  function dfs(to) {
-    const destinations = flights[to];
+  function dfs(from) {
+    const destinations = flights[from];
     while (destinations?.length) {
-      dfs(destinations.shift())
+      dfs(destinations.shift());
     }
-    itinerary.push(to);
+    itinerary.push(from);
   }
 
   // build sorted adjancency list
