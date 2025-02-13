@@ -1,3 +1,4 @@
+// 2022/12/??
 // Refactored, optimized & simplified solution
 // O(n) time complexity
 // O(1) space complexity
@@ -40,6 +41,7 @@ var canPlaceFlowers = function (flowerbed, n) {
   return false;
 };
 
+// 2022/12/??
 // Optimized & simplified solution
 // O(n) time complexity
 // O(1) space complexity
@@ -95,6 +97,7 @@ var canPlaceFlowers = function (flowerbed, n) {
   return false;
 };
 
+// 2022/12/??
 // Original solution
 // O(n) time complexity
 // O(1) space complexity
