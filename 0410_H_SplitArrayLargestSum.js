@@ -1,10 +1,55 @@
 // 2025/02/14
-// O() time complexity
+// O(n * log(s)) time complexity
+//  where n = # elements in array, s = sum of array
 // O(1) space complexity
 // Time to complete: NA min
 // Patterns: Binary Search
 // Notes w.r.t. solution: Worked solution
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var splitArray = function (nums, k) {
+  function minSubarraysRequired(nums, maxSumAllowed) {
+    let leftSum = 0;
+    let splitsRequired = 0;
 
+    for (const num of nums) {
+      if (leftSum + num <= maxSumAllowed) {
+        leftSum += num;
+      } else { // Count new split & reset sum
+        leftSum = num;
+        splitsRequired++;
+      }
+    }
+
+    return splitsRequired + 1;
+  }
+
+  let sumNums = 0;
+  let maxNum = -Infinity;
+  for (const num of nums) {
+    sumNums += num;
+    maxNum = Math.max(maxNum, num);
+  }
+
+  let left = maxNum;
+  let right = sumNums;
+  let minLargestSplitSum = 0;
+  while (left <= right) {
+    const maxSumAllowed = left + Math.floor((right - left) / 2);
+
+    if (minSubarraysRequired(nums, maxSumAllowed) <= k) { // Move left & update max subarray sum
+      right = maxSumAllowed - 1;
+      minLargestSplitSum = maxSumAllowed;
+    } else {    // Move right
+      left = maxSumAllowed + 1;
+    }
+  }
+
+  return minLargestSplitSum;
+};
 
 
 // 2025/02/14

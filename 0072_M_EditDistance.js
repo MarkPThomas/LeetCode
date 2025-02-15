@@ -1,9 +1,47 @@
 // 2025/02/14
-// O() time complexity
-// O(1) space complexity
+// O(m * n) time complexity
+// O(m * n) -> O(min(m, n)) space complexity w/ state reduction
+//  where m = length of word1, n = length of word2
 // Time to complete: NA min
 // Patterns: Dynamic Programming
 // Notes w.r.t. solution: Worked solution
+/**
+ * @param {string} word1
+ * @param {string} word2
+ * @return {number}
+ */
+var minDistance = function (word1, word2) {
+  function dp(word1, word2, word1Idx, word2Idx, memo) {
+    if (word1Idx === 0) {
+      return word2Idx;
+    }
+
+    if (word2Idx === 0) {
+      return word1Idx;
+    }
+
+    if (memo[word1Idx][word2Idx] !== null) {
+      return memo[word1Idx][word2Idx];
+    }
+
+    if (word1[word1Idx - 1] === word2[word2Idx - 1]) {
+      memo[word1Idx][word2Idx] = dp(word1, word2, word1Idx - 1, word2Idx - 1, memo);
+    } else {
+      const insertChar = dp(word1, word2, word1Idx, word2Idx - 1, memo);
+      const deleteChar = dp(word1, word2, word1Idx - 1, word2Idx, memo);
+      const replaceChar = dp(word1, word2, word1Idx - 1, word2Idx - 1, memo);
+
+      memo[word1Idx][word2Idx] = Math.min(insertChar, deleteChar, replaceChar) + 1;
+    }
+
+    return memo[word1Idx][word2Idx];
+  }
+
+  const memo = Array(word1.length + 1).fill().map(
+    () => Array(word2.length + 1).fill(null));
+
+  return dp(word1, word2, word1.length, word2.length, memo);
+};
 
 // 2025/02/14
 // O() time complexity
