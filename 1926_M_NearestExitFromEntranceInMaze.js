@@ -3,7 +3,8 @@
 // O(m * n) space complexity
 // Time to complete: 18:14 min
 // Patterns: BFS
-// Notes w.r.t. solution:
+// Notes w.r.t. solution: Note - visited MUST be marked when enqueued, NOT dequeued.
+//  This small speed improvement is the difference between TLE & passing. :-P
 /**
  * @param {character[][]} maze
  * @param {number[]} entrance
@@ -16,11 +17,10 @@ var nearestExit = function (maze, entrance) {
   const visited = {};
   const queue = new Queue();
   queue.enqueue([entrance, 0]);
+  visited[entrance] = true;
 
   while (queue.size()) {
-    ;
     const [[row, col], dist] = queue.dequeue();
-    visited[[row, col]] = true;
 
     for (const [deltaRow, deltaCol] of DIRS) {
       const nextRow = row + deltaRow;
@@ -37,6 +37,7 @@ var nearestExit = function (maze, entrance) {
         }
       } else if (maze[nextRow][nextCol] !== WALL) {
         queue.enqueue([[nextRow, nextCol], dist + 1]);
+        visited[[nextRow, nextCol]] = true;
       }
     }
   }
