@@ -49,7 +49,7 @@ var longestValidParentheses = function (s) {
 // O(n) space complexity
 // Time to complete: OT min
 // Patterns: Stack
-// Notes w.r.t. solution:
+// Notes w.r.t. solution: Was close on stack procedure!
 /**
  * @param {string} s
  * @return {number}
