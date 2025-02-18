@@ -97,7 +97,7 @@ var minCostToSupplyWater = function (n, wells, pipes) {
 };
 
 class DSU {
-  constructor(n, wells) {
+  constructor(n) {
     this.roots = [];
     this.ranks = [];
     for (let i = 0; i < n + 1; i++) {
