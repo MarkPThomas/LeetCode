@@ -1,3 +1,83 @@
+// 2025/02/13
+// O(n * k^2) time complexity
+// O((n + k)^2) space complexity
+//  where n = # words, k = longest word length
+// Time to complete: NA min
+// Patterns: Hashmap
+// Notes w.r.t. solution: Worked Solution
+/**
+ * @param {string[]} words
+ * @return {number[][]}
+ */
+var palindromePairs = function (words) {
+  function allValidPrefixes(word) {
+    const validPrefixes = [];
+    for (let i = 0; i < word.length; i++) {
+      if (isPalindromeBetween(word, i, word.length - 1)) {
+        validPrefixes.push(word.substring(0, i));
+      }
+    }
+    return validPrefixes;
+  }
+
+  function allValidSuffixes(word) {
+    const validSuffixes = [];
+    for (let i = 0; i < word.length; i++) {
+      if (isPalindromeBetween(word, 0, i)) {
+        validSuffixes.push(word.substring(i + 1, word.length));
+      }
+    }
+    return validSuffixes;
+  }
+
+  function isPalindromeBetween(word, front, back) {
+    while (front < back) {
+      if (word[front] !== word[back]) {
+        return false;
+      }
+      front++;
+      back--;
+    }
+    return true;
+  }
+
+  const wordIdxs = {};
+  for (let i = 0; i < words.length; i++) {
+    wordIdxs[words[i]] = i;
+  }
+
+  const solution = [];
+  for (const [word, wordIdx] of Object.entries(wordIdxs)) {
+
+    // Build solutions of case #1. This word will be word 1.
+    // Palindrome found as another word in the list
+    const reversedWord = word.split('').reverse().join('');
+    if (reversedWord in wordIdxs && wordIdxs[reversedWord] !== wordIdx) {
+      solution.push([wordIdx, wordIdxs[reversedWord]]);
+    }
+
+    // Build solutions of case #2. This word will be word 2.
+    const validSuffixes = allValidSuffixes(word);
+    for (const suffix of validSuffixes) {
+      const reversedSuffix = suffix.split('').reverse().join('');
+      if (reversedSuffix in wordIdxs) {
+        solution.push([wordIdxs[reversedSuffix], wordIdx]);
+      }
+    }
+
+    // Build solutions of case #3. This word will be word 1.
+    const validPrefixes = allValidPrefixes(word);
+    for (const prefix of validPrefixes) {
+      const reversedPrefix = prefix.split('').reverse().join('');
+      if (reversedPrefix in wordIdxs) {
+        solution.push([wordIdx, wordIdxs[reversedPrefix]]);
+      }
+    }
+  }
+
+  return solution;
+};
+
 // 2025/02/11
 // O(n^2 * k) time complexity
 // O(n^2 + k) space complexity
@@ -26,14 +106,6 @@ var palindromePairs = function (words) {
 
   return pairs;
 };
-
-// 2025/02/xx
-// O(n * k^2) time complexity
-// O((n + k)^2) space complexity
-//  where n = # words, k = longest word length
-// Time to complete: NA min
-// Patterns: Hashmap
-// Notes w.r.t. solution: Worked Solution
 
 
 // 2025/02/11
