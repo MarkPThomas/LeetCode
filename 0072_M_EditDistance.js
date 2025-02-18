@@ -27,7 +27,6 @@ var minDistance = function (word1, word2) {
     dp[idx] = idx;
   }
 
-
   for (let idxMax = 1; idxMax <= wordMax.length; idxMax++) {
     const dpNext = [...dp];
     dpNext[0]++;
@@ -72,6 +71,7 @@ var minDistance = function (word1, word2) {
   const dp = Array(word1.length + 1).fill().map(
     () => Array(word2.length + 1));
 
+  // Populate edges (top-most, left-most)
   for (let word1Idx = 0; word1Idx <= word1.length; word1Idx++) {
     dp[word1Idx][0] = word1Idx;
   }
