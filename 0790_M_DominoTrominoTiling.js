@@ -1,3 +1,65 @@
+// 2025/02/19
+// O(n) time complexity
+// O(1) space complexity
+// Time to complete: NA min
+// Patterns: Dynamic Programming - Recursive #s
+// Notes w.r.t. solution: Refactored state reduction to remove 'partial' calc
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var numTilings = function (n) {
+  // 2 x n board
+  if (n <= 2) {
+    return n;
+  }
+
+  let fullPrevPrev = 1;
+  let fullPrev = fullPrevPrev;
+  let full = 2;  // Filled board
+
+  const MOD = 10 ** 9 + 7;
+  for (let i = 3; i <= n; i++) {
+    const fullTmp = full;
+    full = (2 * full + fullPrevPrev) % MOD;
+
+    fullPrevPrev = fullPrev;
+    fullPrev = fullTmp;
+  }
+
+  return full;
+};
+
+// 2025/02/19
+// O(n) time complexity
+// O(n) space complexity
+// Time to complete: NA min
+// Patterns: Dynamic Programming - Recursive #s
+// Notes w.r.t. solution: Refactored bottom-up solution to remove 'partial' array
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var numTilings = function (n) {
+  // 2 x n board
+  if (n <= 2) {
+    return n;
+  }
+
+  const MOD = 10 ** 9 + 7
+  const full = [];
+
+  full[1] = 1;
+  full[2] = 1;
+  full[3] = 2;
+
+  for (let i = 3; i <= n; i++) {
+    full[i] = (2 * full[i - 1] + full[i - 3]) % MOD;
+  }
+
+  return full[n];
+};
+
 // 2025/02/15
 // O(n) time complexity
 // O(1) space complexity
