@@ -12,7 +12,7 @@ var maxProduct = function (nums) {
   let max = -Infinity;
   let currMaxNeg = null;
   let currMaxNegRev = null;
-  let currMaxPos = null;
+  let currMaxPos = 0;
   for (let i = 0; i < nums.length; i++) {
     const num = nums[i];
     const numRev = nums[nums.length - 1 - i];
@@ -22,15 +22,13 @@ var maxProduct = function (nums) {
     currMaxNegRev = currMaxNegRev ? currMaxNegRev * numRev : numRev;
     if (num > 0) {
       currMaxPos = currMaxPos ? currMaxPos * num : num;
+    } else {
+      currMaxPos = 0;
     }
 
     max = Math.max(max, currMaxNeg, currMaxNegRev);
     if (currMaxPos) {
       max = Math.max(max, currMaxPos);
-    }
-
-    if (num <= 0) { // Reset positive subarray if negative #
-      currMaxPos = null;
     }
   }
 
