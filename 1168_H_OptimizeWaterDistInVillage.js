@@ -12,14 +12,14 @@
  * @return {number}
  */
 var minCostToSupplyWater = function (n, wells, pipes) {
-  // Sort edges by ascending cost
-  const orderedEdges = new PriorityQueue({ compare: (a, b) => a[0] - b[0] });
 
   const graph = {};
   for (let i = 0; i < n + 1; i++) {
     graph[i] ??= [];
   }
 
+  // Sort edges by ascending cost
+  const orderedEdges = new PriorityQueue({ compare: (a, b) => a[0] - b[0] });
   // Add virtual vertex & edges weighted by well costs
   for (let i = 0; i < wells.length; i++) {
     const virtualEdge = [wells[i], i + 1];
