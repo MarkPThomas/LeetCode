@@ -49,9 +49,9 @@ var numTilings = function (n) {
   const MOD = 10 ** 9 + 7
   const full = [];
 
+  full[0] = 1;
   full[1] = 1;
-  full[2] = 1;
-  full[3] = 2;
+  full[2] = 2;
 
   for (let i = 3; i <= n; i++) {
     full[i] = (2 * full[i - 1] + full[i - 3]) % MOD;
