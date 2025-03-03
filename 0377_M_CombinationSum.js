@@ -11,6 +11,7 @@
  * @return {number}
  */
 var combinationSum4 = function (nums, target) {
+  nums.sort((a, b) => a - b)
   const counts = Array(target + 1).fill(0);
   counts[0] = 1;
 
