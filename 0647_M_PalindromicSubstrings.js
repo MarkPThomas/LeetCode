@@ -1,5 +1,13 @@
 // 2025/03/03
 // O(n^2) time complexity
+// O(n^2) space complexity
+// Time to complete: xx min
+// Patterns: Dynamic Programming
+// Notes w.r.t. solution:
+
+
+// 2025/03/03
+// O(n^2) time complexity
 // O(1) space complexity
 // Time to complete: 8:15 min
 // Patterns: 2 Pointer
@@ -12,14 +20,10 @@ var countSubstrings = function (s) {
   function countPalindromes(left, right, s) {
     let numPals = 0;
 
-    while (0 <= left && right < s.length) {
-      if (s[left] === s[right]) {
-        numPals++;
-        left--;
-        right++;
-      } else {
-        break;
-      }
+    while (0 <= left && right < s.length && s[left] === s[right]) {
+      numPals++;
+      left--;
+      right++;
     }
 
     return numPals;
