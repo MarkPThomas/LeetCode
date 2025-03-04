@@ -1,10 +1,44 @@
-// 2025/03/03
+// 2025/03/04
 // O(n) time complexity
 // O(1) space complexity
-// Time to complete: NA min
+// Time to complete: 14:02 min
 // Patterns: 2 Pointers
-// Notes w.r.t. solution: Worked solution
+// Notes w.r.t. solution: Solution after seeing solution logic
+/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+var nextPermutation = function (nums) {
+  function reverseFrom(i, nums) {
+    let j = nums.length - 1;
+    while (i < j) {
+      swap(i, j, nums);
+      i++;
+      j--;
+    }
+  }
 
+  function swap(i, j, nums) {
+    const swap = nums[i];
+    nums[i] = nums[j];
+    nums[j] = swap;
+  }
+
+  let i = nums.length - 1;
+  while (i > 0 && nums[i] <= nums[i - 1]) {
+    i--;
+  }
+
+  if (i > 0) {
+    let j = nums.length - 1;
+    while (j > i && nums[j] <= nums[i - 1]) {
+      j--;
+    }
+    swap(i - 1, j, nums);
+  }
+
+  reverseFrom(i, nums);
+};
 
 // 2025/03/03
 // O() time complexity
