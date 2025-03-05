@@ -31,9 +31,8 @@ var minCostII = function (costs) {
       }
     }
 
-    for (let nextColor = 0; nextColor < costs[0].length; nextColor++) {
-      nextHouse[nextColor] = costs[house][nextColor]
-        + ((nextColor !== minPrevColor) ? minPrevCost : min2ndPrevCost);
+    for (let color = 0; color < costs[0].length; color++) {
+      nextHouse[color] = costs[house][color] + ((color !== minPrevColor) ? minPrevCost : min2ndPrevCost);
     }
 
     prevHouse = nextHouse;
