@@ -55,9 +55,5 @@ var minCost = function (costs) {
     dp[house][2] = costs[house][2] + Math.min(dp[house - 1][0], dp[house - 1][1]);
   }
 
-  let minCost = Infinity;
-  for (let i = 0; i < 3; i++) {
-    minCost = Math.min(minCost, dp[costs.length - 1][i]);
-  }
-  return minCost;
+  return Math.min(...dp[costs.length - 1]);
 };
