@@ -1,3 +1,44 @@
+// 2025/03/06
+// O(n) time complexity
+// O(n) space complexity
+// Time to complete: NA min
+// Patterns: Dynamic Programming
+// Notes w.r.t. solution: Top-down worked solution
+/**
+ * @param {number[][]} costs
+ * @return {number}
+ */
+var minCost = function (costs) {
+  const memo = Array(costs.length).fill().map(() => Array(3).fill());
+
+  function paintCost(house, color) {
+    // Base case: At last house, no additional costs to consider
+    if (house === costs.length - 1) {
+      return costs[n][color];
+    }
+
+    if (memo[house][color]) {
+      return memo[house][color];
+    }
+
+    let minAddCost = 0;
+    if (color === 0) {
+      minAddCost = Math.min(paintCost(house + 1, 1), paintCost(house + 1, 2));
+    } else if (color === 1) {
+      minAddCost = Math.min(paintCost(house + 1, 0), paintCost(house + 1, 2));
+    } else if (color === 2) {
+      minAddCost = Math.min(paintCost(house + 1, 0), paintCost(house + 1, 1));
+    }
+
+    const currMinCost = costs[house][color] + minAddCost;
+
+    memo[house][color] = currMinCost;
+    return currMinCost;
+  }
+
+  return Math.min(paintCost(0, 0), paintCost(0, 1), paintCost(0, 2));
+};
+
 // 2025/03/05
 // O(n) time complexity
 // O(1) space complexity
