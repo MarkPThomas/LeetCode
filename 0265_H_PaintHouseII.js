@@ -1,7 +1,44 @@
-// 2025/03/06
-// O(n * k) time complexity w/ optimization
+// 2025/03/05
+// O(n * k^2) time complexity
 // O(k) space complexity
-// Time to complete: NA min
+// Time to complete: 45:42 min (37:17 Paint House 1 + 8:25 min refactoring to k states)
+// Patterns: Dynamic Programming
+// Notes w.r.t. solution: Converted Paint House I reduced state to generic k states
+/**
+ * @param {number[][]} costs
+ * @return {number}
+ */
+var minCostII = function (costs) {
+  // States:
+  //  1 of k colors for each house
+  // Basically, for each col of costs, that col cannot be used immediately again
+  // Base case: 1st house
+  let prevHouse = [...costs[0]];
+
+  for (let house = 1; house < costs.length; house++) {
+    const nextHouse = [...prevHouse];
+
+    for (let nextColor = 0; nextColor < costs[0].length; nextColor++) {
+      let minPrevCost = Infinity;
+      for (let prevColor = 0; prevColor < costs[0].length; prevColor++) {
+        if (prevColor !== nextColor) {
+          minPrevCost = Math.min(minPrevCost, prevHouse[prevColor]);
+        }
+      }
+      nextHouse[nextColor] = costs[house][nextColor] + minPrevCost;
+    }
+
+    prevHouse = nextHouse;
+  }
+
+  return Math.min(...prevHouse);
+};
+
+
+// ===== Worked Solutions =====
+
+// O(n * k ^ 2) time complexity w/ optimization
+// O(n * k) space complexity
 // Patterns: Dynamic Programming
 // Notes w.r.t. solution: Top-down worked solution
 /**
@@ -45,98 +82,88 @@ var minCostII = function (costs) {
   return minCost;
 };
 
-// 2025/03/06
-// O(n * k) time complexity w/ optimization
-// O(k) space complexity
-// Time to complete: NA min
+// O(n * k^2) time complexity
+// O(n * k) space complexity
 // Patterns: Dynamic Programming
-// Notes w.r.t. solution: Added bottom-up case
+// Notes w.r.t. solution: Bottom-up
 /**
  * @param {number[][]} costs
  * @return {number}
  */
 var minCostII = function (costs) {
+  const numColors = costs[0].length;
+  const numHouses = costs.length;
   // States: n houses x 3 colors
   //  1 of 3 colors for each house
-  const dp = Array(costs.length).fill().map(() => Array(costs[0].length).fill(Infinity));
+  const dp = Array(numHouses).fill().map(() => Array(numColors).fill(Infinity));
 
   // Base case: 1 house
-  for (let i = 0; i < costs[0].length; i++) {
-    dp[0][i] = costs[0][i];
+  for (let color = 0; color < numColors; color++) {
+    dp[0][color] = costs[0][color];
   }
 
-  for (let house = 1; house < costs.length; house++) {
+  for (let house = 1; house < numHouses; house++) {
+    for (let color = 0; color < numColors; color++) {
+      let minPrevCost = Infinity;
+      for (let prevColor = 0; prevColor < numColors; prevColor++) {
+        if (prevColor !== color) {
+          minPrevCost = Math.min(minPrevCost, dp[house - 1][prevColor]);
+        }
+      }
+      dp[house][color] = costs[house][color] + minPrevCost;
+    }
+  }
+
+  return Math.min(...dp[numHouses - 1]);
+};
+
+// O(n * k) time complexity w/ optimization
+// O(n * k) space complexity
+// Patterns: Dynamic Programming
+// Notes w.r.t. solution: Bottom-up w/ optimization
+/**
+ * @param {number[][]} costs
+ * @return {number}
+ */
+var minCostII = function (costs) {
+  const numColors = costs[0].length;
+  const numHouses = costs.length;
+  // States: n houses x 3 colors
+  //  1 of 3 colors for each house
+  const dp = Array(numHouses).fill().map(() => Array(numColors).fill(Infinity));
+
+  // Base case: 1 house
+  for (let color = 0; color < numColors; color++) {
+    dp[0][color] = costs[0][color];
+  }
+
+  for (let house = 1; house < numHouses; house++) {
     // Basically, for each color used, that color cannot be used immediately again
     let minPrevColor = Infinity;
     let minPrevCost = Infinity;
     let min2ndPrevCost = Infinity;
-    for (let color = 0; color < costs[0].length; color++) {
-      if (dp[house - 1][color] < minPrevCost) {
+    for (let prevColor = 0; prevColor < numColors; prevColor++) {
+      if (dp[house - 1][prevColor] < minPrevCost) {
         min2ndPrevCost = minPrevCost;
-        minPrevCost = dp[house - 1][color];
-        minPrevColor = color;
-      } else if (dp[house - 1][color] < min2ndPrevCost) {
-        min2ndPrevCost = dp[house - 1][color];
+        minPrevCost = dp[house - 1][prevColor];
+        minPrevColor = prevColor;
+      } else if (dp[house - 1][prevColor] < min2ndPrevCost) {
+        min2ndPrevCost = dp[house - 1][prevColor];
       }
     }
 
-    for (let color = 0; color < costs[0].length; color++) {
+    for (let color = 0; color < numColors; color++) {
       dp[house][color] = costs[house][color] + ((color !== minPrevColor) ? minPrevCost : min2ndPrevCost);
     }
   }
 
-  return Math.min(...dp[costs.length - 1]);
+  return Math.min(...dp[numHouses - 1]);
 };
 
-// 2025/03/05
-// O(n * k) time complexity w/ optimization
-// O(k) space complexity
-// Time to complete: NA min
-// Patterns: Dynamic Programming
-// Notes w.r.t. solution: Added optimization to prior solution based on editorial hints
-/**
- * @param {number[][]} costs
- * @return {number}
- */
-var minCostII = function (costs) {
-  // States:
-  //  1 of k colors for each house
-  // Basically, for each col of costs, that col cannot be used immediately again
-  // Base case: 1st house
-  let prevHouse = [...costs[0]];
-
-  for (let house = 1; house < costs.length; house++) {
-    const nextHouse = [...prevHouse];
-
-    let minPrevColor = Infinity;
-    let minPrevCost = Infinity;
-    let min2ndPrevCost = Infinity;
-    for (let color = 0; color < costs[0].length; color++) {
-      if (prevHouse[color] < minPrevCost) {
-        min2ndPrevCost = minPrevCost;
-        minPrevCost = prevHouse[color];
-        minPrevColor = color;
-      } else if (prevHouse[color] < min2ndPrevCost) {
-        min2ndPrevCost = prevHouse[color];
-      }
-    }
-
-    for (let color = 0; color < costs[0].length; color++) {
-      nextHouse[color] = costs[house][color] + ((color !== minPrevColor) ? minPrevCost : min2ndPrevCost);
-    }
-
-    prevHouse = nextHouse;
-  }
-
-  return Math.min(...prevHouse);
-};
-
-// 2025/03/05
 // O(n * k^2) time complexity
 // O(k) space complexity
-// Time to complete: 45:42 min (37:17 Paint House 1 + 8:25 min refactoring to k states)
 // Patterns: Dynamic Programming
-// Notes w.r.t. solution: Converted Paint House I reduced state to generic k states
+// Notes w.r.t. solution: Bottom-Up w/ State Reduction
 /**
  * @param {number[][]} costs
  * @return {number}
@@ -159,6 +186,49 @@ var minCostII = function (costs) {
         }
       }
       nextHouse[nextColor] = costs[house][nextColor] + minPrevCost;
+    }
+
+    prevHouse = nextHouse;
+  }
+
+  return Math.min(...prevHouse);
+};
+
+// O(n * k) time complexity w/ optimization
+// O(k) space complexity
+// Patterns: Dynamic Programming
+// Notes w.r.t. solution: Bottom-Up w/ State Reduction & Optimization
+/**
+ * @param {number[][]} costs
+ * @return {number}
+ */
+var minCostII = function (costs) {
+  const numColors = costs[0].length;
+  const numHouses = costs.length;
+  // States:
+  //  1 of k colors for each house
+  // Basically, for each col of costs, that col cannot be used immediately again
+  // Base case: 1st house
+  let prevHouse = [...costs[0]];
+
+  for (let house = 1; house < numHouses; house++) {
+
+    let minPrevColor = Infinity;
+    let minPrevCost = Infinity;
+    let min2ndPrevCost = Infinity;
+    for (let prevColor = 0; prevColor < numColors; prevColor++) {
+      if (prevHouse[prevColor] < minPrevCost) {
+        min2ndPrevCost = minPrevCost;
+        minPrevCost = prevHouse[prevColor];
+        minPrevColor = prevColor;
+      } else if (prevHouse[prevColor] < min2ndPrevCost) {
+        min2ndPrevCost = prevHouse[prevColor];
+      }
+    }
+
+    const nextHouse = [...prevHouse];
+    for (let color = 0; color < numColors; color++) {
+      nextHouse[color] = costs[house][color] + ((color !== minPrevColor) ? minPrevCost : min2ndPrevCost);
     }
 
     prevHouse = nextHouse;
