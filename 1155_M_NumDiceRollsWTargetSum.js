@@ -43,6 +43,5 @@ var numRollsToTarget = function (n, k, target) {
     return memo[n][remainder];
   }
 
-  dp(n, target);
-  return memo[n][target] ?? 0;
+  return dp(n, target) ?? 0;
 };
