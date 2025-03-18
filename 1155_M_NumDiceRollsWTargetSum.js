@@ -117,7 +117,7 @@ var numRollsToTarget = function (n, k, target) {
     for (let currSum = 0; currSum <= target; currSum++) {
       let ways = 0;
       for (let val = 1; val <= Math.min(k, target - currSum); val++) {
-        ways = (ways + dp[nIdx + 1][currSum + val]);
+        ways += dp[nIdx + 1][currSum + val];
       }
 
       dp[nIdx][currSum] = ways % (10 ** 9 + 7);
