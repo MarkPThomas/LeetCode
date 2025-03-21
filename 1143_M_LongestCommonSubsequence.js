@@ -78,12 +78,12 @@ var longestCommonSubsequence = function (text1, text2) {
 var longestCommonSubsequence = function (text1, text2) {
   const dp = Array(text1.length + 1).fill().map(() => Array(text2.length + 1).fill(0));
 
-  for (let i = 1; i <= text1.length; i++) {
-    for (let j = 1; j <= text2.length; j++) {
-      if (text1[i - 1] === text2[j - 1]) {
-        dp[i][j] = dp[i - 1][j - 1] + 1;
+  for (let i2 = 1; i2 <= text2.length; i2++) {
+    for (let i1 = 1; i1 <= text1.length; i1++) {
+      if (text1[i1 - 1] === text2[i2 - 1]) {
+        dp[i1][i2] = dp[i1 - 1][i2 - 1] + 1;
       } else {
-        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+        dp[i1][i2] = Math.max(dp[i1 - 1][i2], dp[i1][i2 - 1]);
       }
     }
   }
