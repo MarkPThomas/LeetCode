@@ -1,7 +1,7 @@
 // 2025/03/27
 // O(n) time complexity
 // O(1) space complexity
-// Time to complete: xx min
+// Time to complete: 11:46 min
 // Patterns: Greedy, Kadane's Alg.
 // Notes w.r.t. solution: Worked out solution.
 /**
