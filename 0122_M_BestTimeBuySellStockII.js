@@ -1,3 +1,24 @@
+// 2025/03/27
+// O(n) time complexity
+// O(1) space complexity
+// Time to complete: xx min
+// Patterns: Greedy, Kadane's Alg.
+// Notes w.r.t. solution: Worked out solution.
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (prices) {
+  let profit = 0;
+  for (let i = 0; i < prices.length - 1; i++) {
+    if (prices[i + 1] >= prices[i]) {
+      profit += prices[i + 1] - prices[i];
+    }
+  }
+
+  return profit;
+};
+
 // 2025/01/06
 // O(n) time complexity
 // O(1) space complexity
