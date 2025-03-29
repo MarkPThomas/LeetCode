@@ -3,6 +3,11 @@
 // Time to complete: 28:46 min
 // Patterns: DFS
 // Notes w.r.t. solution: Would have been much faster using recursion DFS & marking board, but those are less optimal.
+// O(m * n) time complexity
+// O(m * n) -> O(1) space complexity (latter if we temporarily mark valid visited on board & then reverse)
+// Time to complete: 28:46 min
+// Patterns: DFS
+// Notes w.r.t. solution: Would have been much faster using recursion DFS & marking board, but those are less optimal.
 /**
  * @param {character[][]} board
  * @return {void} Do not return anything, modify board in-place instead.
@@ -22,7 +27,7 @@ var solve = function (board) {
 
   for (let col = 1; col < board[0].length - 1; col++) {
     addIfValid(0, col, edgeTiles);
-    addIfValid(0, board.length - 1, edgeTiles);
+    addIfValid(board.length - 1, col, edgeTiles);
   }
 
   // Mark all void 0 in a 'visited' hashmap
