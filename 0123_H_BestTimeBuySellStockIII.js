@@ -1,3 +1,62 @@
+// 2025/03/29
+// O(d) time complexity
+// O(d) space complexity
+//  where d = # days
+// Time to complete: 11:34 min
+// Patterns: Dynamic Programing
+// Notes w.r.t. solution:
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (prices) {
+  // states:
+  //  transaction day, d = prices.length
+  //  isHolding: 0 (false) or 1 (true) for memo
+  //  transactions left = 2
+
+  // Base Cases:
+  // 1. All days complete
+  // 2. No more transactions allowed
+  // Both return 0 (no profit/loss)
+
+  // recurrence: Max of 3 options:
+  // 1. Wait
+  //  2 "Act" options
+  // 2. Sell, if holding
+  // 3. Buy, if not holding
+
+  const memo = Array(prices.length).fill().map(   // days
+    () => Array(3).fill().map(                  // transactions left = 2 initially
+      () => Array(2)                          // is holding = 0 (false) or 1 (true)
+    )
+  );
+
+  function dp(day, isHolding, transactionsLeft) {
+    if (day >= prices.length || !transactionsLeft) {
+      return 0;
+    }
+
+    if (memo[day][transactionsLeft][isHolding] !== undefined) {
+      return memo[day][transactionsLeft][isHolding];
+    }
+
+    const wait = dp(day + 1, isHolding, transactionsLeft);
+    let act = 0;
+    if (isHolding) { // Sell, complete transaction, include earning
+      act = dp(day + 1, 0, transactionsLeft - 1) + prices[day];
+    } else {    // Buy, include expense
+      act = dp(day + 1, 1, transactionsLeft) - prices[day];
+    }
+
+    const profit = Math.max(wait, act);
+    memo[day][transactionsLeft][isHolding] = profit;
+    return profit;
+  }
+
+  return dp(0, false, 2);
+};
+
 // 2025/01/06
 // O(n) time complexity
 // O(1) space complexity
