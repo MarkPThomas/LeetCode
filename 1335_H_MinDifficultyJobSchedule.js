@@ -85,38 +85,43 @@ var minDifficulty = function (jobDifficulty, d) {
     const availableJobs = [];
 
     const minAccDiffCurrDay = Array(n);
-    for (let i = day; i < n - (d - day - 1); i++) {
+    for (let currJob = day; currJob < n - (d - day - 1); currJob++) {
       // Start w/ job for the day (1 required) + any prev day difficulties
-      minAccDiffCurrDay[i] = jobDifficulty[i] + (i > 0 ? minAccDiffPrevDay[i - 1] : 0);
+      minAccDiffCurrDay[currJob] =
+        jobDifficulty[currJob]
+        + (currJob > 0 ? minAccDiffPrevDay[currJob - 1] : 0);
 
-      // If curent job difficulty >= last job difficulty
+      // If current job difficulty >= last job difficulty
       //  remove prior jobs available for the day of lesser difficulty
       //  while updating result
       let lastAvailableJob = availableJobs.length - 1;
       while (availableJobs.length
-        && jobDifficulty[availableJobs[lastAvailableJob]] <= jobDifficulty[i]) {
+        && jobDifficulty[availableJobs[lastAvailableJob]] <= jobDifficulty[currJob]) {
 
-        const j = availableJobs.pop();
+        const prevJob = availableJobs.pop();
         lastAvailableJob--;
-        const deltaDifficulty = jobDifficulty[i] - jobDifficulty[j];
+        const deltaDifficulty = jobDifficulty[currJob] - jobDifficulty[prevJob];
 
-        minAccDiffCurrDay[i] = Math.min(
-          minAccDiffCurrDay[i],
-          minAccDiffCurrDay[j] + deltaDifficulty
+        minAccDiffCurrDay[currJob] = Math.min(
+          minAccDiffCurrDay[currJob],
+          minAccDiffCurrDay[prevJob] + deltaDifficulty
         );
       }
 
       // Check against last available job for the day, if any remain
-      lastAvailableJob = availableJobs.length - 1;
+      // i.e. current job difficulty < last job difficulty
+      // Similar to prior check except job is NOT removed from stack & no delta
       if (availableJobs.length) {
-        minAccDiffCurrDay[i] = Math.min(
-          minAccDiffCurrDay[i],
+        lastAvailableJob = availableJobs.length - 1;
+
+        minAccDiffCurrDay[currJob] = Math.min(
+          minAccDiffCurrDay[currJob],
           minAccDiffCurrDay[availableJobs[lastAvailableJob]]
         );
       }
 
       // Add job for later consideration against later available jobs
-      availableJobs.push(i);
+      availableJobs.push(currJob);
 
       // No need to calculate i > 0 on last day
       if (day === d) {
