@@ -3,8 +3,8 @@
 // O(1) space complexity
 //  where n = # digits
 // Time to complete: OT (2:00:00) min
-// Patterns:
-// Notes w.r.t. solution: So many little edge cases...
+// Patterns: Math, Iteration, sets of 3
+// Notes w.r.t. solution: So many little edge cases... 23:41 outline done, 1:03:45 coding done, debugging needed
 /**
  * @param {number} num
  * @return {string}
