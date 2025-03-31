@@ -1,12 +1,4 @@
 // 2025/03/31
-// O() time complexity
-// O(1) space complexity
-// Time to complete: xx min
-// Patterns: Greedy
-// Notes w.r.t. solution:
-
-
-// 2025/03/31
 // O(n^2) time complexity
 // O(1) space complexity
 // Time to complete: 16:46 min
@@ -139,7 +131,7 @@ var canCompleteCircuit = function (gas, cost) {
 
 // O(n) time complexity
 // O(1) space complexity
-// Patterns: 2 Pointer
+// Patterns: Sliding Window
 /**
  * @param {number[]} gas
  * @param {number[]} cost
