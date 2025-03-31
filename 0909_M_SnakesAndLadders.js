@@ -1,5 +1,5 @@
 // O(n^2) time complexity
-// O(n) space complexity
+// O(n^2) space complexity
 // Time to complete: OT min
 // Patterns: Graph - BFS
 // Notes w.r.t. solution:Took 10 min just to understand the problem.
