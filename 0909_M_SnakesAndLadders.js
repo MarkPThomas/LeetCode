@@ -13,31 +13,40 @@ var snakesAndLadders = function (board) {
   // BFS w/ complex movement rules
   const n = board.length;
   const MAX_VAL = n ** 2; // Max board label
-  const visited = {};
+  const distance = {};
 
   const EMPTY = -1;   // No snake or ladder
   const MAX_ROLL = 6; // At most 6 possible destinations from any tile for 6-sided dice
   function addNextTiles(label, nextLabels) {
     const nextMaxLabel = Math.min(label + MAX_ROLL, MAX_VAL);
-    if (nextMaxLabel === MAX_VAL) { // Move straight to end
-      nextLabels.push(MAX_VAL);
-    } else {
-      // Get row/col for each label & add to nextTiles
-      label++;
-      while (label <= nextMaxLabel) {
-        if (visited[label]) {
-          label++;
-          continue;
-        }
 
+    if (nextMaxLabel === MAX_VAL) { // Move straight to end
+      nextLabels.add(MAX_VAL);
+    } else { // Get row/col for each label & add to next labels
+      label++;
+
+      while (label <= nextMaxLabel) {
         const [row, col] = getCoords(label);
         const value = board[row][col];
-        if (value === EMPTY) {
-          nextLabels.push(label);
-        } else if (!visited[value]) { // We are on snake or ladder, add the destination label if not yet visited
-          // Moving to any tile w/ snake or ladder moves to dest in same move
-          // Since next curr + 1 as min, we cannot continue on other snakes & ladders from the same tile in later moves
-          nextLabels.push(value);
+
+        // Value always intially input at min because either:
+        //  1. We have iterated directly over it moving one label at a time,
+        //      which is the max distance w/ ignoring cycles.
+        //  2. We have 'jumped' ahead to it
+        //  3. Any other case is moving backwards after we have taken 'label'moves to reach it
+        // Label doesn't matter for this check because:
+        //  1. By how we take value, we are only moving forward
+        //  2. Moving forward in increments of 6, that is, so we CAN
+        //      move backwards within the increment of 6 if it is using snakes & ladders
+        //      which might allow for shorter paths than the max of 'label' moves to reach the tile
+        //  3. Moving forward in increments of 6 is always from the worst-case or better (by using snakes & ladders)
+        if (value in distance) { // Skip snake/ladder that is not a shortcut
+          label++;
+          continue;
+        } else if (value === EMPTY) {   // Worst-case of stepping 1 at a time through labels
+          nextLabels.add(label);
+        } else { // We are on snake or ladder that is a shortcut
+          nextLabels.add(value);
         }
 
         label++;
@@ -58,14 +67,17 @@ var snakesAndLadders = function (board) {
     return [row, col];
   }
 
-  let currLabels = [1];
   let numMoves = 0;
-  while (currLabels.length && numMoves <= MAX_VAL) {
-    const nextLabels = [];
+  distance[1] = numMoves;
+
+  let currLabels = [1];
+  while (currLabels.length && numMoves <= MAX_VAL) { // At most it takes us n * n steps through each label
+    const nextLabels = new Set();  // Avoids adding duplicate processing at each BFS ring
 
     for (let i = 0; i < currLabels.length; i++) {
       const label = currLabels[i];
-      visited[label] = true;
+      distance[label] ??= Infinity;
+      distance[label] = Math.min(distance[label], numMoves);
 
       if (label === MAX_VAL) {  // We are at end
         return numMoves;
@@ -74,7 +86,7 @@ var snakesAndLadders = function (board) {
       addNextTiles(label, nextLabels);
     }
 
-    currLabels = nextLabels;
+    currLabels = [...nextLabels];
     numMoves++;
   }
 
