@@ -1,10 +1,71 @@
-// 2025/01/06
+// 2025/04/02
 // O(n * k) time complexity
 // O(k) space complexity
 //  where n = # prices, k = max # transactions
-// Time to complete: xx min
+// Time to complete: 10:44 min
+// Patterns: Dynamic Programming
+// Notes w.r.t. solution:
+/**
+ * @param {number} k
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (k, prices) {
+  const memo = Array(prices.length + 1).fill().map(   // Day
+    () => Array(k + 1).fill().map(                  // Transactions left
+      () => Array(2)                             // canBuy or not (0 or 1)
+    )
+  );
+
+  // States:
+  //  1. day (day for each price)
+  //  2. # transactions remaining (k)
+  //  3. Can/cannot buy (i.e. canBuy = true/false)
+  function dp(day, k, canBuy) {
+    // Base cases:
+    //  1. No more days (i.e. day > prices.length)
+    //  2. No more transactions available (i.e. k = 0)
+    //  In either case, no profit can be made, so return 0
+    if (day === prices.length || k === 0) {
+      return 0;
+    }
+
+    if (memo[day][k][canBuy] !== undefined) {
+      return memo[day][k][canBuy];
+    }
+
+    // Recurrence Relation:
+    // 2 General options to return profit
+    //  1. Do nothing (only day changes)
+    //  2. Do something (has 2 sub-cases depending on holding state)
+    //      a. if canBuy, buy (day changes, canBuy flips, profit subtracts purchase cost)
+    //      b. else, sell (day changes, canBuy flips, transation decrements since transaction completed, profit adds sell price)
+    const doNothing = dp(day + 1, k, canBuy);
+    let doSomething = 0;
+    if (canBuy) {   // Buy @ cost
+      doSomething = dp(day + 1, k, 0) - prices[day];
+    } else {        // Sell @ profit & complete transaction
+      doSomething = dp(day + 1, k - 1, 1) + prices[day];
+    }
+
+    let profit = Math.max(doNothing, doSomething);
+    memo[day][k][canBuy] = profit;
+    return profit;
+  }
+
+  return dp(0, k, 1)
+
+
+};
+
+
+// ==== Solutions ====
+
+// O(n * k) time complexity
+// O(k) space complexity
+//  where n = # prices, k = max # transactions
 // Patterns: Greedy, Kadane's
-// Notes w.r.t. solution: Worked out solution. Kadane's generalized to tracking k maximized states.
+// Notes w.r.t. solution: Kadane's generalized to tracking k maximized states.
 /**
  * @param {number} k
  * @param {number[]} prices
@@ -28,13 +89,10 @@ var maxProfit = function (k, prices) {
   return profit[k];
 };
 
-// 2025/01/04
 // O(n * k) time complexity
 // O(n * k) space complexity
 //  where n = # prices, k = max # transactions
-// Time to complete: xx min
 // Patterns: Dynamic Programming - State Transition by Inaction
-// Notes w.r.t. solution: Worked out solution.
 /**
  * @param {number} k
  * @param {number[]} prices
