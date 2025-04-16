@@ -3,7 +3,7 @@
 // O(1) space complexity
 // Time to complete: 31:11 min
 // Patterns: Two Pointer
-// Notes w.r.t. solution:
+// Notes w.r.t. solution: Solved in 16:31, but bugs/edge cases took to 31:11
 /**
  * @param {string} word
  * @param {string} abbr
