@@ -176,3 +176,41 @@ var findStrobogrammatic = function (n) {
   backtrack(n, []);
   return stroboNums;
 };
+
+
+// ===== Solution =====
+// Faster, simpler
+/**
+ * @param {number} n
+ * @return {string[]}
+ */
+var findStrobogrammatic = function (n) {
+  function generate(level) {
+    // Building out from even #
+    if (level === 0) {
+      return [''];
+    }
+
+    // Building out from odd #
+    if (level === 1) {
+      return ['0', '1', '8'];
+    }
+
+    const prevLevel = generate(level - 2);
+
+    const result = [];
+    for (const numStr of prevLevel) {
+      if (level !== n) {
+        result.push('0' + numStr + '0');
+      }
+      result.push('1' + numStr + '1');
+      result.push('6' + numStr + '9');
+      result.push('8' + numStr + '8');
+      result.push('9' + numStr + '6');
+    }
+
+    return result;
+  }
+
+  return generate(n);
+};
