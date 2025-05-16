@@ -1,10 +1,10 @@
 // 2025/05/15
 // O(n) time complexity
 // O(1) space complexity
-// Time to complete: OT (20:55 min @ 10/46, 29:50 @ 13/46)
+// Time to complete: OT (20:55 min @ 10/46, 23:53 min to finish)
 // Patterns: Greedy
 // Notes w.r.t. solution: After reading solution to get general idea. My solution was close!
-//    If I had taken the Hard time limit (sounds like it should be Hard) & simplified, I would have gotten this.
+//    If I had taken the Hard time limit (sounds like it should be Hard) & simplified, I would have gotten this. 23:53 min.
 /**
  * @param {number[]} nums
  * @param {number} left
