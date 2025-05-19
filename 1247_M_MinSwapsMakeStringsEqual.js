@@ -5,6 +5,7 @@
 // Patterns: Greedy
 // Notes w.r.t. solution: Was close, but wasted a lot of time coding too early.
 //  If I had more carefully broken down & diagrammed cases, I think I would have finished in time, and correct.
+//  Solution walkthrough: https://leetcode.com/problems/minimum-swaps-to-make-strings-equal/solutions/6364029/detailed-explaination-java-on-by-godofm4-t4qf/
 /**
  * @param {string} s1
  * @param {string} s2
