@@ -1,8 +1,82 @@
 // 2025/04/22
 // O(n) time complexity
+// O(n) space complexity
+// Time to complete: 46:36 min
+// Patterns: Stack
+// Notes w.r.t. solution: Mostly solved under 30 min, got tripped up/slowed down finalizing how to to mult/div.
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var calculate = function (s) {
+  // No parens
+  // Use PEMDAS
+  // Use stacks
+  // Build up ints, skip spaces
+  // No - #s, so - is always a subtraction
+
+  // Operators indicate action
+  //  Sum values in stack, w/ - put #s in stack w/ - sign.
+  //  / and * are done before summing, in order encountered
+  //      these are done tracking results
+  //      result w/ sign are placed in stack at next +/- or end of string
+
+  function saveResult() {
+    let prevResult = 0;
+
+    if (prevOperator === '*' || prevOperator === '/') {
+      prevResult = results.pop();
+
+      if (prevOperator === '*') {
+        prevResult *= Number(numStr);
+      } else {
+        prevResult = Math.floor(prevResult / Number(numStr));
+      }
+      prevOperator = '';
+    } else {
+      prevResult = Number(numStr);
+    }
+    numStr = '';
+
+    results.push(prevResult);
+  }
+
+  // For signs, use +1/-1 before each result
+  const results = [1];
+
+  let numStr = '';
+  let prevOperator = '';
+  for (const char of s) {
+    if (char === ' ') {
+      continue;
+    }
+
+    if (char === '+' || char === '-') {
+      saveResult();
+      const sign = char === '+' ? 1 : -1;
+      results.push(sign);
+    } else if (char === '*' || char === '/') {
+      saveResult();
+      prevOperator = char;
+    } else {
+      numStr += char;
+    }
+  }
+  saveResult();
+
+  let result = 0;
+  while (results.length > 1) {
+    result += results.pop() * results.pop();
+  }
+
+  return result;
+};
+
+// 2025/04/22
+// O(n) time complexity
 // O(1) space complexity
 // Time to complete: xx min
-// Patterns:
+// Patterns: Stack
 // Notes w.r.t. solution:
 /**
  * @param {string} s
