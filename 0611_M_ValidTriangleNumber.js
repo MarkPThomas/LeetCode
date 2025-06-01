@@ -5,6 +5,7 @@
 // Patterns: 2 Pointer
 // Notes w.r.t. solution: Forgot about triangle identities, ran w/ assuming right triangles.
 //  Was fast & sloppy. Working out logic more carefully would have yielded solution in time.
+//  Solution walkthrough: https://leetcode.com/problems/minimum-swaps-to-make-strings-equal/solutions/6364029/detailed-explaination-java-on-by-godofm4-t4qf/
 /**
  * @param {number[]} nums
  * @return {number}
