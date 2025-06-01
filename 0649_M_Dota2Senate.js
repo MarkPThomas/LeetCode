@@ -1,5 +1,94 @@
+// 2025/06/01
+// O(n) time complexity
+// O(n) space complexity
+// Time to complete: 26:39 min
+// Patterns: Queue, Greedy
+// Notes w.r.t. solution:
+/**
+ * @param {string} senate
+ * @return {string}
+ */
+var predictPartyVictory = function (senate) {
+  // each round:
+  //  ban senator (of opposing party)
+  //  until only one party remains (can track # var for faster check)
+  // manage queue for each round
+  //  to ban member who has already voted in the round
+  //      members can have state
+  //  greedy strategy is to ban the next member of the opposing party who may vote
+  //      can be next vote in curr round
+  //      else is first vote in next round
+  //      => state can be a toggled variable
+
+  const RADIANT = 'R';
+  const DIRE = 'D';
+  const parties = {};
+  parties[RADIANT] = 'Radiant';
+  parties[DIRE] = 'Dire';
+
+  let radiantActive = 0;
+  let direActive = 0;
+  let voters = [];
+  for (const member of senate) {
+    if (member === RADIANT) {
+      radiantActive++;
+    } else {
+      direActive++;
+    }
+    voters.push(member);
+  }
+
+  // Handle case of one-party rule
+  if (!radiantActive) {
+    return parties[DIRE];
+  } else if (!direActive) {
+    return parties[RADIANT];
+  }
+
+  let radiantBanned = 0;
+  let direBanned = 0;
+  while (voters.length) {
+
+    const nextVoters = [];
+    for (let i = 0; i < voters.length; i++) {
+      const voter = voters[i];
+
+
+      if (voter === RADIANT) {
+        // Skip member if they are banned
+        if (radiantBanned) {
+          radiantBanned--;
+          continue;
+        }
+
+        // Ban member of opposing party & check if any are left
+        direBanned++
+        direActive--;
+        if (!direActive) {
+          return parties[RADIANT];
+        }
+      } else {
+        if (direBanned) {
+          direBanned--;
+          continue;
+        }
+
+        radiantBanned++;
+        radiantActive--;
+        if (!radiantActive) {
+          return parties[DIRE];
+        }
+      }
+
+      nextVoters.push(voter)
+    }
+
+    voters = nextVoters;
+  }
+};
+
 // 2025/01/20
-// O(n ) time complexity
+// O(n) time complexity
 // O(n) space complexity
 // Time to complete: NA min
 // Patterns: Queue, Greedy
