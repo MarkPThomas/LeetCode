@@ -1,3 +1,49 @@
+// 2025/06/201
+// Initialize
+//  O(n * log(k)) time complexity
+//  O(k) space complexity
+// Add
+//  O(log(k)) time complexity
+//  O(1) space complexity
+// Total
+//  O((n + m) * log(k))
+// where n = # nums, m = # calls to add after initialization
+// Time to complete: 3:35 min
+// Patterns: Priority Queue
+// Notes w.r.t. solution:
+/**
+ * @param {number} k
+ * @param {number[]} nums
+ */
+var KthLargest = function (k, nums) {
+  this.k = k;
+  this.kLargest = new PriorityQueue((a, b) => a - b);
+
+  for (const num of nums) {
+    this.add(num);
+  }
+};
+
+/**
+* @param {number} val
+* @return {number}
+*/
+KthLargest.prototype.add = function (val) {
+  this.kLargest.enqueue(val);
+
+  if (this.kLargest.size() > this.k) {
+    this.kLargest.dequeue();
+  }
+
+  return this.kLargest.front();
+};
+
+/**
+* Your KthLargest object will be instantiated and called as such:
+* var obj = new KthLargest(k, nums)
+* var param_1 = obj.add(val)
+*/
+
 // 2024/11/22
 // O(m * n * log(n)) time complexity
 // O(n) space complexity
