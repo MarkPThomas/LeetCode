@@ -3,7 +3,7 @@
 // O(n) space complexity
 // Time to complete: OT min
 // Patterns: Hashmap, 2 Pointer, Greedy
-// Notes w.r.t. solution: 45:19 - 96/749, 1:06:14 - 699/749, 1:13:34 - 701/799
+// Notes w.r.t. solution: 45:19 @ 96/749, 1:06:14 @ 699/749, 1:13:34 @ 701/799
 /**
  * @param {number[]} nums
  * @param {number} k
