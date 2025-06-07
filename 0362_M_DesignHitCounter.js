@@ -9,7 +9,7 @@
 //  O(log(n)) time complexity
 //  O(1) space complexity
 // Time to complete: 35:57 = 29:15 min + 6:42 min (to add binary search from prev sol)
-// Patterns: Queue, Binary Search
+// Patterns: Queue, Prefix Sum, Binary Search
 // Notes w.r.t. solution:
 var HitCounter = function () {
   this.limit = 300; // sec = 5 min
@@ -102,7 +102,7 @@ HitCounter.prototype.getMinTimeIndex = function (timestamp) {
 //  O(n) time complexity
 //  O(1) space complexity
 // Time to complete: 29:15 min
-// Patterns: Queue
+// Patterns: Queue, PrefixSum
 // Notes w.r.t. solution:
 
 var HitCounter = function () {
