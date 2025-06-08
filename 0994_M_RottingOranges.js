@@ -1,75 +1,99 @@
-// 2024/12/28
+// 2025/06/08
 // O(m * n) time complexity
 // O(m * n) space complexity
 //  where m = # rows, n = #cols
-// Time to complete: xx min
+// Time to complete: 31:52 min
 // Patterns: Graphs, BFS
-// Notes w.r.t. solution: Simplified solution after reviewing editorial
+// Notes w.r.t. solution: Mostly solved in 22:00, minor tweaks
+//
 /**
  * @param {number[][]} grid
  * @return {number}
  */
 var orangesRotting = function (grid) {
+  // Cases:
+  // 1. num fresh oranges = 0 @ start? return start time
+  // 2. num rotten oranges = 0? return -1, no way to start rotting
+
+  // BFS from all rotten oranges
+  //  at end, if fresh oranges remain, some are inaccessible, return -1
+  //  else, return steps recorded
+
+  const EMPTY = 0;
   const FRESH = 1;
+  const ROTTING = 1.5;
   const ROTTEN = 2;
 
-  const DIRS = [[-1, 0], [0, -1], [1, 0], [0, 1]];
-  function rotNeighbors(row, col, neighbors, freshOranges) {
-    for (const [rowDelt, colDelt] of DIRS) {
-      const nextRow = row + rowDelt;
-      const nextCol = col + colDelt;
+  const DIRS = [[-1, 0], [0, 1], [1, 0], [0, -1]];
 
-      if (nextRow < 0 || grid.length <= nextRow
-        || nextCol < 0 || grid[row].length <= nextCol) {
+  function getAdjFreshOranges(rowStart, colStart, nextOranges) {
+    for (const [rowDelt, colDelt] of DIRS) {
+      const row = rowStart + rowDelt;
+      const col = colStart + colDelt;
+
+      if (!isInBounds(row, col)
+        || grid[row][col] !== FRESH) {
+
         continue;
       }
 
-      if (grid[nextRow][nextCol] === FRESH) {
-        grid[nextRow][nextCol] = ROTTEN;
-        freshOranges--;
-        neighbors.push([nextRow, nextCol]);
+      nextOranges.push([row, col]);
+      grid[row][col] = ROTTING;
+    }
+  }
+
+  function isInBounds(row, col) {
+    return 0 <= row && row < grid.length
+      && 0 <= col && col < grid[0].length;
+  }
+
+  let numFresh = 0;
+  let numRotten = 0;
+  const orangesRotten = [];
+  for (let row = 0; row < grid.length; row++) {
+    for (let col = 0; col < grid[0].length; col++) {
+      const cell = grid[row][col];
+      if (cell === EMPTY) {
+        continue;
       }
 
-    }
-
-    return freshOranges;
-  }
-
-  function getOranges() {
-    let rottenOranges = [];
-    let freshOranges = 0;
-    for (let row = 0; row < grid.length; row++) {
-      for (let col = 0; col < grid[0].length; col++) {
-        if (grid[row][col] === ROTTEN) {
-          rottenOranges.push([row, col]);
-        } else if (grid[row][col] === FRESH) {
-          freshOranges++;
-        }
+      if (cell === ROTTEN) {
+        orangesRotten.push([row, col]);
+      } else {
+        numFresh++;
       }
     }
-
-    return [rottenOranges, freshOranges];
   }
 
-
-  let [rottenOranges, freshOranges] = getOranges();
-  if (!freshOranges) {
-    return 0;
+  if (orangesRotten.length === 0 && numFresh > 0) {
+    return -1;  // No rotten orange to start rot
+  } else if (numFresh === 0) {
+    return 0; // All oranges already rotten or no oranges to rot
   }
 
-  let minutes = -1;
-  while (rottenOranges.length) {
-    const nextRotten = [];
-    for (let i = 0; i < rottenOranges.length; i++) {
-      const [row, col] = rottenOranges[i];
-      freshOranges = rotNeighbors(row, col, nextRotten, freshOranges);
+  // Get initial set of oranges to rot
+  let oranges = [];
+  for (let i = 0; i < orangesRotten.length; i++) {
+    getAdjFreshOranges(...orangesRotten[i], oranges);
+  }
+
+  // Rot fresh oranges
+  let time = 0;
+  while (oranges.length) {
+    time++;
+    const nextOranges = [];
+    for (let i = 0; i < oranges.length; i++) {
+      const [row, col] = oranges[i];
+
+      grid[row][col] = ROTTEN;
+      numFresh--;
+
+      getAdjFreshOranges(row, col, nextOranges);
     }
-
-    minutes++;
-    rottenOranges = nextRotten;
+    oranges = nextOranges;
   }
 
-  return freshOranges === 0 ? minutes : -1;
+  return numFresh === 0 ? time : -1;
 };
 
 // 2024/12/28
@@ -297,4 +321,76 @@ var orangesRotting = function (grid) {
 
   // Check all oranges rotten
   return Object.keys(visited).length === orangesCount ? days : -1;
+};
+
+// ==== Solutions =====
+// O(m * n) time complexity
+// O(m * n) space complexity
+//  where m = # rows, n = #cols
+// Patterns: Graphs, BFS
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var orangesRotting = function (grid) {
+  const FRESH = 1;
+  const ROTTEN = 2;
+
+  const DIRS = [[-1, 0], [0, -1], [1, 0], [0, 1]];
+  function rotNeighbors(row, col, neighbors, freshOranges) {
+    for (const [rowDelt, colDelt] of DIRS) {
+      const nextRow = row + rowDelt;
+      const nextCol = col + colDelt;
+
+      if (nextRow < 0 || grid.length <= nextRow
+        || nextCol < 0 || grid[row].length <= nextCol) {
+        continue;
+      }
+
+      if (grid[nextRow][nextCol] === FRESH) {
+        grid[nextRow][nextCol] = ROTTEN;
+        freshOranges--;
+        neighbors.push([nextRow, nextCol]);
+      }
+
+    }
+
+    return freshOranges;
+  }
+
+  function getOranges() {
+    let rottenOranges = [];
+    let freshOranges = 0;
+    for (let row = 0; row < grid.length; row++) {
+      for (let col = 0; col < grid[0].length; col++) {
+        if (grid[row][col] === ROTTEN) {
+          rottenOranges.push([row, col]);
+        } else if (grid[row][col] === FRESH) {
+          freshOranges++;
+        }
+      }
+    }
+
+    return [rottenOranges, freshOranges];
+  }
+
+
+  let [rottenOranges, freshOranges] = getOranges();
+  if (!freshOranges) {
+    return 0;
+  }
+
+  let minutes = -1;
+  while (rottenOranges.length) {
+    const nextRotten = [];
+    for (let i = 0; i < rottenOranges.length; i++) {
+      const [row, col] = rottenOranges[i];
+      freshOranges = rotNeighbors(row, col, nextRotten, freshOranges);
+    }
+
+    minutes++;
+    rottenOranges = nextRotten;
+  }
+
+  return freshOranges === 0 ? minutes : -1;
 };
