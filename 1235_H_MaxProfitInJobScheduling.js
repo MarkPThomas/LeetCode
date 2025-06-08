@@ -3,7 +3,7 @@
 // O(n) space complexity
 // Time to complete: 1:32:04 min
 // Patterns: Merge Interval, Priority Queue, Hashmap
-// Notes w.r.t. solution:
+// Notes w.r.t. solution: Mostly solved in 47:00, but JavaScript needed to be more optimal than Java solutions to avoid TLE.
 /**
  * @param {number[]} startTime
  * @param {number[]} endTime
@@ -29,11 +29,11 @@ var jobScheduling = function (startTime, endTime, profit) {
   }
   jobs.sort((a, b) => b.start - a.start);
 
-  let maxProfit = 0;
   const jobEnds = new PriorityQueue((a, b) => a - b);
   const profitsAt = {};
 
   let maxProfitPrev = 0;
+  let maxProfit = 0;
   while (jobs.length) {
     const job = jobs.pop();
 
@@ -49,10 +49,10 @@ var jobScheduling = function (startTime, endTime, profit) {
     // Add job profit to most profitable of all sequences that have ended
     const updatedProfit = maxProfitPrev + job.profit;
 
-    // If end in heap, update profit in-place if governing
+    // Add if end not in heap, else update profit in-place if governing
     if (profitsAt[job.end]) {
       profitsAt[job.end] = Math.max(profitsAt[job.end], updatedProfit);
-    } else { // Add to heap
+    } else {
       profitsAt[job.end] = updatedProfit;
       jobEnds.enqueue(job.end);
     }
