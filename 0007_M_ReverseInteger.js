@@ -40,3 +40,37 @@ var reverse = function (x) {
 
   return Number(result.join(''));
 };
+
+// ===== Solution =====
+// O(log_10(x)) time complexity
+// O(1) space complexity
+// where n = # chars <= 10 or 11
+// Patterns: Math
+/**
+ * @param {number} x
+ * @return {number}
+ */
+var reverse = function (x) {
+  let xReverse = 0;
+  // divide by 10 to see if higher #s match or are less before checking final digit
+  let maxNum = Math.abs(x < 0 ? (-2) ** 31 : 2 ** 31) / 10;
+  let maxLastDigit = x < 0 ? 7 : 8;
+
+  while (x !== 0) {
+    // Pop
+    const pop = x % 10;
+    x = (x - pop) / 10;
+
+    // Check overflow
+    if (Math.abs(xReverse) > maxNum
+      || (Math.abs(xReverse) === maxNum && pop > maxLastDigit)) {
+
+      return 0;
+    }
+
+    // Push
+    xReverse = xReverse * 10 + pop;
+  }
+
+  return xReverse;
+};
