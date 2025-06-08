@@ -1,3 +1,52 @@
+// 2025/06/08
+// O(n * log(m)) time complexity
+// O(1) space complexity
+//  where n = # piles, m = max # bananas in any of the piles, since n <= h by contraints given
+// Time to complete: 12:46 min
+// Patterns: Binary Search
+// Notes w.r.t. solution:
+/**
+ * @param {number[]} piles  // # bananas
+ * @param {number} h    // hrs, time limit
+ * @return {number}
+ */
+var minEatingSpeed = function (piles, h) {
+  // k = bananas/hr eating speed
+  // eats at most piles[i] bananas @ hr i
+  // guess k, see how many hrs it takes for k
+  // binary search to adjust k
+  function timeToEat(k) {
+    let time = 0;
+    for (const pile of piles) {
+      time += Math.ceil(pile / k);
+    }
+
+    return time;
+  }
+
+  let maxPile = 0;
+  for (const pile of piles) {
+    maxPile = Math.max(maxPile, pile);
+  }
+
+  // min hrs = n, 1 pile per hour, @ k = max pile size
+  // max hrs = max of any 1 pile, since h_min = # piles
+  let minRate = 1;
+  let maxRate = maxPile;
+  while (minRate < maxRate) {
+    const guessRate = minRate + Math.floor((maxRate - minRate) / 2);
+    const hrsNeeded = timeToEat(guessRate);
+
+    if (hrsNeeded > h) { // Must eat faster
+      minRate = guessRate + 1;
+    } else { // Can eat slower
+      maxRate = guessRate;
+    }
+  }
+
+  return minRate;
+};
+
 // 2025/01/22
 // O(n * log)(m)) time complexity
 // O(1) space complexity

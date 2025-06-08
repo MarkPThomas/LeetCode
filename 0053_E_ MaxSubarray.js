@@ -1,3 +1,28 @@
+// 2025/06/08
+// O(n) time complexity
+// O(1) space complexity
+// Time to complete: 19:03 min
+// Patterns: Kadane's Algorithm
+// Notes w.r.t. solution:
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxSubArray = function (nums) {
+  // Be greedy, take sum, but stop as soon as delta is negative
+  // Never start a new set at a negative either
+  let maxSumLast = -Infinity;
+  let maxSum = -Infinity;
+
+  for (const num of nums) {
+    maxSumLast = Math.max(maxSumLast + num, num);
+    maxSum = Math.max(maxSum, maxSumLast);
+  }
+
+  return maxSum;
+};
+
+// 2022/12
 // O(n) time complexity
 // O(1) space complexity
 // Time to complete: 28 min
