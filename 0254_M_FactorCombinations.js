@@ -101,3 +101,37 @@ var getFactors = function (n) {
   divideBy(n, []);
   return allFactors;
 };
+
+// ===== Solutions =====
+// O(n^1.5) time complexity
+// O(log(n)) space complexity
+// Patterns: Backtracking
+/**
+ * @param {number} n
+ * @return {number[][]}
+ */
+var getFactors = function (n) {
+  const allFactors = [];
+
+  function divide(factors) {
+    if (factors.length > 1) {
+      allFactors.push([...factors]);
+    }
+
+    const lastFactor = factors.pop();
+    const factorStart = !factors.length ? 2 : factors[factors.length - 1];
+    for (let i = factorStart; i <= lastFactor / i; i++) {
+      if (lastFactor % i === 0) {
+        factors.push(i);
+        factors.push(lastFactor / i);
+        divide(factors);
+        factors.pop();
+        factors.pop();
+      }
+    }
+    factors.push(lastFactor);
+  }
+
+  divide([n]);
+  return allFactors;
+};
