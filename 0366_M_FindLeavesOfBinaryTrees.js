@@ -3,7 +3,7 @@
 // O(n) space complexity
 // Time to complete: 15:06 min
 // Patterns: Binary Tree DFS Postorder
-// Notes w.r.t. solution:
+// Notes w.r.t. solution: Should have found a solution that DIDN'T alter the tree, but wording was confusing. Next time ;-P
 /**
  * Definition for a binary tree node.
  * function TreeNode(val, left, right) {
