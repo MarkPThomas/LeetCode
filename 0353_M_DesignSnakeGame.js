@@ -6,9 +6,11 @@
 //  O(1) time complexity
 //  O(w * h + f) space complexity
 //  where f = # food items
-// Time to complete: OT 36:49 min
+// Time to complete: +36:49 min
 // Patterns: Design, Queue, Hashmap
-// Notes w.r.t. solution: Done most of solution in this time, 444/446 :-P
+// Notes w.r.t. solution: Done most of solution in this time.
+//  Stopped recording time when debugging minor issues (had a few).
+//  More explicit breakdown of steps/components into classes & functions could have avoided this.
 /**
  * @param {number} width
  * @param {number} height
