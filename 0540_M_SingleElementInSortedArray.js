@@ -29,9 +29,5 @@ var singleNonDuplicate = function (nums) {
     }
   }
 
-  const numLow = nums[low];
-  const numMid = nums[low + 1];
-  const numHigh = nums[high];
-
-  return numLow === numMid ? numHigh : numLow;
+  return nums[low] === nums[low + 1] ? nums[high] : nums[low];
 };
