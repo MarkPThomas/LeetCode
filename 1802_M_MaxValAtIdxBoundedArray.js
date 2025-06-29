@@ -2,7 +2,7 @@
 // O(log(maxSum)) time complexity
 // O(1) space complexity
 // Time to complete: 23:14 min TLE @ 214/370, OT @ 1:18:15
-// Patterns: Binary Search
+// Patterns: Binary Search, Greedy
 // Notes w.r.t. solution: 23:14 TLE @ 214/370. OT due to working out more efficient/trickier area summation. Damn math :-P
 /**
  * @param {number} n
