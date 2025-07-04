@@ -1,3 +1,36 @@
+// 2025/07/03
+// O(n) time complexity
+// O(n) space complexity
+// Time to complete: 20:00
+// Patterns: Dynamic Programming Top-Down
+// Notes w.r.t. solution:
+/**
+ * @param {number} n posts
+ * @param {number} k colors
+ * @return {number}
+ */
+var numWays = function (n, k) {
+  const memo = {};
+
+  function dp(n, k) {
+    if (n === 1) {
+      return k;
+    } else if (n === 2) {
+      return k * k;
+    }
+
+    if (n in memo) {
+      return memo[n];
+    }
+
+    memo[n] = (k - 1) * (dp(n - 1, k) + dp(n - 2, k));
+
+    return memo[n];
+  }
+
+  return dp(n, k);
+};
+
 // 2024/12/24
 // O(n) time complexity
 // O(1) space complexity
