@@ -1,54 +1,4 @@
 // 2025/07/06
-// O(n) time complexity
-// O(1) space complexity
-// Time to complete: NA min
-// Patterns: Greedy, 2 Pointer
-// Notes w.r.t. solution: Refactored prior solution to eliminate inner loop, improving n^2 to 2*n -> n.
-/**
- * @param {string} s
- * @return {number[]}
- */
-var findPermutation = function (s) {
-  const INCREASING = 'I';
-  const digits = [];
-
-  let max = 1;
-  digits.push(max);
-
-  let i = 0
-  while (i < s.length) {
-    if (s[i] === INCREASING) {
-      // We are always increasing from max in order to keep # lexicographically smallest
-      max++;
-      digits.push(max);
-      i++;
-    } else {
-      // Offset max by # decrements, then add decrements from max in order to leep # lexicographically smallest
-
-      // Get # of decrease increments
-      let numOffset = 0;
-      while (s[i] !== INCREASING && i < s.length) {
-        numOffset++;
-        i++;
-      }
-
-      // Increase last increase/max
-      max = digits[digits.length - 1] + numOffset;
-      digits[digits.length - 1] = max;
-
-      // Fill in remaining decreases
-      let prev = digits[digits.length - 1];
-      while (numOffset) {
-        prev--;
-        digits.push(prev);
-        numOffset--;
-      }
-    }
-  }
-  return digits;
-};
-
-// 2025/07/06
 // O(n^2) time complexity
 // O(1) space complexity
 // Time to complete: 34:55 min
@@ -149,5 +99,81 @@ var findPermutation = function (s) {
 
     digits.push(nextNum);
   }
+  return digits;
+};
+
+// ==== Solutions =====
+// O(n) time complexity
+// O(1) space complexity
+// Patterns: Greedy, 2 Pointer
+// Notes w.r.t. solution: Refactored 2025/07/06 solution to eliminate inner loop, improving n^2 to 2*n -> n.
+/**
+ * @param {string} s
+ * @return {number[]}
+ */
+var findPermutation = function (s) {
+  const INCREASING = 'I';
+  const digits = [];
+
+  let max = 1;
+  digits.push(max);
+
+  let i = 0
+  while (i < s.length) {
+    if (s[i] === INCREASING) {
+      // We are always increasing from max in order to keep # lexicographically smallest
+      max++;
+      digits.push(max);
+      i++;
+    } else {
+      // Offset max by # decrements, then add decrements from max in order to leep # lexicographically smallest
+
+      // Get # of decrease increments
+      let numOffset = 0;
+      while (s[i] !== INCREASING && i < s.length) {
+        numOffset++;
+        i++;
+      }
+
+      // Increase last increase/max
+      max = digits[digits.length - 1] + numOffset;
+      digits[digits.length - 1] = max;
+
+      // Fill in remaining decreases
+      let prev = digits[digits.length - 1];
+      while (numOffset) {
+        prev--;
+        digits.push(prev);
+        numOffset--;
+      }
+    }
+  }
+  return digits;
+};
+
+// O(n) time complexity
+// O(n) space complexity
+// Patterns: Greedy, Stack
+/**
+ * @param {string} s
+ * @return {number[]}
+ */
+var findPermutation = function (s) {
+  const INCREASING = 'I';
+
+  const digits = [];
+  const stack = [];
+  for (let i = 0; i <= s.length; i++) {
+    const num = i + 1;
+    if (s.charAt(i) === INCREASING || i === s.length) {
+      stack.push(num);
+      while (stack.length) {
+        digits.push(stack.pop());
+      }
+    } else {
+      stack.push(num);
+    }
+  }
+
   return digits;
 };
