@@ -83,3 +83,80 @@ var lengthOfLIS = function (nums) {
 
   return maxLength;
 };
+
+// ===== Solutions =====
+// O(n^2) time complexity
+// O(n) space complexity
+// Patterns: DP - Iteration, Greedy, Linear Scan
+// Notes w.r.t. solution: Tricky solution variation that allows Binary Search optimization
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var lengthOfLIS = function (nums) {
+
+  function getIdxlastGreater(sub, num) {
+    let j = 0;
+    while (num > sub[j]) {
+      j++;
+    }
+    return j;
+  }
+
+  const sub = [];
+
+  for (const num of nums) {
+    if (!sub.length || num > sub[sub.length - 1]) {
+      sub.push(num);
+    } else { // Find 1st element that is >= num
+      const idxLastGreater = getIdxlastGreater(sub, num);
+      sub[idxLastGreater] = num;
+    }
+  }
+
+  return sub.length;
+};
+
+// O(n * log(n)) time complexity
+// O(n) space complexity
+// Patterns: DP - Iteration, Greedy, Binary Search
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var lengthOfLIS = function (nums) {
+
+  function getIdxlastGreater(sub, num) {
+    let min = 0;
+    if (num <= sub[min]) {
+      return min;
+    }
+
+    let max = sub.length;
+
+    while (max - min > 1) {
+      const mid = min + Math.floor((max - min) / 2);
+
+      if (sub[mid] < num) {
+        min = mid;
+      } else {
+        max = mid;
+      }
+    }
+
+    return max;
+  }
+
+  const sub = [];
+
+  for (const num of nums) {
+    if (!sub.length || num > sub[sub.length - 1]) {
+      sub.push(num);
+    } else { // Find 1st element that is >= num
+      const idxLastGreater = getIdxlastGreater(sub, num);
+      sub[idxLastGreater] = num;
+    }
+  }
+
+  return sub.length;
+};
