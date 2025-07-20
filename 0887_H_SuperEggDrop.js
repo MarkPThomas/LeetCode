@@ -65,6 +65,26 @@ var superEggDrop = function (k, n) {
 var superEggDrop = function (k, n) {
   const memo = [];
 
+  function getStartFloors(eggs, floors) { // Determine 1-2 best floors to start dropping eggs from
+    let minFloor = 1;
+    let maxFloor = floors;
+    while (maxFloor - minFloor > 1) {
+      const dropFloor = minFloor + Math.floor((maxFloor - minFloor) / 2);
+      const [breaks, survives] = dpResults(dropFloor, eggs, floors);
+
+      if (breaks < survives) {          // Try higher floor to start
+        minFloor = dropFloor;
+      } else if (breaks > survives) {   // Try lower floor to start
+        maxFloor = dropFloor;
+      } else {                          // Floor is at optimal start
+        minFloor = dropFloor;
+        maxFloor = dropFloor;
+      }
+    }
+
+    return [minFloor, maxFloor];
+  }
+
   function dpResults(dropFloor, eggs, floors) { // # moves to determine after each outcome
     return [
       dpBreak(dropFloor, eggs),
@@ -83,38 +103,22 @@ var superEggDrop = function (k, n) {
   function dp(eggs, floors) {
     if (eggs in memo && floors in memo[eggs]) {
       return memo[eggs][floors];
-    } else if (!(eggs in memo)) {
-      memo[eggs] = [];
-    }
-
-    if (floors === 0) {
-      memo[eggs][floors] = 0;
+    } else if (floors === 0) {
       return 0;
     } else if (eggs === 1) {
-      memo[eggs][floors] = floors;
       return floors;
     }
 
     // Determine 1-2 best floors to start dropping eggs from
-    let minFloor = 1;
-    let maxFloor = floors;
-    while (maxFloor - minFloor > 1) {
-      const dropFloor = minFloor + Math.floor((maxFloor - minFloor) / 2);
-      const [breaks, survives] = dpResults(dropFloor, eggs, floors);
-
-      if (breaks < survives) {          // Try higher floor to start
-        minFloor = dropFloor;
-      } else if (breaks > survives) {   // Try lower floor to start
-        maxFloor = dropFloor;
-      } else {                          // Floor is at optimal start
-        minFloor = dropFloor;
-        maxFloor = dropFloor;
-      }
-    }
+    const [minFloor, maxFloor] = getStartFloors(eggs, floors);
 
     // Check final state of adjacent floors
     const [breaksAtOrBelow, survivesAtOrBelow] = dpResults(minFloor, eggs, floors);
     const [breaksAtOrAbove, survivesAtOrAbove] = dpResults(maxFloor, eggs, floors);
+
+    if (!(eggs in memo)) {
+      memo[eggs] = [];
+    }
 
     memo[eggs][floors] =
       1 + Math.max(
