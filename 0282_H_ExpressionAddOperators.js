@@ -133,6 +133,65 @@ var addOperators = function (num, target) {
 };
 
 // ===== Solution =====
-// O() time complexity
-// O() space complexity
+// O(n * 4^n) time complexity
+// O(n) space complexity
 // Patterns: Backtracking
+/**
+ * @param {string} num
+ * @param {number} target
+ * @return {string[]}
+ */
+var addOperators = function (num, target) {
+  const ADD = '+';
+  const SUBTRACT = '-';
+  const MULTIPLY = '*';
+
+  const results = [];
+
+  function backtrack(idx, prevOp, currOp, val, result) {
+    if (idx >= num.length) {
+      if (val === target && currOp === 0) {
+        results.push(result.join(''));
+      }
+      return;
+    }
+
+    // No-Op - Add next digit to current operand if not leading 0
+    currOp = currOp * 10 + Number(num[idx]);
+    if (currOp > 0) {
+      backtrack(idx + 1, prevOp, currOp, val, result);
+    }
+
+    if (!result.length) { // Add first number
+      result.push(currOp);
+      backtrack(idx + 1, currOp, 0, currOp, result);
+      result.pop();
+      return;
+    }
+
+    // Try  each operation
+    const addOp = currOp;
+    const addVal = val + addOp;
+    backtrackOp(idx, ADD, currOp, addOp, addVal, result);
+
+    const subOp = -currOp;
+    const subVal = val + subOp;
+    backtrackOp(idx, SUBTRACT, currOp, subOp, subVal, result);
+
+    const multOp = prevOp * currOp;
+    const multVal = val - prevOp + multOp;
+    backtrackOp(idx, MULTIPLY, currOp, multOp, multVal, result);
+  }
+
+  function backtrackOp(idx, operand, currOp, nextOp, opsVal, ops) {
+    ops.push(operand);
+    ops.push(currOp);
+    backtrack(idx + 1, nextOp, 0, opsVal, ops);
+    ops.pop();
+    ops.pop();
+  }
+
+  backtrack(0, 0, 0, 0, []);
+
+  return results;
+};
