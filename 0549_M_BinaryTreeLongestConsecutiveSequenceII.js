@@ -63,7 +63,7 @@ var longestConsecutive = function (root) {
 // ==== Solution =====
 // O(n) time complexity
 // O(n) space complexity
-// Patterns: Tree DFS
+// Patterns: Tree DFS Postorder
 /**
  * Definition for a binary tree node.
  * function TreeNode(val, left, right) {
@@ -77,46 +77,40 @@ var longestConsecutive = function (root) {
  * @return {number}
  */
 var longestConsecutive = function (root) {
-  // DFS
-  // Check left branch, right branch
-  // Check combined branches
-  let maxConsecutive = 0;
 
-  function maxConsBranchLength(node, increment) {
+  function maxConsBranchLength(node, longest) {
     if (!node) {
-      return [0, 0];
+      return [0, 0, longest];
     }
 
-    // Set both to 1 since we don't know which it will be yet
-    let increase = 1;
-    let decrease = 1;
+    const [incrLeft, decrLeft, longestLeft] = maxChildBranch(node.left, node, longest);
+    const [incrRight, decrRight, longestRight] = maxChildBranch(node.right, node, longest);
 
-    let [incrLeft, decrLeft] = maxConsBranchLength(node.left);
-    if (node.left) {
-      if (node.val - node.left.val === 1) {
-        decrease = decrLeft + 1;
-      } else if (node.val - node.left.val === -1) {
-        increase = incrLeft + 1;
-      }
-    }
-
-    let [incrRight, decrRight] = maxConsBranchLength(node.right);
-    if (node.right) {
-      if (node.val - node.right.val === 1) {
-        decrease = Math.max(decrease, decrRight + 1);
-      } else if (node.val - node.right.val === -1) {
-        increase = Math.max(increase, incrRight + 1);
-      }
-    }
+    const increase = Math.max(incrLeft, incrRight) + 1;
+    const decrease = Math.max(decrLeft, decrRight) + 1;
 
     // -1 to avoid double counting curr node if max is the subtree
-    maxConsecutive = Math.max(maxConsecutive, decrease + increase - 1);
+    longest = Math.max(longestLeft, longestRight, decrease + increase - 1);
 
-    return [increase, decrease];
+    return [increase, decrease, longest];
   }
 
-  maxConsBranchLength(root);
-  maxConsBranchLength(root);
+  function maxChildBranch(child, parent, longest) {
+    let increase = 0;
+    let decrease = 0;
 
-  return maxConsecutive;
+    const [incr, decr, longestUpd] = maxConsBranchLength(child, longest);
+    if (child) {
+      const delta = parent.val - child.val;
+      if (delta === 1) {
+        decrease = decr;
+      } else if (delta === -1) {
+        increase = incr;
+      }
+    }
+
+    return [increase, decrease, longestUpd];
+  }
+
+  return maxConsBranchLength(root, 0)[2];
 };
