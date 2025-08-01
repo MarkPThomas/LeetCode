@@ -137,3 +137,79 @@ var accountsMerge = function (accounts) {
 // O(n * k) space complexity
 //  where n = # accounts, k = max # emails of any account
 // Patterns: Graph - DSU
+/**
+ * @param {string[][]} accounts
+ * @return {string[][]}
+ */
+var accountsMerge = function (accounts) {
+  const dsu = new DSU(accounts.length);
+
+  // Map emails to their component idx
+  const emailGroup = {};
+  for (let i = 0; i < accounts.length; i++) {
+    for (let j = 1; j < accounts[i].length; j++) {
+      const email = accounts[i][j];
+
+      if (email in emailGroup) {  // Merge current account w/ that of first account email seen in
+        dsu.union(i, emailGroup[email]);
+      } else {    // Note email & group idx
+        emailGroup[email] = i;
+      }
+    }
+  }
+
+  // Store emails corresponding to component root
+  const mergedComponents = {};
+  for (const [email, groupIdx] of Object.entries(emailGroup)) {
+    const mergedGroupIdx = dsu.find(groupIdx); // Returns same idx in emailGroup unless merged
+
+    mergedComponents[mergedGroupIdx] ??= [];
+    mergedComponents[mergedGroupIdx].push(email);
+  }
+
+  const mergedAccounts = [];
+  for (const [idx, emails] of Object.entries(mergedComponents)) {
+    emails.sort();
+
+    const name = accounts[idx][0];
+    mergedAccounts.push([name, ...emails]);
+  }
+
+  return mergedAccounts;
+};
+
+class DSU {
+  constructor(size) {
+    this.root = [];
+    this.rank = [];
+    for (let i = 0; i < size; i++) {
+      this.root.push(i);
+      this.rank.push(1);
+    }
+  }
+
+  find(x) {
+    if (this.root[x] !== x) {
+      this.root[x] = this.find(this.root[x]);
+    }
+    return this.root[x];
+  }
+
+  union(x, y) {
+    let rootX = this.find(x);
+    let rootY = this.find(y);
+
+    if (rootX === rootY) {
+      return;
+    }
+
+    if (this.rank[rootX] > this.rank[rootY]) {
+      const swap = rootX;
+      rootX = rootY;
+      rootY = swap;
+    }
+
+    this.root[rootX] = rootY;
+    this.rank[rootY] += this.rank[rootX];
+  }
+}
