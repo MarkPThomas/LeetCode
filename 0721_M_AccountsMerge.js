@@ -82,10 +82,8 @@ var accountsMerge = function (accounts) {
  * @return {string[][]}
  */
 var accountsMerge = function (accounts) {
-  const visited = {};
-  const adjacent = {};
 
-  function dfs(email, mergedAccount) {
+  function dfs(email, mergedAccount, visited, adjacent) {
     visited[email] = true;
     mergedAccount.push(email);
 
@@ -95,12 +93,13 @@ var accountsMerge = function (accounts) {
 
     for (const neighbor of adjacent[email]) {
       if (!visited[neighbor]) {
-        dfs(neighbor, mergedAccount);
+        dfs(neighbor, mergedAccount, adjacent);
       }
     }
   }
 
   // Create connectivity of all email addresses
+  const adjacent = {};
   for (const account of accounts) {
     const firstEmail = account[1];
     adjacent[firstEmail] ??= [];
@@ -115,6 +114,7 @@ var accountsMerge = function (accounts) {
     }
   }
 
+  const visited = {};
   const mergedAccounts = [];
   for (const account of accounts) {
     const name = account[0];
@@ -123,7 +123,7 @@ var accountsMerge = function (accounts) {
     if (!visited[firstEmail]) {
       const mergedAccount = [];
 
-      dfs(firstEmail, mergedAccount);
+      dfs(firstEmail, mergedAccount, visited, adjacent);
       mergedAccount.sort();
 
       mergedAccounts.push([name, ...mergedAccount]);
@@ -142,6 +142,31 @@ var accountsMerge = function (accounts) {
  * @return {string[][]}
  */
 var accountsMerge = function (accounts) {
+
+  function getMergedComponents(emailGroup, dsu) {   // Store emails corresponding to component root
+    const mergedComponents = {};
+    for (const [email, groupIdx] of Object.entries(emailGroup)) {
+      const mergedGroupIdx = dsu.find(groupIdx); // Returns same idx in emailGroup unless merged
+
+      mergedComponents[mergedGroupIdx] ??= [];
+      mergedComponents[mergedGroupIdx].push(email);
+    }
+
+    return mergedComponents;
+  }
+
+  function getMergedAccounts(mergedComponents, accounts) { // Combine emails, sorted, with name of first email occurrence
+    const mergedAccounts = [];
+    for (const [idx, emails] of Object.entries(mergedComponents)) {
+      emails.sort();
+
+      const name = accounts[idx][0];
+      mergedAccounts.push([name, ...emails]);
+    }
+
+    return mergedAccounts;
+  }
+
   const dsu = new DSU(accounts.length);
 
   // Map emails to their component idx
@@ -158,24 +183,8 @@ var accountsMerge = function (accounts) {
     }
   }
 
-  // Store emails corresponding to component root
-  const mergedComponents = {};
-  for (const [email, groupIdx] of Object.entries(emailGroup)) {
-    const mergedGroupIdx = dsu.find(groupIdx); // Returns same idx in emailGroup unless merged
-
-    mergedComponents[mergedGroupIdx] ??= [];
-    mergedComponents[mergedGroupIdx].push(email);
-  }
-
-  const mergedAccounts = [];
-  for (const [idx, emails] of Object.entries(mergedComponents)) {
-    emails.sort();
-
-    const name = accounts[idx][0];
-    mergedAccounts.push([name, ...emails]);
-  }
-
-  return mergedAccounts;
+  const mergedComponents = getMergedComponents(emailGroup, dsu)
+  return getMergedAccounts(mergedComponents, accounts);
 };
 
 class DSU {
