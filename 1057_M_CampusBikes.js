@@ -233,11 +233,11 @@ var assignBikes = function (workers, bikes) {
     const { worker, bike, _ } = assignmentsQueue.dequeue();
 
     if (assignments[worker] !== undefined || bikesAssigned.has(bike)) {
-      continue;
+      addClosestBike(assignmentsQueue, worker);
+    } else {
+      bikesAssigned.add(bike);
+      assignments[worker] = bike;
     }
-    bikesAssigned.add(bike);
-
-    assignments[worker] = bike;
   }
 
   return assignments;
