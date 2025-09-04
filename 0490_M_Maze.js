@@ -1,6 +1,6 @@
 // 2025/06/11
 // O(m * n * (m + n)) time complexity (m + n for each kick dir going to a wall at the other end)
-// O(min(m, n)) space complexity
+// O(m * n) space complexity
 // Time to complete: 45:50 min
 // Patterns: Graph BFS
 // Notes w.r.t. solution: Lots to code AND some tricky logic to work out, just takes a lot of time.
@@ -89,6 +89,74 @@ var hasPath = function (maze, start, destination) {
 
         nextKicks.push([kickEnd, kickDir]);
       }
+    }
+    kicks = nextKicks;
+  }
+
+  return false;
+};
+
+// ===== Solution =====
+// O(m * n * max(m, n)) time complexity (max(m, n) for each kick dir going to a wall at the other end)
+// O(m * n) space complexity
+// Patterns: Graph BFS
+/**
+ * @param {number[][]} maze
+ * @param {number[]} start
+ * @param {number[]} destination
+ * @return {boolean}
+ */
+var hasPath = function (maze, start, destination) {
+  const DIRS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+  const WALL = 1;
+
+  function getNextKicks(cell, nextKicks) {
+    for (const delta of DIRS) {
+      let [row, col] = cell;  // Start @ original position
+
+      while (canMove([row, col], delta)) { // Roll ball to last valid tile
+        row += delta[0];
+        col += delta[1];
+      }
+
+      nextKicks.push([row, col]);
+    }
+  }
+
+  function canMove(cell, delta) {
+    const nextRow = cell[0] + delta[0];
+    const nextCol = cell[1] + delta[1];
+
+    return (isInBounds(nextRow, nextCol)
+      && maze[nextRow][nextCol] !== WALL);
+  }
+
+  function isInBounds(row, col) {
+    return (0 <= row && row < maze.length
+      && 0 <= col && col < maze[0].length);
+  }
+
+  function hitsHole(cell) {
+    return cell[0] === destination[0] && cell[1] === destination[1];
+  }
+
+  const visited = {};
+
+  let kicks = [start];
+  while (kicks.length) {
+
+    const nextKicks = [];
+    for (const kick of kicks) {
+      if (visited[kick]) {
+        continue;
+      }
+      visited[kick] = true;
+
+      if (hitsHole(kick)) {
+        return true;
+      }
+
+      getNextKicks(kick, nextKicks);
     }
     kicks = nextKicks;
   }
