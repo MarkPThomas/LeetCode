@@ -75,6 +75,92 @@ var findShortestWay = function (maze, ball, hole) {
 };
 
 // ===== Solutions =====
+// O(m * n) time complexity
+// O(m * n) space complexity
+// Patterns: Matrix BFS
+/**
+ * @param {number[][]} maze
+ * @param {number[]} ball
+ * @param {number[]} hole
+ * @return {string}
+ */
+var findShortestWay = function (maze, ball, hole) {
+  const WALL = 1;
+  const DIRS = { 'd': [1, 0], 'l': [0, -1], 'r': [0, 1], 'u': [-1, 0] };
+
+  function getNextKicks(cell, nextKicks, path) {
+    const deltaPrev = getDeltaPrev(path);
+    if (path && canMove(cell, deltaPrev)) {
+      nextKicks.push([
+        [cell[0] + deltaPrev[0], cell[1] + deltaPrev[1]],
+        path
+      ]);
+    } else {
+      for (const [dir, delta] of Object.entries(DIRS)) {
+        if (canMove(cell, delta)) {
+          nextKicks.push([
+            [cell[0] + delta[0], cell[1] + delta[1]],
+            path + dir
+          ]);
+        }
+      }
+    }
+  }
+
+  function getDeltaPrev(path) {
+    const dirPrev = path[path.length - 1] ?? '';
+
+    return DIRS[dirPrev] ?? null;
+  }
+
+  function canMove(cell, delta) {
+    if (delta === null) {
+      return false;
+    }
+
+    const nextRow = cell[0] + delta[0];
+    const nextCol = cell[1] + delta[1];
+
+    return (isInBounds(nextRow, nextCol)
+      && maze[nextRow][nextCol] !== WALL);
+  }
+
+  function isInBounds(row, col) {
+    return (0 <= row && row < maze.length
+      && 0 <= col && col < maze[0].length);
+  }
+
+  function hitsHole(cell) {
+    return cell[0] === hole[0] && cell[1] === hole[1];
+  }
+
+  const visited = {};
+
+  let kicks = [[ball, '']];
+  while (kicks.length) {
+
+    const nextKicks = [];
+    for (const [kick, path] of kicks) {
+      const deltaPrev = getDeltaPrev(path);
+      if (path === '' || !canMove(kick, deltaPrev)) {
+        if (visited[kick]) {
+          continue;
+        }
+        visited[kick] = true;
+      }
+
+      if (hitsHole(kick)) {
+        return path;
+      }
+
+      getNextKicks(kick, nextKicks, path);
+    }
+    kicks = nextKicks;
+  }
+
+  return 'impossible';
+};
+
 // O(m * n * log (m * n)) time complexity
 // O(m * n) space complexity
 // Patterns: Matrix BFS, Dijkstra's
